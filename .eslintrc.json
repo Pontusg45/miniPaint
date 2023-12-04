@@ -1,0 +1,45 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./tsconfig.json",
+        "sourceType": "module",
+        "tsconfigRootDir": "./"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    ],
+    "rules": {
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "no-console": "off",
+        "no-restricted-syntax": [
+            "warn",
+            {
+                "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(warn|error|info|trace)$/]",
+                "message": "Unexpected property on console object was called"
+            }
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "prefer-template": "error",
+        "no-var": "error",
+        "object-shorthand": "error",
+        "prefer-const": "error",
+        "no"
+
+    },
+    "ignorePatterns": [
+        "dist",
+        "node_modules"
+    ]
+}
