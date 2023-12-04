@@ -1,19 +1,19 @@
-var webpack = require('webpack');
-var path = require('path');
+var webpack = require("webpack");
+var path = require("path");
 
 module.exports = {
 	entry: [
-		'./src/js/main.js',
+		"./src/js/main.js",
 	],
 	output: {
-		path: path.resolve(__dirname, 'dist'),
-		filename: 'bundle.js',
-		publicPath: '/dist/'
+		path: path.resolve(__dirname, "dist"),
+		filename: "bundle.js",
+		publicPath: "/dist/"
 	},
 	resolve: {
-		extensions: ['.js', '.css'],
+		extensions: [".js", ".css"],
 		alias: {
-			Utilities: path.resolve(__dirname, './../node_modules/')
+			Utilities: path.resolve(__dirname, "./../node_modules/")
 		}
 	},
 	module: {
@@ -21,9 +21,9 @@ module.exports = {
 			{
 				test: /\.css$/,
 				use: [
-					'style-loader',
+					"style-loader",
 					{
-						loader: 'css-loader',
+						loader: "css-loader",
 						options: {url: false}
 					}
 				]
@@ -31,7 +31,7 @@ module.exports = {
 			{
 				test: /\.js$/,
 				exclude: /(node_modules|bower_components)/,
-				use: ['babel-loader']
+				use: ["babel-loader"]
 			},
 		]
 	},

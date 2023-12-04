@@ -1,8 +1,8 @@
 // https://github.com/jorgejeferson/translate.js/tree/39be8237666a76035fc210a28d8e431f1416579e
 (function ($) {
 	$.fn.translate = function (options) {
-		var that = this; //a reference to ourselves
-		var settings = {
+		const that = this; //a reference to ourselves
+		let settings = {
 			css: "trn",
 			attrs: ["alt", "placeholder", "title"],
 			lang: "pt",
@@ -10,9 +10,9 @@
 		};
 		settings = $.extend(settings, options || {});
 		if (settings.css.lastIndexOf(".", 0) !== 0) { //doesn't start with '.'
-			settings.css = "." + settings.css;
+			settings.css = `.${  settings.css}`;
 		}
-		var t = settings.t;
+		const t = settings.t;
 		//public methods
 		this.lang = function (l) {
 			if (l) {
@@ -22,7 +22,7 @@
 			return settings.lang;
 		};
 		this.get = function (index) {
-			var res = index;
+			let res = index;
 
 			try {
 				res = t[index][settings.lang];
@@ -40,9 +40,9 @@
 		this.g = this.get;
 		//main
 		this.find(settings.css).each(function (i) {
-			var $this = $(this);
+			const $this = $(this);
 
-			var trn_key = $this.attr("data-trn-key");
+			let trn_key = $this.attr("data-trn-key");
 			if (!trn_key) {
 				trn_key = $this.html();
 				$this.attr("data-trn-key", trn_key);
@@ -50,7 +50,7 @@
 			// Filtering attr
 			$.each(this.attributes, function () {
 				if ($.inArray(this.name, settings.attrs) !== -1) {
-					var trn_attr_key = $this.attr("data-trn-attr");
+					let trn_attr_key = $this.attr("data-trn-attr");
 					if (!trn_attr_key) {
 						trn_attr_key = $this.attr(this.name);
 						$this.attr("data-trn-attr", trn_attr_key);

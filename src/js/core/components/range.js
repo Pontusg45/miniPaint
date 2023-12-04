@@ -11,54 +11,54 @@
 	`;
 
 	const on_keydown_range = (event) => {
-		const $el = $(event.target.closest('.ui_range'));
+		const $el = $(event.target.closest(".ui_range"));
 		const key = event.key;
 		const { value, step, min, max } = $el.data();
-		if (['Left', 'ArrowLeft', 'Down', 'ArrowDown'].includes(key)) {
+		if (["Left", "ArrowLeft", "Down", "ArrowDown"].includes(key)) {
 			event.preventDefault();
 			set_value($el, value - step);
-			$el.trigger('input');
+			$el.trigger("input");
 		}
-		else if (['Right', 'ArrowRight', 'Up', 'ArrowUp'].includes(key)) {
+		else if (["Right", "ArrowRight", "Up", "ArrowUp"].includes(key)) {
 			event.preventDefault();
 			set_value($el, value + step);
-			$el.trigger('input');
+			$el.trigger("input");
 		}
-		else if (['PageUp'].includes(key)) {
+		else if (["PageUp"].includes(key)) {
 			event.preventDefault();
 			set_value($el, value + (step * 10));
-			$el.trigger('input');
+			$el.trigger("input");
 		}
-		else if (['PageDown'].includes(key)) {
+		else if (["PageDown"].includes(key)) {
 			event.preventDefault();
 			set_value($el, value - (step * 10));
-			$el.trigger('input');
+			$el.trigger("input");
 		}
-		else if (['Home'].includes(key)) {
+		else if (["Home"].includes(key)) {
 			event.preventDefault();
 			set_value($el, min);
-			$el.trigger('input');
+			$el.trigger("input");
 		}
-		else if (['End'].includes(key)) {
+		else if (["End"].includes(key)) {
 			event.preventDefault();
 			set_value($el, max);
-			$el.trigger('input');
+			$el.trigger("input");
 		}
 	};
 
 	const on_wheel_range = (event) => {
-		const $el = $(event.target.closest('.ui_range'));
+		const $el = $(event.target.closest(".ui_range"));
 		if (document.activeElement === $el[0]) {
 			const { value, step } = $el.data();
 			if (event.originalEvent.deltaY < 0) {
 				event.preventDefault();
 				set_value($el, value + step);
-				$el.trigger('input');
+				$el.trigger("input");
 			}
 			else if (event.originalEvent.deltaY > 0) {
 				event.preventDefault();
 				set_value($el, value - step);
-				$el.trigger('input');
+				$el.trigger("input");
 			}
 		}
 	};
@@ -66,7 +66,7 @@
 	const on_mouse_down_range = (event) => {
 		event.preventDefault();
 		const target = event.touches && event.touches.length > 0 ? event.touches[0].target : event.target;
-		const $el = $(target.closest('.ui_range'));
+		const $el = $(target.closest(".ui_range"));
 		const { handle, paddedTrack, value, min, max, vertical } = $el.data();
 		const mouseDownClientX = event.touches && event.touches.length > 0 ? event.touches[0].clientX : event.clientX;
 		const mouseDownClientY = event.touches && event.touches.length > 0 ? event.touches[0].clientY : event.clientY;
@@ -84,7 +84,7 @@
 			const ratio = Math.max(0, Math.min(1, valueInRange / range));
 			mouseDownValue = (max - min) * ratio;
 			set_value($el, mouseDownValue);
-			$el.trigger('input');
+			$el.trigger("input");
 		}
 		$el.data({
 			mouseDownValue,
@@ -94,10 +94,10 @@
 			mouseMoveWindowHandler: generate_on_mouse_move_window($el),
 			mouseUpWindowHandler: generate_on_mouse_up_window($el)
 		});
-		$el.addClass('active');
+		$el.addClass("active");
 		const $window = $(window);
-		$window.on('mousemove touchmove', $el.data('mouseMoveWindowHandler'));
-		$window.on('mouseup touchend', $el.data('mouseUpWindowHandler'));
+		$window.on("mousemove touchmove", $el.data("mouseMoveWindowHandler"));
+		$window.on("mouseup touchend", $el.data("mouseUpWindowHandler"));
 		$el[0].focus();
 	};
 
@@ -127,16 +127,16 @@
 			const ratio = Math.max(0, Math.min(1, (startValue + offset) / range));
 			const value = (max - min) * ratio;
 			set_value($el, value);
-			$el.trigger('input');
+			$el.trigger("input");
 		};
 	};
 
 	const generate_on_mouse_up_window = ($el) => {
 		return (event) => {
 			const $window = $(window);
-			$el.removeClass('active');
-			$window.off('mousemove touchmove', $el.data('mouseMoveWindowHandler'));
-			$window.off('mouseup touchend', $el.data('mouseUpWindowHandler'));
+			$el.removeClass("active");
+			$window.off("mousemove touchmove", $el.data("mouseMoveWindowHandler"));
+			$window.off("mouseup touchend", $el.data("mouseUpWindowHandler"));
 		};
 	};
 
@@ -144,32 +144,32 @@
 		const { bar, min, max, step, vertical } = $el.data();
 		value = step * Math.round(value / step);
 		value = Math.max(min, Math.min(max, value));
-		$el.data('value', value);
-		$el.attr('aria-valuemin', min);
-		$el.attr('aria-valuemax', max);
-		$el.attr('aria-valuenow', value);
+		$el.data("value", value);
+		$el.attr("aria-valuemin", min);
+		$el.attr("aria-valuemax", max);
+		$el.attr("aria-valuenow", value);
 		if (vertical) {
-			bar.style.height = (((value - min) / (max - min)) * 100) + '%';
+			bar.style.height = `${((value - min) / (max - min)) * 100  }%`;
 		} else {
-			bar.style.width = (((value - min) / (max - min)) * 100) + '%';
+			bar.style.width = `${((value - min) / (max - min)) * 100  }%`;
 		}
 	};
 
 	$.fn.uiRange = function(behavior, ...args) {
-		let returnValues = [];
+		const returnValues = [];
 		for (let i = 0; i < this.length; i++) {
 			let el = this[i];
 
 			// Constructor
-			if (Object.prototype.toString.call(behavior) !== '[object String]') {
+			if (Object.prototype.toString.call(behavior) !== "[object String]") {
 				const definition = behavior || {};
 
 				const classList = el.className;
-				const id = definition.id != null ? definition.id : el.getAttribute('id'); 
+				const id = definition.id != null ? definition.id : el.getAttribute("id"); 
 				const value = definition.value != null ? definition.value : parseFloat(el.value) || 0;
-				const min = definition.min != null ? definition.min : parseFloat(el.getAttribute('min')) || 0;
-				const max = definition.max != null ? definition.max : parseFloat(el.getAttribute('max')) || 0;
-				const step = definition.step != null ? definition.step : el.hasAttribute('step') ? parseFloat(el.getAttribute('step')) : 1;
+				const min = definition.min != null ? definition.min : parseFloat(el.getAttribute("min")) || 0;
+				const max = definition.max != null ? definition.max : parseFloat(el.getAttribute("max")) || 0;
+				const step = definition.step != null ? definition.step : el.hasAttribute("step") ? parseFloat(el.getAttribute("step")) : 1;
 				const vertical = !!definition.vertical;
 
 				$(el).after(template);
@@ -183,16 +183,16 @@
 					el.classList.add(classList);
 				}
 				if (vertical) {
-					el.classList.add('vertical');
+					el.classList.add("vertical");
 				}
 				if (id) {
-					el.setAttribute('id', id);
+					el.setAttribute("id", id);
 				}
 
 				$el.data({
-					paddedTrack: $('.padded_track', el).get(0),
-					bar: $('.bar', el).get(0),
-					handle: $('.handle', el).get(0),
+					paddedTrack: $(".padded_track", el).get(0),
+					bar: $(".bar", el).get(0),
+					handle: $(".handle", el).get(0),
 					vertical,
 					value,
 					min,
@@ -203,25 +203,25 @@
 				set_value($el, value);
 
 				$el
-					.on('mousedown touchstart', on_mouse_down_range)
-					.on('touchmove', on_touch_move_range)
-					.on('keydown', on_keydown_range)
-					.on('wheel', on_wheel_range);
+					.on("mousedown touchstart", on_mouse_down_range)
+					.on("touchmove", on_touch_move_range)
+					.on("keydown", on_keydown_range)
+					.on("wheel", on_wheel_range);
 			}
 			// Behaviors
-			else if (behavior === 'set_background') {
+			else if (behavior === "set_background") {
 				const backgroundStyle = args[0];
-				$(el).data('paddedTrack').style.background = backgroundStyle;
+				$(el).data("paddedTrack").style.background = backgroundStyle;
 			}
-			else if (behavior === 'set_value') {
+			else if (behavior === "set_value") {
 				const newValue = parseFloat(args[0]);
 				const $el = $(el);
-				if ($el.data('value') !== newValue) {
+				if ($el.data("value") !== newValue) {
 					set_value($(el), newValue);
 				}
 			}
-			else if (behavior === 'get_value') {
-				returnValues.push($(el).data('value'));
+			else if (behavior === "get_value") {
+				returnValues.push($(el).data("value"));
 			}
 		}
 		if (returnValues.length > 0) {
