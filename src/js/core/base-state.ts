@@ -3,10 +3,10 @@
  * author: Vilius L.
  */
 
-import Base_layers_class from "./base-layers.js";
-import Base_gui_class from "./base-gui.js";
-import Helper_class from "../libs/helpers.js";
-import app from "../app.js";
+import Base_layers_class from "./base-layers";
+import Base_gui_class from "./base-gui";
+import Helper_class from "../libs/helpers";
+import app from "../app";
 import {Base_action} from "../actions/base";
 
 let instance: Base_state_class | null = null;
@@ -53,7 +53,7 @@ class Base_state_class {
 	set_events() {
 		document.addEventListener("keydown", (event) => {
 			const key = (event.key || "").toLowerCase();
-			if (event.target && this.Helper?.is_input(event.target))
+			if (event.target && this.Helper?.is_input(event.target as HTMLInputElement))
 				return;
 
 			if (key == "z" && (event.ctrlKey == true || event.metaKey)) {
@@ -96,11 +96,13 @@ class Base_state_class {
 		const last_action = this.action_history[this.action_history.length - 1];
 		if (options.merge_with_history && last_action) {
 			if (typeof options.merge_with_history === "string") {
+				// @ts-ignore
 				options.merge_with_history = [options.merge_with_history];
 			}
 			if (options.merge_with_history?.includes(last_action.action_id)) {
 				this.action_history[this.action_history.length - 1] = new app.Actions.Bundle_action(
 					last_action.action_id,
+					// @ts-ignore
 					last_action.action_description,
 					[last_action, action]
 				);
@@ -120,9 +122,13 @@ class Base_state_class {
 		}
 
 		// Chrome arbitrary method to determine memory usage, but most people use Chrome so...
+
+    // @ts-ignore
 		if (window.performance && window.performance.memory) {
-			if (window.performance.memory.usedJSHeapSize > window.performance.memory.jsHeapSizeLimit * 0.8) {
-				this.free(window.performance.memory.jsHeapSizeLimit * 0.2);
+			// @ts-ignore
+			if (window.performance.memory.usedJSHeapSize > window.performance.memoryHeapSizeLimit * 0.8) {
+				// @ts-ignore
+				this.free(window.performance.memoryHeapSizeLimit * 0.2);
 			}
 		}
 

@@ -1,10 +1,11 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
-import GUI_tools_class from "../core/gui/gui-tools.js";
-import Base_gui_class from "../core/base-gui.js";
-import Base_selection_class from "../core/base-selection.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
+import GUI_tools_class from "../core/gui/gui-tools";
+import Base_gui_class from "../core/base-gui";
+import Base_selection_class from "../core/base-selection";
 
 class Crop_class extends Base_tools_class {
 	GUI_tools: GUI_tools_class;
@@ -253,7 +254,7 @@ class Crop_class extends Base_tools_class {
 
 				//create smaller canvas
 				let canvas = document.createElement("canvas");
-				let ctx = canvas.getContext("2d");
+				let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 				canvas.width = crop_width / width_ratio;
 				canvas.height = crop_height / height_ratio;
 

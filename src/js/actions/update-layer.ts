@@ -1,8 +1,8 @@
-import app from "../app.js";
-import config from "../config.js";
-import { Base_action } from "./base.js";
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
 import Base_layers_class from "../core/base-layers";
-import { Layer } from "../../../types/types.js";
+import { Layer } from "../../../types/types";
 
 export class Update_layer_action extends Base_action {
   private layer_id: number;
@@ -26,7 +26,7 @@ export class Update_layer_action extends Base_action {
 
   do() {
 		super.do();
-		this.reference_layer = app.Layers?.get_layer(this.layer_id);
+		this.reference_layer = app.Layers?.get_layer(this.layer_id) as Layer;
 		if (!this.reference_layer) {
 			throw new Error("Aborted - layer with specified id doesn't exist");
 		}
@@ -35,10 +35,13 @@ export class Update_layer_action extends Base_action {
 				continue;
 			if (i == "order")
 				continue;
+			// @ts-ignore
 			this.old_settings[i] = this.reference_layer[i];
+			// @ts-ignore
 			this.reference_layer[i] = this.settings[i];
 		}
 		if (this.reference_layer.type === "text") {
+			// @ts-ignore
 			this.reference_layer._needs_update_data = true;
 		}
 		if (this.settings.params || this.settings.width || this.settings.height) {
@@ -51,11 +54,14 @@ export class Update_layer_action extends Base_action {
 		super.undo();
 		if (this.reference_layer) {
 			for (let i in this.old_settings) {
+				// @ts-ignore
 				this.reference_layer[i] = this.old_settings[i];
 			}
 			if (this.reference_layer.type === "text") {
+				// @ts-ignore
 				this.reference_layer._needs_update_data = true;
 			}
+			// @ts-ignore
 			if (this.old_settings.params || this.old_settings.width || this.old_settings.height) {
 				config.need_render_changed_params = true;
 			}
@@ -66,7 +72,9 @@ export class Update_layer_action extends Base_action {
 	}
 
 	free() {
+		// @ts-ignore
 		this.settings = null;
+		// @ts-ignore
 		this.old_settings = null;
 		this.reference_layer = null;
 	}

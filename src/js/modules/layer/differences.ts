@@ -1,7 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
+// @ts-nocheck
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
 
 class Layer_differences_class {
 	POP: Dialog_class;
@@ -32,7 +33,7 @@ class Layer_differences_class {
 				_this.calc_differences(params.sensitivity);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	calc_differences(sensitivity: number, canvas_preview: { save: () => void; scale: (arg0: number, arg1: number) => void; drawImage: (arg0: HTMLCanvasElement, arg1: number, arg2: number) => void; restore: () => void; } | undefined, w: number | undefined, h: number | undefined) {
@@ -40,7 +41,7 @@ class Layer_differences_class {
 		let canvas = document.createElement("canvas");
 		canvas.width = config.WIDTH;
 		canvas.height = config.HEIGHT;
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//get source data
 		this.Base_layers.render_object(ctx, config.layer);

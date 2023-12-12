@@ -1,15 +1,18 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import glfx from "../../libs/glfx.js";
-import ImageFilters_class from "../../libs/imagefilters.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+
+// @ts-ignore
+import glfx from "../../libs/glfx";
+import ImageFilters_class from "../../libs/imagefilters";
+import { ImageFiltersType } from "../../../../types/types";
 
 class Effects_nightVision_class {
 	POP: Dialog_class;
 	Base_layers: Base_layers_class;
-	fx_filter: boolean;
-	ImageFilters: {};
+	fx_filter: any;
+	ImageFilters: ImageFiltersType;
 
 	constructor() {
 		this.POP = new Dialog_class();
@@ -25,8 +28,8 @@ class Effects_nightVision_class {
 		}
 
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-		let ctx = canvas.getContext("2d");
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data
 		let data = this.change(canvas, canvas.width, canvas.height);
@@ -47,7 +50,7 @@ class Effects_nightVision_class {
 		
 		//create second copy
 		let canvas2 = document.createElement("canvas");
-		let ctx2 = canvas2.getContext("2d");
+		let ctx2 = canvas2.getContext("2d") as CanvasRenderingContext2D;
 		canvas2.width = width;
 		canvas2.height = height;
 		ctx2.drawImage(canvas, 0, 0);
@@ -55,9 +58,9 @@ class Effects_nightVision_class {
 		// green overlay
 		let img = ctx2.getImageData(0, 0, width, height);
 		//RGB corrections
-		let img = this.ImageFilters.ColorTransformFilter(img, 1, 1, 1, 1, 0, 100, 0, 1);
+		img = this.ImageFilters.ColorTransformFilter(img, 1, 1, 1, 1, 0, 100, 0, 1);
 		//hue/saturation/luminance
-		let img = this.ImageFilters.HSLAdjustment(img, 0, 0, -50);
+		img = this.ImageFilters.HSLAdjustment(img, 0, 0, -50);
 		ctx2.putImageData(img, 0, 0);
 		
 		//vignete
@@ -68,9 +71,9 @@ class Effects_nightVision_class {
 		return canvas2;
 	}
 
-	demo(canvas_id: string, canvas_thumb: { width: number; height: number; }){
-		let canvas = document.getElementById(canvas_id);
-		let ctx = canvas.getContext("2d");
+	demo(canvas_id: string, canvas_thumb: HTMLCanvasElement){
+		let canvas = document.getElementById(canvas_id) as HTMLCanvasElement;
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//modify
 		let params = {};

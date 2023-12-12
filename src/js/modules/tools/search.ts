@@ -1,4 +1,4 @@
-import Base_search_class from "../../core/base-search.js";
+import Base_search_class from "../../core/base-search";
 
 class Tools_search_class {
 	Base_search: Base_search_class;

@@ -1,8 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_tools_class from "../../core/base-tools.js";
-import Base_layers_class from "../../core/base-layers.js";
-import { Layer, Params, Settings } from "../../../../types/types.js";
+import app from "../../app";
+import config from "../../config";
+import Base_tools_class from "../../core/base-tools";
+import Base_layers_class from "../../core/base-layers";
+import { Layer, Params, Settings } from "../../../../types/types";
 
 class Ellipse_class extends Base_tools_class {
 	ctx: CanvasRenderingContext2D;
@@ -57,7 +57,7 @@ class Ellipse_class extends Base_tools_class {
 			y: mouse_y,
 			color: "",
 			is_vector: true,
-		};
+		} as unknown as Layer;
 		if (params.circle == true) {
 			//disable rotate
 			if (this.layer)

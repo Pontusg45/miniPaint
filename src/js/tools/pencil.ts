@@ -1,7 +1,8 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
 
 class Pencil_class extends Base_tools_class {
   private pressure_supported: boolean;
@@ -170,7 +171,7 @@ class Pencil_class extends Base_tools_class {
 	 * @param {object} ctx
 	 * @param {object} layer
 	 */
-	render_aliased(ctx: CanvasRenderingContext2DfillStyle: any; strokeStyle: any; translate: (arg0: number, arg1: number) => void; beginPath: () => void; moveTo: (arg0: any, arg1: any) => void; fillRect: (arg0: number, arg1: number, arg2: any, arg3: any) => void; }, layer: { data: string | any[]; params: any; color: any; x: number; y: number; }) {
+	render_aliased(ctx: CanvasRenderingContext2D) {
 		if (layer.data.length == 0)
 			return;
 
@@ -246,7 +247,7 @@ class Pencil_class extends Base_tools_class {
 	 * @param {int} to_y
 	 * @param {int} size
 	 */
-	draw_simple_line(ctx: CanvasRenderingContext2DfillRect: (arg0: number, arg1: number, arg2: any, arg3: any) => void; }, from_x: number, from_y: number, to_x: number, to_y: number, size: number) {
+	draw_simple_line(ctx: CanvasRenderingContext2D, from_x: number, from_y: number, to_x: number, to_y: number, size: number) {
 		let dist_x = from_x - to_x;
 		let dist_y = from_y - to_y;
 		let distance = Math.sqrt((dist_x * dist_x) + (dist_y * dist_y));

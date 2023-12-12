@@ -1,12 +1,12 @@
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Selection_class from "../../tools/selection.js";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Selection_class from "../../tools/selection";
 
 class Edit_selection_class {
 
 	Selection: Selection_class;
 	Base_layers: Base_layers_class;
-	
+
 	constructor() {
 		this.Base_layers = new Base_layers_class();
 		this.Selection = new Selection_class(this.Base_layers.ctx);

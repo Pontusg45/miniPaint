@@ -1,8 +1,8 @@
-import { Layer, Settings } from "../../../types/types.js";
-import app from "../app.js";
-import config from "../config.js";
-import Base_layers_class from "../core/base-layers.js";
-import { Base_action } from "./base.js";
+import { Layer, Settings } from "../../../types/types";
+import app from "../app";
+import config from "../config";
+import Base_layers_class from "../core/base-layers";
+import { Base_action } from "./base";
 
 export class Delete_layer_settings_action extends Base_action {
 	layer_id: number;
@@ -13,7 +13,7 @@ export class Delete_layer_settings_action extends Base_action {
 	 * Deletes the specified settings in a layer
 	 *
 	 * @param {int} layer_id
-	 * @param {array} setting_names 
+	 * @param {array} setting_names
 	 */
 	constructor(layer_id: number, setting_names?: Layer) {
 		super("delete_layer_settings", "Delete Layer Settings");
@@ -29,8 +29,11 @@ export class Delete_layer_settings_action extends Base_action {
 		if (!this.reference_layer || !this.setting_names || !this.old_settings) {
 			throw new Error("Aborted - layer with specified id doesn't exist");
 		}
+		// @ts-ignore
 		for (let i = 0; i < this.setting_names?.length; i++) {
+			// @ts-ignore
 			this.old_settings[i] = this.reference_layer[i];
+			// @ts-ignore
 			delete this.reference_layer[i];
 		}
 		config.need_render = true;
@@ -40,7 +43,8 @@ export class Delete_layer_settings_action extends Base_action {
 		super.undo();
 		if (this.reference_layer) {
 			for (let i in this.old_settings) {
-				this.reference_layer[i as keyof Layer] = this.old_settings[i  as keyof Layer];
+				// @ts-ignore
+				this.reference_layer[i as keyof Layer] = this.old_settings[i as keyof Layer];
 			}
 			this.old_settings = {} as Layer;
 		}

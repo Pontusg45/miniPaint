@@ -1,7 +1,7 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Helper_class from "../../libs/helpers.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Helper_class from "../../libs/helpers";
 
 let instance: Layer_duplicate_class | null = null;
 

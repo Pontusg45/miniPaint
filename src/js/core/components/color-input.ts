@@ -1,6 +1,6 @@
-import Helper_class from "../../libs/helpers.js";
-import Dialog_class from "../../libs/popup.js";
-import GUI_colors_class from "../gui/gui-colors.js";
+import Helper_class from "../../libs/helpers";
+import Dialog_class from "../../libs/popup";
+import GUI_colors_class from "../gui/gui-colors";
 
 const Helper = new Helper_class();
 
@@ -18,22 +18,22 @@ const Helper = new Helper_class();
 		</div>
 	`;
 
-	const on_focus_color_input = (event) => {
+	const on_focus_color_input = (event: { target: { closest: (arg0: string) => any; }; }) => {
 		const $el = $(event.target.closest(".ui_color_input"));
 		$el.trigger("focus");
 	};
 
-	const on_blur_color_input = (event) => {
+	const on_blur_color_input = (event: { target: { closest: (arg0: string) => any; }; }) => {
 		const $el = $(event.target.closest(".ui_color_input"));
 		$el.trigger("blur");
 	};
 
-	const on_click_color_input = (event) => {
+	const on_click_color_input = (event: { preventDefault: () => void; target: { closest: (arg0: string) => any; }; }) => {
 		event.preventDefault();
 		const $el = $(event.target.closest(".ui_color_input"));
 		const { value } = $el.data();
 		const POP = new Dialog_class();
-		let colorsDialog = new GUI_colors_class();
+		let colorsDialog = new GUI_colors_class() as any;
 		const settings = {
 			title: "Color Picker",
 			on_finish() {
@@ -63,12 +63,12 @@ const Helper = new Helper_class();
 		} else {
 			colorValue = "#000000";
 		}
-		POP.show(settings);
+		POP.show(settings as any);
 		colorsDialog.render_main_colors("dialog");
 		colorsDialog.set_color({ hex: colorValue, a: alpha });
 	};
 
-	const set_value = ($el, value) => {
+	const set_value = ($el: JQuery<any>, value: string) => {
 		const trimmedValue = (`${value  }`).trim();
 		let colorValue;
 		let opacity = 0;
@@ -88,7 +88,7 @@ const Helper = new Helper_class();
         $el.data("value", trimmedValue);
 	};
 
-	const set_disabled = ($el, disabled) => {
+	const set_disabled = ($el: JQuery<HTMLElement>, disabled: any) => {
 		const { input } = $el.data();
         if (disabled) {
             input.setAttribute("disabled", "disabled");
@@ -98,14 +98,15 @@ const Helper = new Helper_class();
         $el.data("disabled", disabled);
 	};
 
-	$.fn.uiColorInput = function(behavior, ...args) {
+	// @ts-ignore
+	$.fn.uiColorInput = function(behavior: string, ...args: any[]) {
 		const returnValues = [];
 		for (let i = 0; i < this.length; i++) {
-			let el = this[i];
+			let el = this[i] as HTMLInputElement;
 
 			// Constructor
 			if (Object.prototype.toString.call(behavior) !== "[object String]") {
-				const definition = behavior || {};
+				const definition = behavior || {} as any;
 
 				const classList = el.className;
 				const id = definition.id != null ? definition.id : el.getAttribute("id");
@@ -118,12 +119,12 @@ const Helper = new Helper_class();
 				if (el.parentNode) {
 					$(el).after(template);
 					const oldEl = el;
-					el = el.nextElementSibling;
+					el = el.nextElementSibling as HTMLInputElement;
 					$(oldEl).remove();
 				} else {
 					const orphanedParent = document.createElement("div");
 					orphanedParent.innerHTML = template;
-					el = orphanedParent.firstElementChild;
+					el = orphanedParent.firstElementChild as HTMLInputElement;
 				}
 				this[i] = el;
 				$el = $(el);

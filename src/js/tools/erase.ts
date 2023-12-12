@@ -1,7 +1,8 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
 
 class Erase_class extends Base_tools_class {
 	ctx: CanvasRenderingContext2D;
@@ -134,7 +135,7 @@ class Erase_class extends Base_tools_class {
 		this.tmpCanvasCtx = null;
 	}
 
-	erase_general(ctx: CanvasRenderingContext2DbeginPath: () => void; lineWidth: any; lineCap: string; lineJoin: string; strokeStyle: string; save: () => void; globalCompositeOperation: string; fillStyle: string; fillRect: (arg0: number, arg1: number, arg2: any, arg3: any) => void; restore: () => void; createRadialGradient: (arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: number) => any; arc: (arg0: number, arg1: number, arg2: number, arg3: number, arg4: number, arg5: boolean) => void; fill: () => void; moveTo: (arg0: number, arg1: number) => void; lineTo: (arg0: number, arg1: number) => void; stroke: () => void; } | null, type: string, mouse: MouseEvent | null, size: string | number | boolean | object, strict: string | number | boolean | object, is_circle: string | number | boolean | object, is_touch: boolean | undefined) {
+	erase_general(ctx: CanvasRenderingContext2D, type: string, mouse: MouseEvent | null, size: string | number | boolean | object, strict: string | number | boolean | object, is_circle: string | number | boolean | object, is_touch: boolean | undefined) {
 		let mouse_x = Math.round(mouse.x) - config.layer.x;
 		let mouse_y = Math.round(mouse.y) - config.layer.y;
 		let alpha = config.ALPHA;

@@ -1,6 +1,6 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
 
 class Image_flip_class {
 	Base_layers: Base_layers_class;
@@ -17,21 +17,21 @@ class Image_flip_class {
 		this.flip("horizontal");
 	}
 
-	flip(mode) {
+	flip(mode: string) {
 		if (config.layer.type != "image") {
 			alert("This layer must contain an image. Please convert it to raster to apply this tool.");
 			return;
 		}
 
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-		let ctx = canvas.getContext("2d");
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//create destination canvas
 		let canvas2 = document.createElement("canvas");
 		canvas2.width = canvas.width;
 		canvas2.height = canvas.height;
-		let ctx2 = canvas2.getContext("2d");
+		let ctx2 = canvas2.getContext("2d") as CanvasRenderingContext2D;
 		canvas2.dataset.x = canvas.dataset.x;
 		canvas2.dataset.y = canvas.dataset.y;
 

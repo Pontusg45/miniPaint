@@ -1,7 +1,7 @@
 import config from "../../config";
-import Base_layers_class from "../../core/base-layers.js";
-import File_save_class from "../file/save.js";
-import Helper_class from "../../libs/helpers.js";
+import Base_layers_class from "../../core/base-layers";
+import File_save_class from "../file/save";
+import Helper_class from "../../libs/helpers";
 
 
 let instance: Copy_class | null = null;
@@ -23,7 +23,7 @@ class Copy_class {
 		document.addEventListener("keydown", (event) => {
 			const code = event.key.toLowerCase();
 			const ctrlDown = event.ctrlKey || event.metaKey;
-			if (event.target && this.Helper.is_input(event.target))
+			if (event.target && this.Helper.is_input(event.target as HTMLInputElement))
 				return;
 
 			if (code == "c" && ctrlDown == true) {
@@ -42,7 +42,7 @@ class Copy_class {
 			const canvas = this.Base_layers.convert_layer_to_canvas();
 			const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-			if (config.TRANSPARENCY == false) {
+			if (!config.TRANSPARENCY) {
 				//add white background
 				ctx.globalCompositeOperation = "destination-over";
 				this.File_save.fillCanvasBackground(ctx, "#ffffff");

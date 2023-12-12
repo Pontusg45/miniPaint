@@ -10,13 +10,13 @@ import "./../css/component.css";
 import "./../css/layout.css";
 import "./../css/menu.css";
 import "./../css/print.css";
-import "./../../node_modules/alertifyjs/build/css/alertify.min.css";
+// import "./../../node_modules/alertifyjs/build/css/alertify.min.css";
 //js
 import app from "./app";
 import config from "./config";
-import "./core/components/index.js";
-import Base_gui_class from "./core/base-gui.js";
-import Base_layers_class from "./core/base-layers.js";
+import "./core/components/index";
+import Base_gui_class from "./core/base-gui";
+import Base_layers_class from "./core/base-layers";
 import Base_tools_class from "./core/base-tools";
 import Base_state_class from "./core/base-state";
 import File_open_class from "./modules/file/open";
@@ -48,7 +48,7 @@ import {
   Update_config_action,
   Update_layer_image_action,
   Update_layer_action
-} from "./actions/index.js";
+} from "./actions/index";
 
 
 

@@ -1,8 +1,9 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import glfx from "../../libs/glfx.js";
+// @ts-nocheck
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+import glfx from "../../libs/glfx";
 
 class Effects_dotScreen_class {
 	POP: Dialog_class;
@@ -39,13 +40,13 @@ class Effects_dotScreen_class {
 				_this.save(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	save(params: any) {
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-		let ctx = canvas.getContext("2d");
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data
 		let data = this.change(canvas, params);

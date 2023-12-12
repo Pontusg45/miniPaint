@@ -1,4 +1,4 @@
-import Base_state_class from "../../core/base-state.js";
+import Base_state_class from "../../core/base-state";
 
 class Edit_redo_class {
 	Base_state = new Base_state_class();

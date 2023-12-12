@@ -1,13 +1,14 @@
-import app from "../app.js";
-import config from "../config.js";
-import { Base_action } from "./base.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
 
 export class Stop_animation_action extends Base_action {
 	reset_layer_visibility: boolean;
 	/**
 	 * Stops the currently playing animation, both do and undo states will stop animation
 	 */
-	constructor(reset_layer_visibility: number) {
+	constructor(reset_layer_visibility: boolean) {
 		super("stop_animation", "Stop Animation");
 		this.reset_layer_visibility = !!reset_layer_visibility;
 	}

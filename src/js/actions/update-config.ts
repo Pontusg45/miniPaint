@@ -1,7 +1,8 @@
-import { Layer } from "../../../types/types.js";
-import app from "../app.js";
-import config from "../config.js";
-import { Base_action } from "./base.js";
+// @ts-nocheck
+import { Layer } from "../../../types/types";
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
 
 export class Update_config_action extends Base_action {
 	settings: any;

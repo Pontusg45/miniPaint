@@ -1,6 +1,7 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
+// @ts-nocheck
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
 
 class Layer_raster_class {
 	Base_layers: Base_layers_class;

@@ -1,14 +1,15 @@
+// @ts-nocheck
 /* eslint-disable no-let */
 /*
  * miniPaint - https://github.com/viliusle/miniPaint
  * author: Vilius L.
  */
 
-import app from "../../app.js";
-import config from "../../config.js";
-import Helper_class from "../../libs/helpers.js";
-import Tools_translate_class from "../../modules/tools/translate.js";
-import Base_gui_class from "../base-gui.js";
+import app from "../../app";
+import config from "../../config";
+import Helper_class from "../../libs/helpers";
+import Tools_translate_class from "../../modules/tools/translate";
+import Base_gui_class from "../base-gui";
 
 let instance: GUI_tools_class | null = null;
 
@@ -54,10 +55,10 @@ class GUI_tools_class {
 	load_plugins() {
 		const _this = this;
 		const ctx = (document.getElementById("canvas_minipaint") as HTMLCanvasElement).getContext("2d");
-		const plugins_context = require.context("./../../tools/", true, /\.js$/);
+		const plugins_context = require.context("./../../tools/", true, /\$/);
 		plugins_context.keys().forEach(function (key: string) {
 			if (key.indexOf("Base" + "/") < 0) {
-				let moduleKey = key.replace("./", "").replace(".js", "");
+				let moduleKey = key.replace("./", "").replace("", "");
 				const full_key = moduleKey;
 				if (moduleKey.indexOf("/") > -1) {
 					const parts = moduleKey.split("/");

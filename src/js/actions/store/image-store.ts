@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { v4 as uuidv4 } from "uuid";
 
 // Get a unique id to identify this tab's history in the database
@@ -24,7 +25,7 @@ export default {
      */
     async init() {
         if (!databaseInitPromise) {
-            databaseInitPromise = new Promise(async (resolveInit) => {
+            databaseInitPromise = new Promise<void>(async (resolveInit) => {
                 try {
                     if (window.indexedDB) {
                         // Delete database from a previous page load, if no other tabs have notified that they're open in a while
@@ -34,7 +35,7 @@ export default {
                             shouldDeleteDatabase = (!lastDatabaseTabPing || parseInt(lastDatabaseTabPing, 10) < new Date().getTime() - assumeTabIsClosedTimeout);
                         } catch (error) {}
                         if (shouldDeleteDatabase) {
-                            await new Promise((resolve, reject) => {
+                            await new Promise<void>((resolve, reject) => {
                                 let deleteRequest = window.indexedDB.deleteDatabase("undoHistoryImageStore");
                                 deleteRequest.onerror = () => {
                                     reject(deleteRequest.error);
@@ -45,7 +46,7 @@ export default {
                             });
                         }
                         // Initialize database
-                        await new Promise((resolve, reject) => {
+                        await new Promise<void>((resolve, reject) => {
                             let openRequest = window.indexedDB.open("undoHistoryImageStore", 1);
                             openRequest.onupgradeneeded = function(event) {
                                 database = openRequest.result;
@@ -102,7 +103,7 @@ export default {
         if (database.isMemory) {
             database.images[imageId] = imageData;
         } else {
-            await new Promise((resolve, reject) => {
+            await new Promise<void>((resolve, reject) => {
                 const transaction = database.transaction("images", "readwrite");
                 const images = transaction.objectStore("images");
                 const image = {
@@ -158,7 +159,7 @@ export default {
         if (database.isMemory) {
             delete database.images[imageId];
         } else {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 const transaction = database.transaction("images", "readwrite");
                 const images = transaction.objectStore("images");
                 const request = images.delete(imageId);
@@ -182,7 +183,7 @@ export default {
         if (database.isMemory) {
             database.images = {};
         } else {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 const transaction = database.transaction("images", "readwrite");
                 const images = transaction.objectStore("images");
                 const getAllImagesRequest = images.getAll();
@@ -192,7 +193,7 @@ export default {
                     for (let image of allImages) {
                         if (image.tabUuid === tabUuid) {
                             try {
-                                await new Promise((deleteResolve, deleteReject) => {
+                                await new Promise<void>((deleteResolve, deleteReject) => {
                                     const request = images.delete(image.id);
                                     request.onsuccess = function() {
                                         deleteResolve();

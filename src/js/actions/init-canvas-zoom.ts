@@ -1,7 +1,7 @@
-import app from "../app.js";
-import config from "../config.js";
-import zoomView from "../libs/zoomView.js";
-import { Base_action } from "./base.js";
+import app from "../app";
+import config from "../config";
+import zoomView from "../libs/zoomView";
+import { Base_action } from "./base";
 
 export class Init_canvas_zoom_action extends Base_action {
 	old_bounds: { top: number; left: number; right: number; bottom: number; } | null | undefined;

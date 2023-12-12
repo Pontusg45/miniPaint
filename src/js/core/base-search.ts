@@ -3,9 +3,9 @@
  * author: Vilius L.
  */
 
-import config from "../config.js";
-import Dialog_class from "../libs/popup.js";
-import Base_gui_class from "./base-gui.js";
+import config from "../config";
+import Dialog_class from "../libs/popup";
+import Base_gui_class from "./base-gui";
 import fuzzysort from "fuzzysort";
 
 let instance: Base_search_class | null = null;
@@ -44,12 +44,12 @@ class Base_search_class {
 			}
 		}, false);
 
-		document.addEventListener("input", (event) => {
+		document.addEventListener("input", (event: any) => {
 			if(document.querySelector("#pop_data_search") == null){
 				return;
 			}
 
-			let node = document.querySelector("#global_search_results");
+			const node = document.querySelector("#global_search_results");
 			if (node == null) {
 				throw new Error("Node not found");
 			}
@@ -79,6 +79,7 @@ class Base_search_class {
 					className += " active";
 				}
 
+				// @ts-ignore
 				node.innerHTML += `<div class='${className}' data-key='${item.obj.key}'>${
 					 fuzzysort.highlight(item[0])  }</div>`;
 			}
@@ -98,24 +99,26 @@ class Base_search_class {
 				if(target == null){
 					return;
 				}
-				let index = Array.from(target.parentNode.children).indexOf(target);
+				let index = Array.from(target!.parentNode!.children).indexOf(target);
 				if(index > 0){
 					index--;
 				}
 				target?.classList.remove("active");
 				let target2 = document.querySelector("#global_search_results")?.childNodes[index];
+				// @ts-ignore
 				target2?.classList.add("active");
 				e.preventDefault();
 			}
 			else if (k == "ArrowDown") {
 				let target = document.querySelector(".search-result.active");
-				let index = Array.from(target.parentNode.children).indexOf(target);
+				let index = Array.from(target!.parentNode!.children).indexOf(target!);
 				let total = target?.parentNode?.childElementCount;
 				if(total && index < total - 1){
 					index++;
 				}
 				target?.classList.remove("active");
 				let target2 = document.querySelector("#global_search_results")?.childNodes[index];
+				// @ts-ignore
 				target2?.classList.add("active");
 				e.preventDefault();
 			}
@@ -153,16 +156,19 @@ class Base_search_class {
 				const target = document.querySelector(".search-result.active");
 				if(target){
 					//execute
+					// @ts-ignore
 					const key = target.dataset.key;
+					// @ts-ignore
 					const class_object = this.Base_gui.modules[key];
 					const function_name = _this.get_function_from_path(key);
 
+					// @ts-ignore
 					_this.POP.hide();
 					class_object[function_name]();
 				}
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 
 		//on input change
 		(document?.getElementById("pop_data_search") as HTMLInputElement).select();

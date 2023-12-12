@@ -1,13 +1,15 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import glfx from "../../libs/glfx.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+
+// @ts-ignore
+import glfx from "../../libs/glfx";
 
 class Effects_zoomBlur_class {
 	POP: Dialog_class;
 	Base_layers: Base_layers_class;
-	fx_filter: boolean;
+	fx_filter: any;
 
 	constructor() {
 		this.POP = new Dialog_class();
@@ -24,7 +26,7 @@ class Effects_zoomBlur_class {
 		}
 
 		//get layer size
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
 
 		let settings = {
 			title: "Zoom blur",
@@ -35,12 +37,12 @@ class Effects_zoomBlur_class {
 				{name: "param2", title: "Center x:", value: Math.round(canvas.width / 2), range: [0, canvas.width]},
 				{name: "param3", title: "Center y:", value: Math.round(canvas.height / 2), range: [0, canvas.height]},
 			],
-			on_change: function (params: { param2: number; param3: number; }, canvas_preview: { clearRect: (arg0: number, arg1: number, arg2: any, arg3: any) => void; drawImage: (arg0: boolean, arg1: number, arg2: number) => void; }, w: number, h: number, canvas_: { width: number; height: number; }) {
+			on_change: function (params: { param2: number; param3: number; }, canvas_preview: CanvasRenderingContext2D, w: number, h: number, canvas_: HTMLCanvasElement) {
 				//recalc param by size
 				params.param2 = params.param2 / canvas.width * w;
 				params.param3 = params.param3 / canvas.height * h;
 
-				let data = _this.change(canvas_, params);
+				let data = _this.change(canvas_, params as any);
 				canvas_preview.clearRect(0, 0, canvas_.width, canvas_.height);
 				canvas_preview.drawImage(data, 0, 0);
 			},
@@ -48,13 +50,13 @@ class Effects_zoomBlur_class {
 				_this.save(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	save(params: any) {
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-		let ctx = canvas.getContext("2d");
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data
 		let data = this.change(canvas, params);
@@ -83,9 +85,9 @@ class Effects_zoomBlur_class {
 		return this.fx_filter;
 	}
 
-	demo(canvas_id: string, canvas_thumb: { width: number; height: number; }){
-		let canvas = document.getElementById(canvas_id);
-		let ctx = canvas.getContext("2d");
+	demo(canvas_id: string, canvas_thumb: HTMLCanvasElement){
+		let canvas = document.getElementById(canvas_id) as HTMLCanvasElement;
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//modify
 		let params = {

@@ -1,8 +1,8 @@
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Helper_class from "../../libs/helpers.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Tools_settings_class from "../tools/settings.js";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Helper_class from "../../libs/helpers";
+import Base_layers_class from "../../core/base-layers";
+import Tools_settings_class from "../tools/settings";
 
 let instance: Image_information_class | null = null;
 
@@ -26,7 +26,7 @@ class Image_information_class {
 	set_events() {
 		document.addEventListener("keydown", (event) => {
 			let code = event.key.toLowerCase();
-			if (event.target && this.Helper.is_input(event.target))
+			if (event.target && this.Helper.is_input(event.target as HTMLInputElement))
 				return;
 
 			if (code == "i") {
@@ -41,11 +41,11 @@ class Image_information_class {
 		let pixels = config.WIDTH * config.HEIGHT;
 		pixels = this.Helper.number_format(pixels, 0);
 
-		let units = this.Tools_settings.get_setting("default_units");
-		let resolution = this.Tools_settings.get_setting("resolution");
+		let units = this.Tools_settings.get_setting("default_units") as string;
+		let resolution = this.Tools_settings.get_setting("resolution") as number;
 
-		let width = this.Helper.get_user_unit(config.WIDTH, units, parseInt(resolution));
-		let height = this.Helper.get_user_unit(config.HEIGHT, units, parseInt(resolution));
+		let width = this.Helper.get_user_unit(config.WIDTH, units, resolution);
+		let height = this.Helper.get_user_unit(config.HEIGHT, units, resolution);
 
 		let settings = {
 			title: "Information",
@@ -63,8 +63,10 @@ class Image_information_class {
 		}
 
 		//exif data
+		// @ts-ignore
 		if (config.layer._exif != undefined) {
 			//show exif and general data
+			// @ts-ignore
 			let exif_data = config.layer._exif;
 
 			//show general data
@@ -84,13 +86,16 @@ class Image_information_class {
 			}
 		}
 
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 
 		//calc colors
 		setTimeout(function () {
 			let colors = _this.unique_colors_count();
 			colors = _this.Helper.number_format(colors, 0);
-			document.getElementById("pop_data_uniquecolo").innerHTML = colors;
+			let element = document.getElementById("pop_data_uniquecolo");
+			if (element !== null) {
+				element.innerHTML = colors;
+			}
 		}, 50);
 	}
 
@@ -102,7 +107,7 @@ class Image_information_class {
 		}
 
 		let canvas = this.Base_layers.convert_layer_to_canvas();
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		let img = ctx.getImageData(0, 0, canvas.width, canvas.height);
 		let imgData = img.data;
 
@@ -114,7 +119,9 @@ class Image_information_class {
 				if (imgData[i + 3] == 0)
 					continue;	//transparent
 				let key = `${imgData[i]  }.${  imgData[i + 1]  }.${  imgData[i + 2]}`;
+				// @ts-ignore
 				if (colors[key] == undefined) {
+					// @ts-ignore
 					colors[key] = 1;
 					n++;
 				}
@@ -130,13 +137,15 @@ class Image_information_class {
 
 			for (let i = 0; i < len; i++) {
 				let key = `${  buffer32[i] & 0xffffff}`;
+				// @ts-ignore
 				if (stats[key] == undefined) {
+					// @ts-ignore
 					stats[key] = 0;
 					n++;
 				}
 			}
 		}
-
+// @ts-ignore
 		return n;
 	}
 }

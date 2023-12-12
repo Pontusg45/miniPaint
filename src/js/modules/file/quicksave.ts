@@ -1,6 +1,6 @@
-import config from "../../config.js";
-import File_save_class from "./save.js";
-import Dialog_class from "../../libs/popup.js";
+import config from "../../config";
+import File_save_class from "./save";
+import Dialog_class from "../../libs/popup";
 
 /** 
  * manages files / quick-save

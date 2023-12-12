@@ -1,9 +1,10 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_gui_class from "../../core/base-gui.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
-import Helper_class from "../../libs/helpers.js";
+// @ts-nocheck
+import app from "../../app";
+import config from "../../config";
+import Base_gui_class from "../../core/base-gui";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
+import Helper_class from "../../libs/helpers";
 import {Base_action} from "../../actions/base";
 
 let instance: Image_trim_class | null = null;

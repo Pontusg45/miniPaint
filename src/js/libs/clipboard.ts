@@ -1,4 +1,5 @@
-import Helper_class from "./helpers.js";
+// @ts-nocheck
+import Helper_class from "./helpers";
 
 /**
  * image pasting into canvas
@@ -97,7 +98,7 @@ class Clipboard_class {
 				for (let i = 0; i < items.length; i++) {
 					if (items[i].type.indexOf("image") !== -1) {
 						//image
-						const blob = items[i].getAsFile();
+						const blob = items[i].getAsFile() as any;
 						const URLObj = window.URL || window.webkitURL;
 						const source = URLObj.createObjectURL(blob);
 						this.paste_createImage(source);
@@ -122,7 +123,7 @@ class Clipboard_class {
 		}
 		//v
 		if (k == 86) {
-			if (this.Helper.is_input(document.activeElement as HTMLElement)) {
+			if (this.Helper.is_input(document.activeElement as HTMLInputElement)) {
 				return false;
 			}
 

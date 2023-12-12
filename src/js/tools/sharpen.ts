@@ -1,9 +1,9 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
-import ImageFilters from "../libs/imagefilters.js";
-import Helper_class from "../libs/helpers.js";
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
+import ImageFilters from "../libs/imagefilters";
+import Helper_class from "../libs/helpers";
 
 class Sharpen_class extends Base_tools_class {
 	private ctx: CanvasRenderingContext2D;

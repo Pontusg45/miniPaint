@@ -1,11 +1,12 @@
+// @ts-nocheck
 /*
  * miniPaint - https://github.com/viliusle/miniPaint
  * author: Vilius L.
  */
 
-import config from "../../config.js";
-import menuDefinition from "../../config-menu.js";
-import Tools_translate_class from "../../modules/tools/translate.js";
+import config from "../../config";
+import menuDefinition from "../../config-menu";
+import Tools_translate_class from "../../modules/tools/translate";
 
 /**
  * class responsible for rendering main menu

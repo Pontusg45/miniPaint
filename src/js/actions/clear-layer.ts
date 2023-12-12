@@ -1,7 +1,7 @@
 import { Update_layer_action } from ".";
 import { Layer } from "../../../types/types";
 import app from "../app";
-import config from "../config.js";
+import config from "../config";
 import Base_layers_class from "../core/base-layers";
 import { Base_action } from "./base";
 import {Delete_layer_settings_action} from "./delete-layer-settings";
@@ -59,7 +59,7 @@ export class Clear_layer_action extends Base_action {
 			}
 		}
 		if (delete_setting_names.length > 0) {
-			this.delete_layer_settings_action = new app.Actions.Delete_layer_settings_action(this.layer_id, delete_setting_names);
+			this.delete_layer_settings_action = new app.Actions.Delete_layer_settings_action(this.layer_id, delete_setting_names as any);
 			await this.delete_layer_settings_action.do();
 		}
 	}

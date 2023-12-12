@@ -30,6 +30,74 @@ import Base_state_class from "../src/js/core/base-state";
 import File_open_class from "../src/js/modules/file/open";
 import File_save_class from "../src/js/modules/file/save";
 
+export type ImageFiltersType = {
+	utils: {
+		initSampleCanvas: () => void;
+		getSampleCanvas: () => HTMLCanvasElement;
+		getSampleContext: () => CanvasRenderingContext2D;
+		createImageData: (w: number, h: number) => ImageData;
+		clamp: (value: number) => number;
+		buildMap: (f: (arg0: number) => any) => any[];
+		applyMap: (src: string | any[], dst: any[], map: { [x: string]: any; }) => void;
+		mapRGB: (src: any, dst: any, func: any) => void;
+		getPixelIndex: (x: number, y: number, width: number, height: number, edge: any) => number | null;
+		getPixel: (src: Uint8ClampedArray, x: number, y: number, width: number, height: number, edge: any) => number;
+		getPixelByIndex: (src: { [x: string]: number; }, i: number) => number;
+		copyBilinear: (src: Uint8ClampedArray, x: number, y: number, width: number, height: number, dst: Uint8ClampedArray, dstIndex: number, edge: any) => void;
+		rgbToHsl: (r: number, g: number, b: number) => number[];
+		hslToRgb: (h: number, s: number, l: number) => number[];
+	};
+
+	Translate?: (srcImageData: any, x: number, y: number, interpolation: any) => void;
+	Scale?: (srcImageData: any, scaleX: any, scaleY: any, interpolation: any) => void;
+	Rotate?: (srcImageData: any, originX: any, originY: any, angle: any, resize: any, interpolation: any) => void;
+	Affine?: (srcImageData: any, matrix: number, resize: any, interpolation: any) => void;
+	UnsharpMask?: (srcImageData: any, level: any) => void;
+	ConvolutionFilter: (srcImageData: ImageData, matrixX: number, matrixY: number, matrix: number[], divisor?: number, bias?: number, preserveAlpha?: boolean, clamp?: boolean, color?: number, alpha?: number) => ImageData;
+	Binarize: (srcImageData: ImageData, threshold: number) => ImageData;
+	BlendAdd: (srcImageData: ImageData, blendImageData: ImageData, dx: number, dy: number) => ImageData;
+	BlendSubtract: (srcImageData: ImageData, blendImageData: ImageData, dx: number, dy: number) => ImageData;
+	BoxBlur: (src: number[], dst: number[], width: number, height: number, radius: number) => ImageData;
+	GaussianBlur: (src: number[], dst: number[], width: number, height: number, radius: number) => void;
+	StackBlur: (src: number[], dst: number[], width: number, height: number, radius: number) => void;
+	Brightness: (srcImageData: ImageData, brightness: number) => ImageData;
+	BrightnessContrastGimp: (srcImageData: ImageData, brightness: number, contrast: number) => ImageData;
+	BrightnessContrastPhotoshop: (srcImageData: ImageData, brightness: number, contrast: number) => ImageData;
+	Channels: (srcImageData: ImageData, channel: number, value: number) => ImageData;
+	Clone: (srcImageData: ImageData) => ImageData;
+	CloneBuiltin: (srcImageData: ImageData) => ImageData;
+	ColorMatrixFilter: (srcImageData: ImageData, matrix: number[]) => ImageData;
+	ColorTransformFilter: (srcImageData: ImageData, redMultiplier: number, greenMultiplier: number, blueMultiplier: number, alphaMultiplier: number, redOffset: number, greenOffset: number, blueOffset: number, alphaOffset: number) => ImageData;
+	Copy: (srcImageData: ImageData, dstImageData: ImageData) => ImageData;
+	Crop: (srcImageData: ImageData, x: number, y: number, width: number, height: number) => ImageData;
+	CropBuiltin: (srcImageData: ImageData, x: number, y: number, width: number, height: number) => ImageData;
+	Desaturate: (srcImageData: ImageData) => ImageData;
+	DisplacementMapFilter: (srcImageData: ImageData, mapImageData: ImageData, mapX: number, mapY: number, componentX: number, componentY: number, scaleX: number, scaleY: number, mode: number) => ImageData;
+	Dither: (srcImageData: ImageData, levels: number) => ImageData;
+	Edge: (srcImageData: ImageData) => ImageData;
+	Emboss: (srcImageData: ImageData) => ImageData;
+	Enrich: (srcImageData: ImageData) => ImageData;
+	Flip: (srcImageData: ImageData, mode: number) => ImageData;
+	Gamma: (srcImageData: ImageData, gamma: number) => ImageData;
+	GrayScale: (srcImageData: ImageData) => ImageData;
+	HSLAdjustment: (srcImageData: ImageData, hue: number, saturation: number, lightness: number) => ImageData;
+	Invert: (srcImageData: ImageData) => ImageData;
+	Mosaic: (srcImageData: ImageData, blockSize: number) => ImageData;
+	Oil: (srcImageData: ImageData, range: number, levels: number) => ImageData;
+	OpacityFilter: (srcImageData: ImageData, opacity: number) => ImageData;
+	Posterize: (srcImageData: ImageData, levels: number) => ImageData;
+	Rescale: (srcImageData: ImageData, scale: number) => ImageData;
+	ResizeNearestNeighbor: (srcImageData: ImageData, width: number, height: number) => ImageData;
+	Resize: (srcImageData: ImageData, width: number, height: number, interpolation: any) => ImageData;
+	ResizeBuiltin: (srcImageData: ImageData, width: number, height: number, interpolation: any) => ImageData;
+	Sepia: (srcImageData: ImageData) => ImageData;
+	Sharpen: (srcImageData: ImageData, factor: number) => ImageData;
+	Solarize: (srcImageData: ImageData) => ImageData;
+	Transpose: (srcImageData: ImageData) => ImageData;
+	Twril: (srcImageData: ImageData, centerX: number, centerY: number, radius: number, angle: number, edge: any, smooth: any) => ImageData;
+
+}
+
 export type DialogConfig = {
   title: string;
   params: DialogParams[];
@@ -98,7 +166,7 @@ export type Settings = {
   status: string | undefined;
   render_function: null | undefined | [Function, any[]] | string[];
   type: string;
-  link?: HTMLImageElement;
+  link?: HTMLImageElement | HTMLCanvasElement;
 };
 
 export type Layer = Settings & {
@@ -117,6 +185,24 @@ export type Layer = Settings & {
 
 
 export type Params =  {
+  square: boolean;
+  text: Params;
+  family: any;
+  bold: any;
+  italic: any;
+  stroke: any;
+  stroke_size: any;
+  kerning: string;
+  halign: any;
+  align: any;
+  valign: string;
+  text_direction: string;
+  wrap_direction: string;
+  wrap: string;
+  underline: any;
+  strikethrough: any;
+  leading: number;
+  boundary: string;
   font: { value: string; };
   size: number;
   rotate: number;

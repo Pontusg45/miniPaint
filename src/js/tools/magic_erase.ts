@@ -1,7 +1,8 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
 
 class Magic_erase_class extends Base_tools_class {
 	ctx: CanvasRenderingContext2D;
@@ -67,7 +68,7 @@ class Magic_erase_class extends Base_tools_class {
 
 		//get canvas from layer
 		let canvas = document.createElement("canvas");
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		canvas.width = config.layer.width_original;
 		canvas.height = config.layer.height_original;
 		ctx.drawImage(config.layer.link, 0, 0);

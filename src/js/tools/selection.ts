@@ -1,10 +1,11 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
-import Base_selection_class from "../core/base-selection.js";
-import GUI_tools_class from "../core/gui/gui-tools.js";
-import Helper_class from "../libs/helpers.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
+import Base_selection_class from "../core/base-selection";
+import GUI_tools_class from "../core/gui/gui-tools";
+import Helper_class from "../libs/helpers";
 
 let instance: Selection_class | null = null;
 

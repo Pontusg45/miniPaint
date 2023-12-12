@@ -1,10 +1,11 @@
+// @ts-nocheck
 /*
  * miniPaint - https://github.com/viliusle/miniPaint
  * author: Vilius L.
  */
 
-import config from "../../config.js";
-import Helper_class from "../../libs/helpers.js";
+import config from "../../config";
+import Helper_class from "../../libs/helpers";
 
 const Helper = new Helper_class();
 
@@ -328,11 +329,11 @@ class GUI_colors_class {
 			this.buttons.toggleColorSwatches.attr("aria-pressed", "true" === this.buttons.toggleColorSwatches.attr("aria-pressed") ? "false" : "true");
 			const isPressed = this.buttons.toggleColorSwatches.attr("aria-pressed") === "true";
 			if (isPressed) {
-				this.sections?.swatchesPlaceholder.parentNode?.insertBefore(this.sections.swatches ? [0], this.sections.swatchesPlaceholder.nextSibling);
+				this.sections?.swatchesPlaceholder.parentNode?.insertBefore(this.sections.swatches ?? [0],this.sections.swatchesPlaceholder.nextSibling);
 				this.sections?.swatchesPlaceholder.parentNode?.removeChild(this.sections.swatchesPlaceholder);
 			} else {
-				this.sections?.swatches ? [0].parentNode.insertBefore(this.sections.swatchesPlaceholder, this.sections.swatches[0].nextSibling);
-				this.sections?.swatches ? [0].parentNode.removeChild(this.sections.swatches[0]);
+				this.sections?.swatches ?? [0].parentNode.insertBefore(this.sections.swatchesPlaceholder, this.sections.swatches[0].nextSibling);
+				this.sections?.swatches ?? [0].parentNode.removeChild(this.sections.swatches[0]);
 			}
 			Helper.setCookie("toggle_color_swatches", isPressed ? 1 : 0);
 		});

@@ -1,18 +1,17 @@
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Base_gui_class from "../../core/base-gui.js";
-import Helper_class from "../../libs/helpers.js";
-import alertify from "alertifyjs/build/alertify.min.js";
-import app from "../../app.js";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+import Base_gui_class from "../../core/base-gui";
+import Helper_class from "../../libs/helpers";
+import app from "../../app";
 
 let instance: Image_rotate_class | null = null;
 
 class Image_rotate_class {
-	Base_layers: Base_layers_class;
-	Base_gui: Base_gui_class;
-	Helper: Helper_class;
-	Dialog: Dialog_class;
+	Base_layers = new Base_layers_class;
+	Base_gui = new Base_gui_class;
+	Helper = new Helper_class;
+	Dialog = new Dialog_class;
 
 	constructor() {
 		//singleton
@@ -21,18 +20,13 @@ class Image_rotate_class {
 		}
 		instance = this;
 
-		this.Base_layers = new Base_layers_class();
-		this.Base_gui = new Base_gui_class();
-		this.Helper = new Helper_class();
-		this.Dialog = new Dialog_class();
-
 		this.set_events();
 	}
 
 	set_events() {
 		document.addEventListener("keydown", (event) => {
 			let code = event.keyCode;
-			if (this.Helper.is_input(event.target))
+			if (this.Helper.is_input(event.target as HTMLInputElement))
 				return;
 
 			if (code == 76) {
@@ -72,7 +66,7 @@ class Image_rotate_class {
 				config.need_render = true;
 			},
 		};
-		this.Dialog.show(settings);
+		this.Dialog.show(settings as any);
 	}
 
 	rotate_handler(data: { rotate: string; right_angle: string; }, can_resize = true) {
@@ -92,7 +86,7 @@ class Image_rotate_class {
 				new app.Actions.Bundle_action("rotate_layer", "Rotate Layer", [
 					new app.Actions.Update_layer_action(config.layer.id, {
 						rotate: new_rotate
-					}),
+					} as any),
 					...this.check_sizes(new_rotate)
 				])
 			);
@@ -112,7 +106,7 @@ class Image_rotate_class {
 			new app.Actions.Bundle_action("rotate_layer", "Rotate Layer", [
 				new app.Actions.Update_layer_action(config.layer.id, {
 					rotate: new_rotate
-				}),
+				} as any),
 				...this.check_sizes(new_rotate)
 			])
 		);
@@ -128,7 +122,7 @@ class Image_rotate_class {
 			new app.Actions.Bundle_action("rotate_layer", "Rotate Layer", [
 				new app.Actions.Update_layer_action(config.layer.id, {
 					rotate: new_rotate
-				}),
+				} as any),
 				...this.check_sizes(new_rotate)
 			])
 		);
@@ -169,7 +163,7 @@ class Image_rotate_class {
 				new app.Actions.Update_layer_action(config.layer.id, {
 					x: config.layer.x + dx,
 					y: config.layer.y + dy
-				}),
+				} as any),
 				new app.Actions.Update_config_action({
 					WIDTH: new_width,
 					HEIGHT: new_height

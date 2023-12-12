@@ -1,10 +1,9 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_gui_class from "../../core/base-gui.js";
-import Dialog_class from "../../libs/popup.js";
-import alertify from "alertifyjs/build/alertify.min.js";
-import Tools_settings_class from "../tools/settings.js";
-import Helper_class from "../../libs/helpers.js";
+import app from "../../app";
+import config from "../../config";
+import Base_gui_class from "../../core/base-gui";
+import Dialog_class from "../../libs/popup";
+import Tools_settings_class from "../tools/settings";
+import Helper_class from "../../libs/helpers";
 
 class Image_size_class {
 	Base_gui: Base_gui_class;
@@ -22,8 +21,8 @@ class Image_size_class {
 	size() {
 		let _this = this;
 		let common_dimensions = this.Base_gui.common_dimensions;
-		let units = this.Tools_settings.get_setting("default_units");
-		let resolution = this.Tools_settings.get_setting("resolution");
+		let units = this.Tools_settings.get_setting("default_units") as string;
+		let resolution = this.Tools_settings.get_setting("resolution") as number;
 		let enable_autoresize = this.Tools_settings.get_setting("enable_autoresize");
 
 		let resolutions = ["Custom"];
@@ -46,19 +45,19 @@ class Image_size_class {
 				{name: "enable_autoresize", title: "Enable autoresize:", value: enable_autoresize},
 				{name: "in_proportion", title: "In proportion:", value: false},
 			],
-			on_finish: function (params) {
+			on_finish: function (params: any) {
 				_this.size_handler(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
-	size_handler(data) {
+	size_handler(data: { w: string; h: string; enable_autoresize: number | boolean; resolution: string; layout: string; in_proportion: boolean; }) {
 		let width = parseFloat(data.w);
 		let height = parseFloat(data.h);
 		let ratio = config.WIDTH / config.HEIGHT;
-		let units = this.Tools_settings.get_setting("default_units");
-		let resolution = this.Tools_settings.get_setting("resolution");
+		let units = this.Tools_settings.get_setting("default_units") as string;
+		let resolution = this.Tools_settings.get_setting("resolution") as number;
 
 		if (width < 0){
 			width = 1;
@@ -120,14 +119,14 @@ class Image_size_class {
 						x: Math.round(layer.x / width_ratio),
 						y: Math.round(layer.y / height_ratio),
 					};
-					actions.push(new app.Actions.Update_layer_action(layer.id, data_new));
+					actions.push(new app.Actions.Update_layer_action(layer.id, data_new as any) as any);
 				}
 				if(layer.width != null && layer.height != null) {
 					let data_new = {
 						width: Math.round(layer.width / ratio),
 						height: Math.round(layer.height / ratio),
 					};
-					actions.push(new app.Actions.Update_layer_action(layer.id, data_new));
+					actions.push(new app.Actions.Update_layer_action(layer.id, data_new as any) as any);
 				}
 			}
 		}

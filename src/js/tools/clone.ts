@@ -1,8 +1,9 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
-import Layer_raster_class from "../modules/layer/raster.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
+import Layer_raster_class from "../modules/layer/raster";
 
 class Clone_class extends Base_tools_class {
 	Layer_raster: Layer_raster_class;

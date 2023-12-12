@@ -1,12 +1,13 @@
+// @ts-nocheck
 /*
  * miniPaint - https://github.com/viliusle/miniPaint
  * author: Vilius L.
  */
 
-import config from "../../config.js";
-import Base_layers_class from "../base-layers.js";
-import Tools_settings_class from "../../modules/tools/settings.js";
-import Helper_class from "../../libs/helpers.js";
+import config from "../../config";
+import Base_layers_class from "../base-layers";
+import Tools_settings_class from "../../modules/tools/settings";
+import Helper_class from "../../libs/helpers";
 
 const template = `
 	<span class="trn label">Size:</span>

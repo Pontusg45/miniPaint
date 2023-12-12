@@ -1,6 +1,7 @@
-import config from "../../config.js";
-import Helper_class from "../../libs/helpers.js";
-import Translate_class from "../../libs/jquery.translate.js";
+// @ts-nocheck
+import config from "../../config";
+import Helper_class from "../../libs/helpers";
+import Translate_class from "../../libs/jquery.translate";
 
 let instance: Tools_translate_class | null = null;
 
@@ -48,10 +49,10 @@ class Tools_translate_class {
 
 	load_translations() {
 		let _this = this;
-		let modules_context = require.context("./../../languages/", true, /\.json$/);
+		let modules_context = require.context("./../../languages/", true, /\on$/);
 		modules_context.keys().forEach(function (key: string) {
 			if (key.indexOf("Base" + "/") < 0 && key.indexOf("empty") < 0) {
-				let moduleKey = key.replace("./", "").replace(".json", "");
+				let moduleKey = key.replace("./", "").replace("on", "");
 				let classObj = modules_context(key);
 				
 				for(let i in classObj){

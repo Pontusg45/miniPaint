@@ -1,5 +1,5 @@
-import app from "../app.js";
-import {Base_action} from "./base.js";
+import app from "../app";
+import {Base_action} from "./base";
 
 export class Refresh_layers_gui_action extends Base_action {
   private readonly call_when: string;

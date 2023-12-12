@@ -1,7 +1,7 @@
-import { Layer } from "../../../types/types.js";
-import app from "../app.js";
-import config from "../config.js";
-import { Base_action } from "./base.js";
+import { Layer } from "../../../types/types";
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
 
 type Old_settings_data = {
 	x: number;
@@ -35,7 +35,7 @@ export class Reset_selection_action extends Base_action {
 			y: 0,
 			width: 0,
 			height: 0
-		};
+		} as any;
 		if (this.mirror_selection_settings) {
 			this.mirror_selection_settings.x = 0;
 			this.mirror_selection_settings.y = 0;
@@ -49,7 +49,8 @@ export class Reset_selection_action extends Base_action {
 		super.undo();
 		if (this.old_settings_data && this.settings_reference?.data) {
 			for (let prop of ["x", "y", "width", "height"]) {
-				this.settings_reference.data[prop as keyof Old_settings_data] = this.old_settings_data[prop  as keyof Old_settings_data];
+				// @ts-ignore
+				this.settings_reference.data[prop] = this.old_settings_data[prop  as keyof Old_settings_data];
 				if (this.mirror_selection_settings) {
 					this.mirror_selection_settings[prop as keyof Old_settings_data] = this.old_settings_data[prop  as keyof Old_settings_data];
 				}

@@ -1,8 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
-import Effects_browser_class from "./browser.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
+import Effects_browser_class from "./browser";
 
 class Effects_borders_class {
 	Base_layers: Base_layers_class;
@@ -38,7 +38,7 @@ class Effects_borders_class {
 		let rotate = config.layer.rotate;
 		config.layer.rotate = 0;
 		this.Base_layers.disable_filter(filter_id);
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 		config.layer.rotate = rotate;
 		this.Base_layers.disable_filter(0);
 	}

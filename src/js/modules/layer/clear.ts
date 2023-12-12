@@ -1,6 +1,6 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
 
 class Layer_clear_class {
   private Base_layers: Base_layers_class;

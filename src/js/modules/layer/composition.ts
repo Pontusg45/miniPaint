@@ -1,7 +1,7 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_gui_class from "../../core/base-gui.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_gui_class from "../../core/base-gui";
 
 class Layer_composition_class {
 	POP: Dialog_class;
@@ -58,8 +58,10 @@ class Layer_composition_class {
 				if (params.composition == "-- Default --") {
 					params.composition = "source-over";
 				}
+				// @ts-ignore
 				config.layer.composition = params.composition;
 				config.need_render = true;
+				// @ts-ignore
 				_this.Base_gui_class.GUI_layers.render_layers();
 			},
 			on_finish: function (params: { composition: string; }) {
@@ -71,17 +73,17 @@ class Layer_composition_class {
 					new app.Actions.Bundle_action("change_composition", "Change Composition", [
 						new app.Actions.Update_layer_action(config.layer.id, {
 							composition: params.composition
-						})
+						} as any)
 					])
 				);
 			},
 			on_cancel: function (params: any) {
 				config.layer.composition = initial_composition;
 				config.need_render = true;
-				_this.Base_gui_class.GUI_layers.render_layers();
+				_this.Base_gui_class.GUI_layers?.render_layers();
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 }
 

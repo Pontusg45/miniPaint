@@ -1,6 +1,6 @@
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import File_open_class from "./open.js";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import File_open_class from "./open";
 
 /** 
  * manages files / quick-load
@@ -22,9 +22,9 @@ class File_quickload_class {
 		let _this = this;
 
 		document.addEventListener("keydown", function (event) {
-			let code = event.keyCode;
+			const code = event.keyCode;
 
-			if (code == 121) {
+			if (code === 121) {
 				//F10
 				_this.quickload();
 				event.preventDefault();
@@ -34,13 +34,14 @@ class File_quickload_class {
 
 	quickload() {
 		//load image data
-		let json = localStorage.getItem("quicksave_data");
-		if (json == "" || json == null) {
+		const json = localStorage.getItem("quicksave_data");
+		if (json === "" || json == null) {
 			//nothing was found
 			return false;
 		}
 
 		this.File_open.load_json(json);
+		return true;
 	}
 
 }

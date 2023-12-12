@@ -1,10 +1,11 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
-import Base_selection_class from "../core/base-selection.js";
-import Helper_class from "../libs/helpers.js";
-import Dialog_class from "../libs/popup.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
+import Base_selection_class from "../core/base-selection";
+import Helper_class from "../libs/helpers";
+import Dialog_class from "../libs/popup";
 
 class Select_tool_class extends Base_tools_class {
 	POP: Dialog_class;

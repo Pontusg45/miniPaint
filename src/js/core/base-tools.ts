@@ -3,13 +3,13 @@
  * author: Vilius L.
  */
 
-import config from "../config.js";
-import Base_layers_class from "./base-layers.js";
-import Base_gui_class from "./base-gui.js";
-import app from "../app.js";
-import Helper_class from "../libs/helpers.js";
-import BaseLayers from "./base-layers.js";
-import { Layer, Params } from "../../../types/types.js";
+import config from "../config";
+import Base_layers_class from "./base-layers";
+import Base_gui_class from "./base-gui";
+import app from "../app";
+import Helper_class from "../libs/helpers";
+import BaseLayers from "./base-layers";
+import { Layer, Params } from "../../../types/types";
 
 /**
  * Base tools class, can be used for extending on tools like brush, provides various helping methods.
@@ -335,13 +335,18 @@ class Base_tools_class {
 		// Number inputs return the .value if defined as objects.
 		for (const attributeName in config.TOOL.attributes) {
 			const attribute = config.TOOL.attributes[attributeName];
+			// @ts-ignore
 			if (!isNaN(attribute.value) && attribute.value != null) {
+				// @ts-ignore
 				if (typeof attribute.value === "string") {
+					// @ts-ignore
 					params[attributeName] = attribute;
 				} else {
+					// @ts-ignore
 					params[attributeName] = attribute.value;
 				}
 			} else {
+				// @ts-ignore
 				params[attributeName] = attribute;
 			}
 		}

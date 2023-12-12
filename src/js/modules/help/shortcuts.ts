@@ -1,4 +1,4 @@
-import Dialog_class from "../../libs/popup.js";
+import Dialog_class from "../../libs/popup";
 
 class Help_shortcuts_class {
 	POP: Dialog_class;
@@ -37,7 +37,7 @@ class Help_shortcuts_class {
 				{ title: "Scroll down", value: "Zoom out" },
 			],
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 }

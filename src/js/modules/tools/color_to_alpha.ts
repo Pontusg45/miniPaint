@@ -1,8 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
-import Helper_class from "../../libs/helpers.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
+import Helper_class from "../../libs/helpers";
 
 class Tools_colorToAlpha_class {
 	private POP: Dialog_class;
@@ -38,7 +38,7 @@ class Tools_colorToAlpha_class {
 				void this.apply_affect(params.color);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	apply_affect(color: string) {

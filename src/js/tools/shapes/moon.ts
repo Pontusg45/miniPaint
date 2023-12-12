@@ -1,5 +1,5 @@
-import Base_tools_class from "../../core/base-tools.js";
-import Base_layers_class from "../../core/base-layers.js";
+import Base_tools_class from "../../core/base-tools";
+import Base_layers_class from "../../core/base-layers";
 
 class Moon_class extends Base_tools_class {
 

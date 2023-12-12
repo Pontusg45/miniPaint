@@ -1,14 +1,16 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import ImageFilters from "../../libs/imagefilters.js";
-import glfx from "../../libs/glfx.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+import ImageFilters from "../../libs/imagefilters";
+
+// @ts-ignore
+import glfx from "../../libs/glfx";
 
 class Effects_tiltShift_class {
 	POP: Dialog_class;
 	Base_layers: Base_layers_class;
-	fx_filter: boolean;
+	fx_filter: any;
 
 	constructor() {
 		this.POP = new Dialog_class();
@@ -41,9 +43,9 @@ class Effects_tiltShift_class {
 				{name: "param5", title: "X end:", value: 100, range: [0, 100]},
 				{name: "param6", title: "Y end:", value: 50, range: [0, 100]},
 			],
-			on_change: function (params: { param3: number; param4: number; param5: number; param6: number; }, canvas_preview: { beginPath: () => void; strokeStyle: string; lineWidth: number; moveTo: (arg0: any, arg1: any) => void; lineTo: (arg0: any, arg1: any) => void; stroke: () => void; }, w: any, h: any, canvas_: { width: number; height: number; }) {
+			on_change: function (params: { param3: number; param4: number; param5: number; param6: number; }, canvas_preview: CanvasRenderingContext2D, w: any, h: any, canvas_: HTMLCanvasElement)  {
 				//recalc param by size
-				_this.change(canvas_, params);
+				_this.change(canvas_, params as any);
 
 				//convert % to px for line
 				params.param3 = canvas_.width * params.param3 / 100;
@@ -63,13 +65,13 @@ class Effects_tiltShift_class {
 				_this.save(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	save(params: any) {
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-		let ctx = canvas.getContext("2d");
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data
 		this.change(canvas, params);

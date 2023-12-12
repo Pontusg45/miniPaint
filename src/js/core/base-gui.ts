@@ -3,18 +3,18 @@
  * author: Vilius L.
  */
 
-import config from "../config.js";
-import Base_layers_class from "./base-layers.js";
-import GUI_tools_class from "./gui/gui-tools.js";
-import GUI_preview_class from "./gui/gui-preview.js";
-import GUI_colors_class from "./gui/gui-colors.js";
-import GUI_layers_class from "./gui/gui-layers.js";
-import GUI_information_class from "./gui/gui-information.js";
-import GUI_details_class from "./gui/gui-details.js";
-import GUI_menu_class from "./gui/gui-menu.js";
-import Tools_translate_class from "../modules/tools/translate.js";
-import Tools_settings_class from "../modules/tools/settings.js";
-import Helper_class from "../libs/helpers.js";
+import config from "../config";
+import Base_layers_class from "./base-layers";
+import GUI_tools_class from "./gui/gui-tools";
+import GUI_preview_class from "./gui/gui-preview";
+import GUI_colors_class from "./gui/gui-colors";
+import GUI_layers_class from "./gui/gui-layers";
+import GUI_information_class from "./gui/gui-information";
+import GUI_details_class from "./gui/gui-details";
+import GUI_menu_class from "./gui/gui-menu";
+import Tools_translate_class from "../modules/tools/translate";
+import Tools_settings_class from "../modules/tools/settings";
+import Helper_class from "../libs/helpers";
 
 let instance: Base_gui_class | null = null;
 
@@ -23,8 +23,8 @@ let instance: Base_gui_class | null = null;
  */
 class Base_gui_class {
 
-	Helper: Helper_class = new Helper_class();
-	Base_layers: Base_layers_class = new Base_layers_class();
+	
+	
 
 	last_menu: string = "";
 	grid_size: number[] = [50, 50];
@@ -56,15 +56,17 @@ class Base_gui_class {
 	modules: any;
 	static GUI_tools: GUI_tools_class;
 	static GUI_layers: GUI_layers_class | undefined;
+	Helper!: Helper_class;
+	Base_layers!: Base_layers_class;
 
 
 	constructor() {
+		console.log("Base_gui_class constructor");
 		//singleton
 		if (instance) {
 			return instance;
 		}
 		instance = this;
-
 		this.Helper = new Helper_class();
 		this.Base_layers = new Base_layers_class();
 
@@ -112,10 +114,11 @@ class Base_gui_class {
 
 	load_modules() {
 		const _this = this;
-		const modules_context = require.context("./../modules/", true, /\.js$/);
+		// @ts-ignore
+		const modules_context = require.context("./../modules/", true, /\$/);
 		modules_context.keys().forEach(function (key: string) {
 			if (key.indexOf("Base" + "/") < 0) {
-				const moduleKey = key.replace("./", "").replace(".js", "");
+				const moduleKey = key.replace("./", "").replace("", "");
 				const classObj = modules_context(key);
 				_this.modules[moduleKey] = new classObj.default();
 			}
@@ -127,12 +130,15 @@ class Base_gui_class {
 		const transparency_cookie = this.Helper.getCookie("transparency");
 		if (transparency_cookie === null) {
 			//default
+			// @ts-ignore
 			config.TRANSPARENCY = false;
 		}
 		if (transparency_cookie) {
+			// @ts-ignore
 			config.TRANSPARENCY = true;
 		}
 		else {
+			// @ts-ignore
 			config.TRANSPARENCY = false;
 		}
 
@@ -150,10 +156,10 @@ class Base_gui_class {
 		const snap_cookie = this.Helper.getCookie("snap");
 		if (snap_cookie === null) {
 			//default
-			config.SNAP = true;
+			config.SNAP = String(true);
 		}
 		else {
-			config.SNAP = Boolean(snap_cookie);
+			config.SNAP = String(Boolean(snap_cookie));
 		}
 
 		//guides
@@ -187,7 +193,7 @@ class Base_gui_class {
 
 	init_service_worker() {
 		/*if ('serviceWorker' in navigator) {
-			navigator.serviceWorker.register('./service-worker.js').then(function(reg) {
+			navigator.serviceWorker.register('./service-worker').then(function(reg) {
 				//Successfully registered service worker
 			}).catch(function(err) {
 				console.warn('Error registering service worker', err);
@@ -227,9 +233,12 @@ class Base_gui_class {
 				const target = document.getElementById(this.dataset.target ?? "");
 				target?.classList.toggle("hidden");
 				//save
+				// @ts-ignore
 				if (target.classList.contains("hidden") == false)
+				// @ts-ignore
 					_this.Helper.setCookie(this.dataset.target, 1);
 				else
+				// @ts-ignore
 					_this.Helper.setCookie(this.dataset.target, 0);
 			});
 		}
@@ -306,11 +315,15 @@ class Base_gui_class {
 	load_saved_changes() {
 		const targets = document.querySelectorAll(".toggle");
 		for (let i = 0; i < targets.length; i++) {
+			// @ts-ignore
 			if (targets[i].dataset.target == undefined)
 				continue;
 
+				// @ts-ignore
 			const target = document.getElementById(targets[i].dataset.target);
+			// @ts-ignore
 			const saved = this.Helper.getCookie(targets[i].dataset.target);
+			// @ts-ignore
 			if (saved === 0) {
 				targets[i].classList.toggle("toggled");
 				target?.classList.add("hidden");
@@ -365,6 +378,7 @@ class Base_gui_class {
 
 		const target = document.getElementById(`${canvas_id}_background`) as HTMLCanvasElement;
 
+		// @ts-ignore
 		if (config.TRANSPARENCY == false) {
 			target.className = "transparent-grid white";
 			return false;
@@ -474,7 +488,7 @@ class Base_gui_class {
 	 * @param {int} width
 	 * @param {int} height
 	 */
-	set_size(width: string, height: string) {
+	set_size(width: number, height: number) {
 		config.WIDTH = width;
 		config.HEIGHT = height;
 		this.prepare_canvas();
@@ -512,7 +526,7 @@ class Base_gui_class {
 				theme_name = theme_cookie;
 			}
 			else {
-				theme_name = this.Tools_settings?.get_setting("theme") ?? "";
+				theme_name = this.Tools_settings?.get_setting("theme") as string;
 			}
 		}
 

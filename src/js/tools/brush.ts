@@ -1,8 +1,9 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
-import { Layer } from "../../../types/types.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
+import { Layer } from "../../../types/types";
 
 class Brush_class extends Base_tools_class {
 	params_hash: boolean;

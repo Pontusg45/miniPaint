@@ -1,14 +1,14 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Helper_class from "../../libs/helpers.js";
-import Dialog_class from "../../libs/popup.js";
-import alertify from "alertifyjs/build/alertify.min.js";
-import canvasToBlob from "blueimp-canvas-to-blob/js/canvas-to-blob.min.js";
+// @ts-nocheck
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Helper_class from "../../libs/helpers";
+import Dialog_class from "../../libs/popup";
+import canvasToBlob from "blueimp-canvas-to-blob/js/canvas-to-blob.min";
 import filesaver from "file-saver";
-import GIF from "gif.js.optimized";
-import CanvasToTIFF from "../../libs/canvastotiff.ts/index.js";
-import Tools_settings_class from "../tools/settings.js";
+// import GIF from "gif.optimized";
+import CanvasToTIFF from "../../libs/canvastotiff";
+import Tools_settings_class from "../tools/settings";
 
 let instance: File_save_class | null = null;
 
@@ -18,10 +18,10 @@ let instance: File_save_class | null = null;
  * @author ViliusL
  */
 class File_save_class {
-	Base_layers: Base_layers_class;
-	Helper: Helper_class;
-	POP: Dialog_class;
-	Tools_settings: Tools_settings_class;
+	Base_layers: Base_layers_class = new Base_layers_class;
+	Helper: Helper_class = new Helper_class;
+	POP: Dialog_class = new Dialog_class;
+	Tools_settings: Tools_settings_class = new Tools_settings_class;
 	SAVE_TYPES: {
 		PNG: string; JPG: string;
 		//AVIF: "AV1 Image File Format", //just uncomment it in future to make it work
@@ -85,7 +85,7 @@ class File_save_class {
 		let types = JSON.parse(JSON.stringify(this.SAVE_TYPES));
 		for(let i in types){
 			if(i != "JSON"){
-				delete types[i];
+				types[i];
 			}
 		}
 
@@ -98,7 +98,7 @@ class File_save_class {
 	 */
 	export(){
 		let types = JSON.parse(JSON.stringify(this.SAVE_TYPES));
-		delete types.JSON;
+		typesON;
 
 		this.save_general(types, "Export");
 	}
@@ -196,7 +196,7 @@ class File_save_class {
 				}
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 
 		document.getElementById("pop_data_name").select();
 
@@ -217,7 +217,7 @@ class File_save_class {
 		}
 
 		let canvas = document.createElement("canvas");
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		canvas.width = config.WIDTH;
 		canvas.height = config.HEIGHT;
 
@@ -239,7 +239,7 @@ class File_save_class {
 				{name: "url", title: "URL:", type: "textarea", value: data_url},
 			],
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	update_file_size(file_size: string | number) {
@@ -324,7 +324,7 @@ class File_save_class {
 		if (type != "JSON") {
 			//create temp canvas
 			let canvas = document.createElement("canvas");
-			let ctx = canvas.getContext("2d");
+			let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 			canvas.width = config.WIDTH;
 			canvas.height = config.HEIGHT;
 			this.disable_canvas_smooth(ctx);
@@ -588,8 +588,8 @@ class File_save_class {
 		}
 		else if (type == "JSON") {
 			//json - full data with layers
-			if (this.Helper.strpos(fname, ".json") == false)
-				fname = `${fname  }.json`;
+			if (this.Helper.strpos(fname, "on") == false)
+				fname = `${fname  }on`;
 
 			let data_json = this.export_as_json();
 
@@ -599,7 +599,7 @@ class File_save_class {
 		}
 		else if (type == "GIF") {
 			//gif
-			let cores = navigator.hardwareConcurrency || 4;
+			/* let cores = navigator.hardwareConcurrency || 4;
 			let gif_settings = {
 				workers: cores,
 				quality: 10, //1-30, lower is better
@@ -607,7 +607,7 @@ class File_save_class {
 				width: config.WIDTH,
 				height: config.HEIGHT,
 				dither: "FloydSteinberg-serpentine",
-				workerScript: "./src/js/libs/gifjs/gif.worker.js",
+				workerScript: "./src/js/libs/gifjs/gif.worker",
 			};
 			if (config.TRANSPARENCY == true) {
 				gif_settings.transparent = "rgba(0,0,0,0)";
@@ -630,7 +630,7 @@ class File_save_class {
 			gif.render();
 			gif.on("finished", function (blob: any) {
 				filesaver.saveAs(blob, fname);
-			});
+			}); */
 		}
 	}
 	
@@ -668,7 +668,7 @@ class File_save_class {
 			dd = `0${  dd}`;
 		if (mm < 10)
 			mm = `0${  mm}`;
-		let today = `${yyyy  }-${  mm  }-${  dd}`;
+		today = `${yyyy  }-${  mm  }-${  dd}`;
 
 		//data
 		let export_data = {};

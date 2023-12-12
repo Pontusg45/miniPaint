@@ -1,13 +1,14 @@
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Helper_class from "../../libs/helpers.js";
-import Base_gui_class from "../../core/base-gui.js";
+// @ts-nocheck
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Helper_class from "../../libs/helpers";
+import Base_gui_class from "../../core/base-gui";
 
 class Tools_settings_class {
-  private default_units_config: { pixels: string; inches: string; centimeters: string; millimetres: string; };
-  private Base_gui: Base_gui_class;
-  private POP: Dialog_class;
-  private Helper: Helper_class;
+	private default_units_config: { pixels: string; inches: string; centimeters: string; millimetres: string; };
+	private Base_gui: Base_gui_class;
+	private POP: Dialog_class;
+	private Helper: Helper_class;
 
 	constructor() {
 		this.Base_gui = new Base_gui_class();
@@ -23,16 +24,16 @@ class Tools_settings_class {
 	}
 
 	settings() {
-    const _this = this;
-    const transparency_values = ["squares", "green", "grey"];
-    const resolutions_values = [72, 150, 300, 600];
-    const default_units_all = Object.keys(this.default_units_config);
-    const transparency = this.get_setting("transparency");
-    const theme = this.get_setting("theme");
-    const snap = this.get_setting("snap");
-    const guides = this.get_setting("guides");
-    const safe_search = this.get_setting("safe_search");
-    let exit_confirm = this.get_setting("exit_confirm");
+		const _this = this;
+		const transparency_values = ["squares", "green", "grey"];
+		const resolutions_values = [72, 150, 300, 600];
+		const default_units_all = Object.keys(this.default_units_config);
+		const transparency = this.get_setting("transparency");
+		const theme = this.get_setting("theme");
+		const snap = this.get_setting("snap");
+		const guides = this.get_setting("guides");
+		const safe_search = this.get_setting("safe_search");
+		let exit_confirm = this.get_setting("exit_confirm");
 		let default_units = this.get_setting("default_units");
 		let resolution = this.get_setting("resolution");
 		let thick_guides = this.get_setting("thick_guides");
@@ -41,19 +42,23 @@ class Tools_settings_class {
 		let settings = {
 			title: "Settings",
 			params: [
-				{name: "transparency", title: "Transparent:", value: transparency},
-				{name: "transparency_type", title: "Transparency background:", type: "select",
-					value: config.TRANSPARENCY_TYPE, values: transparency_values},
-				{name: "theme", title: "Theme", values: config.themes, value: theme, type: "select"},
-				{name: "default_units", title: "Units", values: default_units_all, value: default_units, type: "select"},
-				{name: "resolution", title: "Resolution:", type: "select",
-					value: resolution, values: resolutions_values},
-				{name: "snap", title: "Enable snap:", value: snap},
-				{name: "guides", title: "Enable guides:", value: guides},
-				{name: "safe_search", title: "Safe search:", value: safe_search},
-				{name: "exit_confirm", title: "Exit confirmation:", value: exit_confirm},
-				{name: "thick_guides", title: "Thick guides:", value: thick_guides},
-				{name: "enable_autoresize", title: "Enable autoresize:", value: enable_autoresize},
+				{ name: "transparency", title: "Transparent:", value: transparency },
+				{
+					name: "transparency_type", title: "Transparency background:", type: "select",
+					value: config.TRANSPARENCY_TYPE, values: transparency_values
+				},
+				{ name: "theme", title: "Theme", values: config.themes, value: theme, type: "select" },
+				{ name: "default_units", title: "Units", values: default_units_all, value: default_units, type: "select" },
+				{
+					name: "resolution", title: "Resolution:", type: "select",
+					value: resolution, values: resolutions_values
+				},
+				{ name: "snap", title: "Enable snap:", value: snap },
+				{ name: "guides", title: "Enable guides:", value: guides },
+				{ name: "safe_search", title: "Safe search:", value: safe_search },
+				{ name: "exit_confirm", title: "Exit confirmation:", value: exit_confirm },
+				{ name: "thick_guides", title: "Thick guides:", value: thick_guides },
+				{ name: "enable_autoresize", title: "Enable autoresize:", value: enable_autoresize },
 			],
 			on_change: function (params: { theme: any; }) {
 				_this.Base_gui.change_theme(params.theme);
@@ -65,7 +70,7 @@ class Tools_settings_class {
 				_this.save_values(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	save_values(params: { theme: number | boolean; transparency: number | boolean; transparency_type: number | boolean; snap: number | boolean; guides: number | boolean; safe_search: number | boolean; exit_confirm: number | boolean; default_units: string | number | boolean; resolution: number | boolean; thick_guides: number | boolean; enable_autoresize: number | boolean; }) {
@@ -91,7 +96,7 @@ class Tools_settings_class {
 		config.guides_enabled = this.get_setting("guides");
 		this.Base_gui.change_theme(this.get_setting("theme"));
 		this.Base_gui.GUI_information?.update_units();
-		
+
 		//finish
 		this.Base_gui.prepare_canvas();
 		config.need_render = true;
@@ -105,10 +110,10 @@ class Tools_settings_class {
 	 */
 	save_setting(key: string, value: number | boolean) {
 		//prepare
-		if(value === true){
+		if (value === true) {
 			value = 1;
 		}
-		if(value === false){
+		if (value === false) {
 			value = 0;
 		}
 
@@ -122,30 +127,33 @@ class Tools_settings_class {
 	 * @returns {Object|string}
 	 */
 	get_setting(key: string) {
-    const default_values = {
-      "theme": null,
-      "transparency": false,
-      "snap": true,
-      "guides": true,
-      "safe_search": true,
-      "exit_confirm": true,
-      "default_units": Object.keys(this.default_units_config)[0],
-      "default_units_short": Object.values(this.default_units_config)[0],
-      "resolution": 72,
-      "thick_guides": false,
-      "enable_autoresize": config.enable_autoresize_by_default,
-    };
+		if(config == null){
+			return;
+		}
+		const default_values = {
+			"theme": null,
+			"transparency": false,
+			"snap": true,
+			"guides": true,
+			"safe_search": true,
+			"exit_confirm": true,
+			"default_units": Object.keys(this.default_units_config)[0],
+			"default_units_short": Object.values(this.default_units_config)[0],
+			"resolution": 72,
+			"thick_guides": false,
+			"enable_autoresize": config.enable_autoresize_by_default,
+		};
 
-    let value = this.Helper.getCookie(key);
-    if(value == null && default_values[key] != undefined){
+		let value = this.Helper.getCookie(key) as string | number | boolean;
+		if (value == null && default_values[key] != undefined) {
 			//set default value
 			value = default_values[key];
 		}
-		if(key == "safe_search" && config.safe_search_can_be_disabled === false){
+		if (key == "safe_search" && config.safe_search_can_be_disabled === false) {
 			//not allowed
 			value = 1;
 		}
-		if(key == "theme" && value == null) {
+		if (key == "theme" && value == null) {
 			value = config.themes[0];
 			/*if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
 				&& config.themes.includes('dark')) {
@@ -160,10 +168,10 @@ class Tools_settings_class {
 		}
 
 		//finalize values
-		if(value === 1){
+		if (value === 1) {
 			value = true;
 		}
-		if(value === 0){
+		if (value === 0) {
 			value = false;
 		}
 

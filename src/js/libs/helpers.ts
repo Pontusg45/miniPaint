@@ -10,6 +10,7 @@ class Helper_class {
   time: number;
 
   constructor() {
+    console.log("Helper_class init");
     this.time = 0;
   }
 
@@ -78,7 +79,8 @@ class Helper_class {
     let parsedCookie: {
       [key: string]: string;
     };
-    if (cookie === undefined)
+    console.log(cookie);
+    if (cookie === undefined || cookie === "")
       parsedCookie = {};
     else
       parsedCookie = JSON.parse(cookie) as {

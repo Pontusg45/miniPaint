@@ -1,3 +1,4 @@
+
 import { ConfigType } from "./config";
 import Base_gui_class from "./core/base-gui";
 import Base_layers_class from "./core/base-layers";
@@ -31,7 +32,7 @@ import {
   Toggle_layer_visibility_action,
   Update_config_action,
   Update_layer_image_action, Update_layer_action,
-} from "./actions/index.js";
+} from "./actions/index";
 
 // Store singletons for easy access
 export default {

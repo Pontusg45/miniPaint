@@ -1,19 +1,19 @@
-import config from "../config.js";
-import app from "../app.js";
-import { Base_action } from "./base.js";
+import config from "../config";
+import app from "../app";
+import { Base_action } from "./base";
 import Base_layers_class from "../core/base-layers";
-import {Select_next_layer_action} from "./select-next-layer";
-import {Select_previous_layer_action} from "./select-previous-layer";
-import {Insert_layer_action} from "./insert-layer";
-import { Layer } from "../../../types/types.js";
+import { Select_next_layer_action } from "./select-next-layer";
+import { Select_previous_layer_action } from "./select-previous-layer";
+import { Insert_layer_action } from "./insert-layer";
+import { Layer } from "../../../types/types";
 
 export class Delete_layer_action extends Base_action {
-  private readonly layer_id: number;
-  private readonly force: boolean;
-  private insert_layer_action: Insert_layer_action | null;
-  private select_layer_action: Select_next_layer_action | null | Select_previous_layer_action;
-  private delete_index: number |null = 0;
-  private deleted_layer: Layer | null;
+	private readonly layer_id: number;
+	private readonly force: boolean;
+	private insert_layer_action: Insert_layer_action | null;
+	private select_layer_action: Select_next_layer_action | null | Select_previous_layer_action;
+	private delete_index: number | null = 0;
+	private deleted_layer: Layer | null;
 	/**
 	 * removes layer
 	 *
@@ -27,7 +27,7 @@ export class Delete_layer_action extends Base_action {
 		this.insert_layer_action = null;
 		this.select_layer_action = null;
 		this.delete_index = null;
-		this.deleted_layer = null ;
+		this.deleted_layer = null;
 	}
 
 	async do() {
@@ -36,12 +36,12 @@ export class Delete_layer_action extends Base_action {
 		const force = this.force;
 
 		// Determine if there is a layer to delete, abort if not
-    let i = 0;
+		let i = 0;
 		for (const layer of config.layers) {
 			if (layer.id == id) {
 				this.delete_index = i;
 			}
-      i++;
+			i++;
 		}
 		if (this.delete_index === null) {
 			throw new Error("Aborted - Layer to delete not found");
@@ -77,7 +77,9 @@ export class Delete_layer_action extends Base_action {
 		this.deleted_layer = config.layers.splice(this.delete_index, 1)[0];
 
 		// Estimate memory
+		// @ts-ignore
 		if (this.deleted_layer.link && this.deleted_layer.link.src && typeof this.deleted_layer.link.src === "string") {
+			// @ts-ignore
 			this.memory_estimate = new Blob([this.deleted_layer.link.src]).size;
 		}
 
@@ -88,9 +90,9 @@ export class Delete_layer_action extends Base_action {
 	async undo() {
 		super.undo();
 		if (this.deleted_layer) {
-      if (typeof this.delete_index === "number") {
-        config.layers.splice(this.delete_index, 0, this.deleted_layer);
-      }
+			if (typeof this.delete_index === "number") {
+				config.layers.splice(this.delete_index, 0, this.deleted_layer);
+			}
 			this.delete_index = null;
 			this.deleted_layer = null;
 		}

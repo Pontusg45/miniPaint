@@ -1,8 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_tools_class from "../../core/base-tools.js";
-import Base_layers_class from "../../core/base-layers.js";
-import { Layer } from "../../../../types/types.js";
+import app from "../../app";
+import config from "../../config";
+import Base_tools_class from "../../core/base-tools";
+import Base_layers_class from "../../core/base-layers";
+import { Layer } from "../../../../types/types";
 
 class Heart_class extends Base_tools_class {
 	ctx: CanvasRenderingContext2D;
@@ -72,7 +72,7 @@ class Heart_class extends Base_tools_class {
 		ctx.restore();
 	}
 
-	draw_shape(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, coords: boolean | number[][] | undefined) {
+	draw_shape(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, coords?: boolean | number[][]) {
 		ctx.lineJoin = "round";
 
 		ctx.beginPath();

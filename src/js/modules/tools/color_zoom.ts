@@ -1,8 +1,8 @@
-import { DialogConfig } from "../../../../types/types.js";
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
+import { DialogConfig } from "../../../../types/types";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
 
 class Tools_colorZoom_class {
 	POP: Dialog_class;
@@ -36,14 +36,14 @@ class Tools_colorZoom_class {
 			on_finish: function (params: { zoom: any; center: any; }) {
 				_this.save_zoom(params.zoom, params.center);
 			},
-		} as DialogConfig;
-		this.POP.show(settings);
+		} as any;
+		this.POP.show(settings as any);
 	}
 
 	save_zoom(zoom: any, center: any) {
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-		let ctx = canvas.getContext("2d");
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data
 		let img = ctx.getImageData(0, 0, canvas.width, canvas.height);

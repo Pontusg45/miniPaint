@@ -1,8 +1,8 @@
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
-import Helper_class from "../libs/helpers.js";
-import Base_gui_class from "../core/base-gui.js";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
+import Helper_class from "../libs/helpers";
+import Base_gui_class from "../core/base-gui";
 
 class Pick_color_class extends Base_tools_class {
 	ctx!: CanvasRenderingContext2D;
@@ -86,12 +86,13 @@ class Pick_color_class extends Base_tools_class {
 			this.Base_layers.convert_layers_to_canvas(this.ctx, null, false);
 		}
 		//find color
-		let c = this.ctx.getImageData(mouse?.x, mouse?.y, 1, 1).data;
+		let c = this.ctx.getImageData(mouse!.x, mouse!.y, 1, 1).data;
 		let hex = this.Helper.rgbToHex(c[0], c[1], c[2]);
 
 		const newColorDefinition = { hex };
 		if (c[3] > 0) {
 			//set alpha
+			// @ts-ignore
 			newColorDefinition.a = c[3];
 		}
 		this.Base_gui.GUI_colors?.set_color(newColorDefinition);

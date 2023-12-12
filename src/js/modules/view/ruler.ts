@@ -1,8 +1,9 @@
-import config from "../../config.js";
-import Helper_class from "../../libs/helpers.js";
-import Base_gui_class from "../../core/base-gui.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Tools_settings_class from "../tools/settings.js";
+// @ts-nocheck
+import config from "../../config";
+import Helper_class from "../../libs/helpers";
+import Base_gui_class from "../../core/base-gui";
+import Base_layers_class from "../../core/base-layers";
+import Tools_settings_class from "../tools/settings";
 
 let instance = null;
 

@@ -1,8 +1,9 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
-import Helper_class from "../libs/helpers.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
+import Helper_class from "../libs/helpers";
 
 class Gradient_class extends Base_tools_class {
 
@@ -121,7 +122,7 @@ class Gradient_class extends Base_tools_class {
 		this.Base_layers.render();
 	}
 
-	render(ctx: CanvasRenderingContext2DbeginPath: () => void; rect: (arg0: number, arg1: number, arg2: number, arg3: number) => void; createLinearGradient: (arg0: any, arg1: any, arg2: number, arg3: number) => any; fillStyle: any; fill: () => void; createRadialGradient: (arg0: any, arg1: any, arg2: number, arg3: any, arg4: any, arg5: number) => any; fillRect: (arg0: number, arg1: number, arg2: number, arg3: number) => void; }, layer: { width: number; height: number; params: any; x: number; y: number; }) {
+	render(ctx: CanvasRenderingContext2D, layer: { width: number; height: number; params: any; x: number; y: number; }) {
 		if (layer.width == 0 && layer.height == 0)
 			return;
 

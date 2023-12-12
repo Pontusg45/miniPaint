@@ -1,6 +1,6 @@
-import app from "../app.js";
-import config from "../config.js";
-import { Base_action } from "./base.js";
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
 
 export class Activate_tool_action extends Base_action {
   private key: string;
@@ -35,7 +35,9 @@ export class Activate_tool_action extends Base_action {
 			if (config.TOOL.on_leave != undefined) {
 				moduleKey = config.TOOL.name;
 				const functionName = config.TOOL.on_leave;
-				this.tool_leave_actions = app.GUI?.GUI_tools?.tools_modules?[moduleKey].object[functionName]();
+				// @ts-ignore
+				this.tool_leave_actions = app.GUI?.GUI_tools?.tools_modules?[moduleKey].object[functionName]: () => {};
+				
 				if (this.tool_leave_actions) {
 					for (const action of this.tool_leave_actions) {
 						action.do();
@@ -77,7 +79,8 @@ export class Activate_tool_action extends Base_action {
 		if (config.TOOL.on_activate != undefined) {
       moduleKey = config.TOOL.name;
       const functionName = config.TOOL.on_activate;
-			this.tool_activate_actions = app.GUI?.GUI_tools?.tools_modules[moduleKey].object[functionName]();
+			// @ts-ignore
+			this.tool_activate_actions = app.GUI?.GUI_tools?.tools_modules[moduleKey].object[functionName];
 			if (this.tool_activate_actions) {
 				for (let action of this.tool_activate_actions) {
 					await action.do();

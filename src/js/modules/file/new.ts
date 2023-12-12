@@ -1,10 +1,11 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_gui_class from "../../core/base-gui.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Helper_class from "../../libs/helpers.js";
-import Dialog_class from "../../libs/popup.js";
-import Tools_settings_class from "../tools/settings.js";
+import { Layer } from "../../../../types/types";
+import app from "../../app";
+import config from "../../config";
+import Base_gui_class from "../../core/base-gui";
+import Base_layers_class from "../../core/base-layers";
+import Helper_class from "../../libs/helpers";
+import Dialog_class from "../../libs/popup";
+import Tools_settings_class from "../tools/settings";
 
 /** 
  * manages files / new
@@ -33,24 +34,26 @@ class File_new_class {
 		let height = config.HEIGHT;
 		let common_dimensions = this.Base_gui.common_dimensions;
 		let resolution_types = ["Custom"];
-		let units = this.Tools_settings.get_setting("default_units");
-		let resolution = this.Tools_settings.get_setting("resolution");
+		let units = this.Tools_settings.get_setting("default_units") as string;
+		let resolution = this.Tools_settings.get_setting("resolution") as number;
 
 		for (let i in common_dimensions) {
 			let value = common_dimensions[i];
 			resolution_types.push(`${value[0]  }x${  value[1]  } - ${  value[2]}`);
 		}
 
+		let transparency = true;
 		let transparency_cookie = this.Helper.getCookie("transparency");
 		if (transparency_cookie === null) {
 			//default
-			transparency_cookie = false;
+			transparency_cookie = "";
 		}
-		if (transparency_cookie) {
-			let transparency = true;
+		
+		if (transparency_cookie != "") {
+			transparency = true;
 		}
 		else {
-			let transparency = false;
+			transparency = false;
 		}
 
 		//convert units
@@ -70,7 +73,7 @@ class File_new_class {
 				_this.new_handler(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	async new_handler(response: { width: string; height: string; resolution_type: any; transparency: number; layout: string; }) {
@@ -78,8 +81,8 @@ class File_new_class {
 		let height = parseFloat(response.height);
 		let resolution_type = response.resolution_type;
 		let transparency = response.transparency;
-		let units = this.Tools_settings.get_setting("default_units");
-		let resolution = this.Tools_settings.get_setting("resolution");
+		let units = this.Tools_settings.get_setting("default_units") as string;
+		let resolution = this.Tools_settings.get_setting("resolution") as number;
 
 		if (resolution_type != "Custom") {
 			let dim = resolution_type.split(" ");
@@ -123,7 +126,7 @@ class File_new_class {
 				new app.Actions.Refresh_action_attributes_action("do"),
 				new app.Actions.Reset_layers_action(),
 				new app.Actions.Init_canvas_zoom_action(),
-				new app.Actions.Insert_layer_action({})
+				new app.Actions.Insert_layer_action({} as Layer)
 			])
 		);
 
@@ -131,7 +134,7 @@ class File_new_class {
 		await new Promise(r => setTimeout(r, 10));
 
 		//fit to screen?
-		this.Base_gui.GUI_preview.zoom_auto(true);
+		this.Base_gui.GUI_preview?.zoom_auto(true);
 
 		// Save transparency
 		if (transparency) {

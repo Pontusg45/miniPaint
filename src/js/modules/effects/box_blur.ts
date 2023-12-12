@@ -1,8 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import ImageFilters from "../../libs/imagefilters.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+import ImageFilters from "../../libs/imagefilters";
 
 class Effects_boxBlur_class {
 	POP: Dialog_class;
@@ -39,7 +39,7 @@ class Effects_boxBlur_class {
 				_this.save(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	save(params: any) {
@@ -63,9 +63,7 @@ class Effects_boxBlur_class {
 		let param2 = params.param2;
 		let param3 = params.param3;
 
-		let filtered = ImageFilters.BoxBlur(data, param1, param2, param3);
-
-		return filtered;
+		return ImageFilters.BoxBlur(data as any, param1, param2, param3);
 	}
 
 	demo(canvas_id: string, canvas_thumb: HTMLCanvasElement){

@@ -1,8 +1,9 @@
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import File_open_class from "../modules/file/open.js";
-import Tools_settings_class from "../modules/tools/settings.js";
-import Dialog_class from "../libs/popup.js";
+// @ts-nocheck
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import File_open_class from "../modules/file/open";
+import Tools_settings_class from "../modules/tools/settings";
+import Dialog_class from "../libs/popup";
 
 class Media_class extends Base_tools_class {
   private File_open: File_open_class;
@@ -157,7 +158,7 @@ class Media_class extends Base_tools_class {
 				}
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 }
 

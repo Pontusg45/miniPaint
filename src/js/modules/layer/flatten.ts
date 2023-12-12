@@ -1,6 +1,7 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
+// @ts-nocheck
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
 
 class Layer_flatten_class {
 	Base_layers: Base_layers_class;
@@ -14,7 +15,7 @@ class Layer_flatten_class {
 		let canvas = document.createElement("canvas");
 		canvas.width = config.WIDTH;
 		canvas.height = config.HEIGHT;
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		
 		let layers_sorted = this.Base_layers.get_sorted_layers();
 

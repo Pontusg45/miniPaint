@@ -1,8 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
-import Helper_class from "../../libs/helpers.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
+import Helper_class from "../../libs/helpers";
 
 let instance: Image_autoAdjust_class | null = null;
 
@@ -25,7 +25,7 @@ class Image_autoAdjust_class {
 	set_events() {
 		document.addEventListener("keydown", (event) => {
 			let code = event.keyCode;
-			if (event.target && this.Helper.is_input(event.target))
+			if (event.target && this.Helper.is_input(event.target as HTMLInputElement))
 				return;
 
 			if (code == 70 && event.ctrlKey != true && event.metaKey != true) {
@@ -43,8 +43,8 @@ class Image_autoAdjust_class {
 		}
 
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-		let ctx = canvas.getContext("2d");
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data
 		let img = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -127,7 +127,7 @@ class Image_autoAdjust_class {
 		}
 		target = target_black;
 		let n_fix_black = 0;
-		let done = false;
+		done = false;
 		for (let j = 0; j < cycles_count; j++) {
 			if (n_valid * 100 / n >= target)
 				done = true;

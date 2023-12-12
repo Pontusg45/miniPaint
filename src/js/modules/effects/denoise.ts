@@ -1,13 +1,15 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import glfx from "../../libs/glfx.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+
+// @ts-ignore
+import glfx from "../../libs/glfx";
 
 class Effects_denoise_class {
 	POP: Dialog_class;
 	Base_layers: Base_layers_class;
-	fx_filter: boolean;
+	fx_filter: any;
 
 	constructor() {
 		this.POP = new Dialog_class();
@@ -30,8 +32,8 @@ class Effects_denoise_class {
 			params: [
 				{name: "param1", title: "Exponent:", value: 20, range: [0, 50]},
 			],
-			on_change: function (params: any, canvas_preview: { clearRect: (arg0: number, arg1: number, arg2: any, arg3: any) => void; drawImage: (arg0: boolean, arg1: number, arg2: number) => void; }, w: any, h: any, canvas_: { width: number; height: number; }) {
-				let data = _this.change(canvas_, params);
+			on_change: function (params: any, canvas_preview: CanvasRenderingContext2D, w: any, h: any, canvas_: HTMLCanvasElement) {
+				let data = _this.change(canvas_, params) as HTMLCanvasElement;
 				canvas_preview.clearRect(0, 0, canvas_.width, canvas_.height);
 				canvas_preview.drawImage(data, 0, 0);
 			},
@@ -39,7 +41,7 @@ class Effects_denoise_class {
 				_this.save(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	save(params: any) {

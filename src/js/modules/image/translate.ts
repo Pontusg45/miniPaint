@@ -1,8 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Tools_settings_class from "../tools/settings.js";
-import Helper_class from "../../libs/helpers.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Tools_settings_class from "../tools/settings";
+import Helper_class from "../../libs/helpers";
 
 class Image_translate_class {
 	POP: Dialog_class;
@@ -17,8 +17,8 @@ class Image_translate_class {
 
 	translate() {
 		let _this = this;
-		let units = this.Tools_settings.get_setting("default_units");
-		let resolution = this.Tools_settings.get_setting("resolution");
+		let units = this.Tools_settings.get_setting("default_units") as string;
+		let resolution = this.Tools_settings.get_setting("resolution") as number;
 
 		let pos_x = this.Helper.get_user_unit(config.layer.x, units, resolution);
 		let pos_y = this.Helper.get_user_unit(config.layer.y, units, resolution);
@@ -29,7 +29,7 @@ class Image_translate_class {
 				{name: "x", title: "X position:", value: pos_x},
 				{name: "y", title: "Y position:", value: pos_y},
 			],
-			on_finish: function (params) {
+			on_finish: function (params: { x: string | number; y: string | number; }) {
 				let pos_x = _this.Helper.get_internal_unit(params.x, units, resolution);
 				let pos_y = _this.Helper.get_internal_unit(params.y, units, resolution);
 
@@ -38,12 +38,12 @@ class Image_translate_class {
 						new app.Actions.Update_layer_action(config.layer.id, {
 							x: pos_x,
 							y: pos_y,
-						})
+						} as any)
 					])
 				);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 }
 

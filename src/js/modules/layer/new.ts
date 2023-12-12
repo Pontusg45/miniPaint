@@ -1,10 +1,11 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import GUI_tools_class from "../../core/gui/gui-tools.js";
-import Base_selection_class from "../../core/base-selection.js";
-import Selection_class from "../../tools/selection.js";
-import Helper_class from "../../libs/helpers.js";
+// @ts-nocheck
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import GUI_tools_class from "../../core/gui/gui-tools";
+import Base_selection_class from "../../core/base-selection";
+import Selection_class from "../../tools/selection";
+import Helper_class from "../../libs/helpers";
 
 class Layer_new_class {
 	Base_layers: Base_layers_class;
@@ -68,7 +69,7 @@ class Layer_new_class {
 		
 		//create new layer
 		let canvas = document.createElement("canvas");
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		canvas.width = Math.round(selection.width);
 		canvas.height = Math.round(selection.height);
 		

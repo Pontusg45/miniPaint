@@ -4,7 +4,7 @@
  * A simplification of the color matrix class provided by
  * EaselJS
  *
- * www.createjs.com/docs/easeljs/files/easeljs_filters_ColorFilter.js.html#l41
+ * www.createjs.com/docs/easeljs/files/easeljs_filters_ColorFilter.html#l41
  */
 
 class colorMatrix {

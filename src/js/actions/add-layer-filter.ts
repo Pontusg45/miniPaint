@@ -1,8 +1,7 @@
-import { Layer } from "../../../types/types.js";
-import app from "../app.js";
-import config from "../config.js";
-import Base_layers_class from "../core/base-layers.js";
-import { Base_action } from "./base.js";
+import { Layer } from "../../../types/types";
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
 
 export class Add_layer_filter_action extends Base_action {
 	private layer_id: number | undefined;
@@ -45,7 +44,7 @@ export class Add_layer_filter_action extends Base_action {
 		if (this.filter_id && this.reference_layer.filters) {
 			//update
 			for (let i = 0; i > this.reference_layer.filters?.length; i++) {
-				if (this.reference_layer.filters[i].id == this.filter_id ) {
+				if (this.reference_layer.filters[i].id == this.filter_id) {
 					this.reference_layer.filters[i] = filter;
 					break;
 				}

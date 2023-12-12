@@ -1,21 +1,22 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
-import Dialog_class from "../libs/popup.js";
-import GUI_tools_class from "../core/gui/gui-tools.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
+import Dialog_class from "../libs/popup";
+import GUI_tools_class from "../core/gui/gui-tools";
 
 let instance: Shape_class | null = null;
 
 class Shape_class extends Base_tools_class {
-  private GUI_tools: GUI_tools_class | undefined;
-  private POP: Dialog_class | undefined;
-  private ctx: CanvasRenderingContext2D | undefined;
-  private layer: object | undefined;
-  private preview_width: number | undefined;
-  private preview_height: number | undefined;
+	private GUI_tools: GUI_tools_class | undefined;
+	private POP: Dialog_class | undefined;
+	private ctx: CanvasRenderingContext2D | undefined;
+	private layer: object | undefined;
+	private preview_width: number | undefined;
+	private preview_height: number | undefined;
 
-	constructor(ctx : CanvasRenderingContext2D) {
+	constructor(ctx: CanvasRenderingContext2D) {
 		super();
 
 		//singleton
@@ -38,8 +39,8 @@ class Shape_class extends Base_tools_class {
 
 	set_events() {
 		document.addEventListener("keydown", (event) => {
-      const code = event.keyCode;
-      if (this.Helper.is_input(event.target))
+			const code = event.keyCode;
+			if (this.Helper.is_input(event.target))
 				return;
 
 			if (code == 72) {
@@ -57,18 +58,16 @@ class Shape_class extends Base_tools_class {
 		this.show_shapes();
 	}
 
-  async show_shapes(){
-    const _this = this;
-    let html = "";
+	async show_shapes() {
+		const _this = this;
+		let html = "";
 
-    const data = this.get_shapes();
+		const data = this.get_shapes();
 
-    for (const dataObject of data) {
+		for (const dataObject of data) {
 			html += "<div class=\"item\">";
-			html += `	<canvas id="c_${  dataObject.key  }" width="${  this.preview_width  }" height="${
-				 this.preview_height  }" class="effectsPreview" data-key="${
-				 data[i].key  }"></canvas>`;
-			html += `<div class="preview-item-title">${  data[i].title  }</div>`;
+			html += `	<canvas id="c_${dataObject.key}" width="${this.preview_width}" height="${this.preview_height}" class="effectsPreview" data-key="${data[i].key}"></canvas>`;
+			html += `<div class="preview-item-title">${data[i].title}</div>`;
 			html += "</div>";
 		}
 		for (let i = 0; i < 4; i++) {
@@ -103,9 +102,9 @@ class Shape_class extends Base_tools_class {
 		for (let i in data) {
 			let function_name = "demo";
 			let canvas = document.getElementById(`c_${data[i].key}`);
-			let ctx = canvas.getContext("2d");
+			let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-			if(typeof data[i].object[function_name] == "undefined")
+			if (typeof data[i].object[function_name] == "undefined")
 				continue;
 
 			data[i].object[function_name](ctx, 20, 20, this.preview_width - 40, this.preview_height - 40, null);
@@ -116,25 +115,25 @@ class Shape_class extends Base_tools_class {
 
 	}
 
-	get_shapes(){
-    const list = [];
+	get_shapes() {
+		const list = [];
 
-    for (const i in this.Base_gui.GUI_tools?.tools_modules) {
-      const object = this.Base_gui.GUI_tools.tools_modules[i];
-      if (object.full_key.indexOf("shapes/") == -1 )
+		for (const i in this.Base_gui.GUI_tools?.tools_modules) {
+			const object = this.Base_gui.GUI_tools.tools_modules[i];
+			if (object.full_key.indexOf("shapes/") == -1)
 				continue;
 
 			list.push(object);
 		}
 
-		list.sort(function(a: {
-      title: string;
-    }, b: {
-      title: string;
-    }) {
-      const nameA = a.title.toUpperCase();
-      const nameB = b.title.toUpperCase();
-      if (nameA < nameB) return -1;
+		list.sort(function (a: {
+			title: string;
+		}, b: {
+			title: string;
+		}) {
+			const nameA = a.title.toUpperCase();
+			const nameB = b.title.toUpperCase();
+			if (nameA < nameB) return -1;
 			if (nameA > nameB) return 1;
 			return 0;
 		});

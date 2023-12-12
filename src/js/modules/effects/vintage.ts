@@ -1,8 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Vintage_class from "../../libs/vintage.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+import Vintage_class from "../../libs/vintage";
 
 class Effects_vintage_class {
 	POP: Dialog_class;
@@ -39,13 +39,13 @@ class Effects_vintage_class {
 				_this.save(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	save(params: any) {
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-		let ctx = canvas.getContext("2d");
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data
 		this.change(canvas, params);
@@ -63,8 +63,8 @@ class Effects_vintage_class {
 	}
 
 	demo(canvas_id: string, canvas_thumb: any){
-		let canvas = document.getElementById(canvas_id);
-		let ctx = canvas.getContext("2d");
+		let canvas = document.getElementById(canvas_id) as HTMLCanvasElement;
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		ctx.drawImage(canvas_thumb, 0, 0);
 
 		//now update

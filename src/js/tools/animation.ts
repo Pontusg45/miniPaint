@@ -1,10 +1,12 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
-import GUI_tools_class from "../core/gui/gui-tools.js";
-import Base_gui_class from "../core/base-gui.js";
-import Base_selection_class from "../core/base-selection.js";
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
+import GUI_tools_class from "../core/gui/gui-tools";
+import Base_gui_class from "../core/base-gui";
+import Base_selection_class from "../core/base-selection";
+import { Toggle_layer_visibility_action } from "../actions";
+import { Layer } from "../../../types/types";
 
 class Animation_class extends Base_tools_class {
 
@@ -12,7 +14,7 @@ class Animation_class extends Base_tools_class {
   private GUI_tools: GUI_tools_class;
   private intervalID: null;
   private index: number;
-  private toggle_layer_visibility_action: app.Actions.Toggle_layer_visibility_action;
+  private toggle_layer_visibility_action: Toggle_layer_visibility_action;
 
 	constructor(ctx: CanvasRenderingContext2D) {
 		super();
@@ -49,7 +51,7 @@ class Animation_class extends Base_tools_class {
 				return null;
 			},
 		};
-		this.Base_selection = new Base_selection_class(ctx, sel_config, this.name);
+		this.Base_selection = new Base_selection_class(ctx, sel_config as any, this.name);
 	}
 
 	on_params_update(data: { key: string; }) {
@@ -63,7 +65,9 @@ class Animation_class extends Base_tools_class {
 		}
 		this.stop();
 
+		// @ts-ignore
 		if (params.play) {
+			// @ts-ignore
 			this.start(params.delay);
 		}
 	}
@@ -80,15 +84,14 @@ class Animation_class extends Base_tools_class {
 		];
 	}
 
-	start(delay: number | boolean | object | undefined) {
+	start(delay: number) {
 		const _this = this;
-		delay = parseInt(delay);
 		if (delay < 0)
 			delay = 50;
 
 		this.intervalID = window.setInterval(function () {
 			_this.play(_this);
-		}, delay);
+		}, delay) as any;
 	}
 
 	stop() {

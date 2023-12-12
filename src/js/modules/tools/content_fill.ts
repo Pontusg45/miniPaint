@@ -1,9 +1,9 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
-import ImageFilters from "../../libs/imagefilters.js";
-import Image_trim_class from "../image/trim.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
+import ImageFilters from "../../libs/imagefilters";
+import Image_trim_class from "../image/trim";
 
 class Tools_contentFill_class {
 	POP: Dialog_class;
@@ -57,7 +57,7 @@ class Tools_contentFill_class {
 				_this.apply_affect(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	apply_affect(params: any) {
@@ -77,7 +77,7 @@ class Tools_contentFill_class {
 					y: 0,
 					width: config.WIDTH,
 					height: config.HEIGHT
-				}),
+				} as any),
 				new app.Actions.Update_layer_image_action(canvas)
 			])
 		);
@@ -100,7 +100,7 @@ class Tools_contentFill_class {
 	}
 
 	add_edge_background(canvas: { getContext: (arg0: string) => any; width: number; height: number; }, params: { blur_h: any; blur_v: any; blur_power: any; }) {
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		let trim_info = this.Image_trim.get_trim_info(config.layer.id);
 		let original = this.Base_layers.convert_layer_to_canvas();
 
@@ -156,7 +156,7 @@ class Tools_contentFill_class {
 	}
 
 	add_resized_background(canvas: { getContext: (arg0: string) => any; width: number; height: number; }, params: { blur_h: any; blur_v: any; blur_power: any; }) {
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//draw original resized
 		let original = this.Base_layers.convert_layer_to_canvas();
@@ -170,7 +170,7 @@ class Tools_contentFill_class {
 
 	add_cloned_background(canvas: { getContext: (arg0: string) => any; width: number; height: number; }, params: { clone_count: any; blur_h: any; blur_v: any; blur_power: any; }) {
 		let blocks = params.clone_count;
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		let trim_info = this.Image_trim.get_trim_info(config.layer.id);
 		let original = this.Base_layers.convert_layer_to_canvas();
 

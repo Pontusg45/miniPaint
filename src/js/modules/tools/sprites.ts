@@ -1,11 +1,11 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
-import Image_trim_class from "../image/trim.js";
-import Base_gui_class from "../../core/base-gui.js";
-import { Base_action } from "../../actions/base.js";
-import { DialogConfig, Layer, Params } from "../../../../types/types.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
+import Image_trim_class from "../image/trim";
+import Base_gui_class from "../../core/base-gui";
+import { Base_action } from "../../actions/base";
+import { DialogConfig, Layer, Params } from "../../../../types/types";
 
 class Tools_sprites_class {
 	POP: Dialog_class;
@@ -29,10 +29,11 @@ class Tools_sprites_class {
 				{name: "gap", title: "Gap:", value: "50", values: ["0", "10", "50", "100"]},
 			],
 			on_finish: function (params: Params) {
+				// @ts-ignore
 				_this.generate_sprites(params.gap);
 			},
 		};
-		this.POP.show(settings as DialogConfig);
+		this.POP.show(settings as any);
 	}
 
 	generate_sprites(gap: number, sprite_width?: undefined) {

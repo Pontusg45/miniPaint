@@ -3,15 +3,15 @@
  * author: Vilius L.
  */
 
-import app from "../app.js";
-import config from "../config.js";
-import Base_gui_class from "./base-gui.js";
-import Base_selection_class from "./base-selection.js";
-import Image_trim_class from "../modules/image/trim.js";
-import View_ruler_class from "../modules/view/ruler.js";
-import zoomView from "../libs/zoomView.js";
-import Helper_class from "../libs/helpers.js";
-import { Layer } from "../../../types/types.js";
+import app from "../app";
+import config from "../config";
+import Base_gui_class from "./base-gui";
+import Base_selection_class from "./base-selection";
+import Image_trim_class from "../modules/image/trim";
+import View_ruler_class from "../modules/view/ruler";
+import zoomView from "../libs/zoomView";
+import Helper_class from "../libs/helpers";
+import { Layer } from "../../../types/types";
 
 let instance: Base_layers_class | null = null;
 
@@ -71,7 +71,7 @@ class Base_layers_class {
 
   canvas: HTMLCanvasElement | null = null;
   ctx: CanvasRenderingContext2D | undefined;
-  ctx_preview: CanvasRenderingContext2D = null;
+  ctx_preview: CanvasRenderingContext2D | null = null;
   last_zoom = 1;
   auto_increment = 1;
   stable_dimensions: number[] = [];
@@ -113,6 +113,7 @@ class Base_layers_class {
 
 
   constructor() {
+    console.log("Base_layers_class constructor");
     //singleton
     if (instance) {
       return instance;
@@ -121,11 +122,14 @@ class Base_layers_class {
     instance = this;
 
     this.Base_gui = new Base_gui_class();
-    this.Helper = new Helper_class();
     this.Image_trim = new Image_trim_class();
     this.View_ruler = new View_ruler_class();
 
     this.canvas = document.getElementById("canvas_minipaint") as HTMLCanvasElement;
+    if (!this.canvas) {
+      console.error("Error: Canvas element not found");
+      return;
+    }
     this.ctx = (document.getElementById("canvas_minipaint") as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
     this.ctx_preview = (document.getElementById("canvas_preview") as HTMLCanvasElement).getContext("2d");
     this.last_zoom = 1;
@@ -160,7 +164,7 @@ class Base_layers_class {
     if (this.ctx) {
       this.Base_selection = new Base_selection_class(
         this.ctx,
-        sel_config,
+        sel_config as any,
         "main"
       );
     }
@@ -199,6 +203,7 @@ class Base_layers_class {
    *
    * @param {bool} force
    */
+  // @ts-ignore
   render(force? = false) {
     if (!force) {
       //request render and exit
@@ -256,6 +261,7 @@ class Base_layers_class {
       zoomView.apply();
 
       const newCanvas = this.create_new_canvas(
+        // @ts-ignore
         null,
         config.WIDTH,
         config.HEIGHT
@@ -309,8 +315,10 @@ class Base_layers_class {
     const render_class = config.TOOL.name;
     const render_function = "render_overlay";
 
-    if (typeof this.Base_gui.GUI_tools?.tools_modules?[render_class].object[render_function] != "undefined") {
-      this.Base_gui.GUI_tools?.tools_modules?[render_class].object[render_function](this.ctx);
+    // @ts-ignore
+    if (typeof this.Base_gui.GUI_tools.tools_modules[render_class].object[render_function] != "undefined") {
+      // @ts-ignore
+      this.Base_gui.GUI_tools.tools_modules[render_class].object[render_function](this.ctx);
     }
   }
 
@@ -347,7 +355,7 @@ class Base_layers_class {
   /**
    * LEGACY: use render_objects()
    */
-  renderObjects(ctx: CanvasRenderingContext2D, tempCanvas: HTMLCanvasElement, layers: Base_layers_class[], prepare: { (): void; (): void; (): void; (): any; }, shouldSkip: { (value: any): true | undefined; (arg0: any): any; } | undefined) {
+  renderObjects(ctx: CanvasRenderingContext2D, tempCanvas: HTMLCanvasElement, layers: Layer[], prepare: { (): void; (): void; (): void; (): any; }, shouldSkip: { (value: any): true | undefined; (arg0: any): any; } | undefined) {
     this.render_objects(ctx, tempCanvas, layers, prepare, shouldSkip);
   }
 
@@ -472,6 +480,7 @@ class Base_layers_class {
       // TODO - Not sure why the check should be with null,
       // if nothing will break, then better to check if it's just truthy
       ctx.drawImage(
+        // @ts-ignore
         object.link_canvas != null ? object.link_canvas : object.link,
         -object.width / 2,
         -object.height / 2,
@@ -482,9 +491,15 @@ class Base_layers_class {
       ctx.restore();
     } else {
       //call render function from other module
+
+      // @ts-ignore
       let render_class = object.render_function[0];
+      
+      // @ts-ignore
       let render_function = object.render_function[1];
+      // @ts-ignore
       if (typeof this.Base_gui.GUI_tools.tools_modules[render_class] != "undefined") {
+        // @ts-ignore
         this.Base_gui.GUI_tools.tools_modules[render_class].object[render_function](ctx, object, is_preview);
       } else {
         this.render_success = false;
@@ -500,7 +515,7 @@ class Base_layers_class {
    * @param {canvas.context} ctx
    * @param {object} object
    */
-  pre_render_object(ctx: CanvasRenderingContext2D, object: Base_layers_class) {
+  pre_render_object(ctx: CanvasRenderingContext2D, object: Layer) {
     //apply pre-filters
     for (let i in object.filters) {
       const filter = object.filters[i];
@@ -535,9 +550,10 @@ class Base_layers_class {
    * @param {canvas.context} ctx
    * @param {object} object
    */
-  after_render_object(ctx: CanvasRenderingContext2D, object: Base_layers_class | null) {
+  after_render_object(ctx: CanvasRenderingContext2D, object: Layer | null) {
     //apply post-filters
     for (let i in object?.filters) {
+      // @ts-ignore
       let filter = object.filters[i];
       if (filter.id == this.disabled_filter_id) {
         continue;
@@ -638,7 +654,7 @@ class Base_layers_class {
    *
    * @param {int} id
    */
-  async toggle_visibility(id: string) {
+  async toggle_visibility(id: number) {
     return app.State?.do_action(
       new app.Actions.Toggle_layer_visibility_action(id)
     );
@@ -675,7 +691,7 @@ class Base_layers_class {
     return app.State?.do_action(
       new app.Actions.Update_layer_action(id, {
         opacity: value
-      })
+      } as any)
     );
   }
 
@@ -797,7 +813,7 @@ class Base_layers_class {
    * @param {string} name
    * @param {object} params
    */
-  add_filter(layer_id?: number, name: undefined, params: undefined) {
+  add_filter(layer_id?: number, name?: string, params?: undefined) {
     return app.State?.do_action(
       new app.Actions.Add_layer_filter_action(layer_id, name, params)
     );
@@ -870,7 +886,7 @@ class Base_layers_class {
     if (actual_area === true && link.type == "image") {
       canvas.getContext("2d")?.drawImage(link.link as CanvasImageSource, 0, 0);
     } else {
-      this.render_object(canvas.getContext("2d") as CanvasRenderingContext2D, link as Base_layers_class);
+      this.render_object(canvas.getContext("2d") as CanvasRenderingContext2D, link);
     }
 
     //trim
@@ -950,7 +966,7 @@ class Base_layers_class {
    * @returns {object}
    */
   find_filter_by_id(filter_id: number, filter_name: string, layer_id = 0) {
-    let layer: Base_layers_class | null = null;
+    let layer: Layer | null = null;
     if (layer_id === 0) {
       layer = config.layer;
     } else {

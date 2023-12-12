@@ -1,15 +1,17 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import ImageFilters from "../../libs/imagefilters.js";
-import glfx from "../../libs/glfx.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+import ImageFilters from "../../libs/imagefilters";
+// @ts-ignore
+import glfx from "../../libs/glfx";
+import { ImageFiltersType } from "../../../../types/types";
 
 class Effects_blueprint_class {
 	POP: Dialog_class;
 	Base_layers: Base_layers_class;
-	ImageFilters: {};
-	fx_filter: boolean;
+	ImageFilters: ImageFiltersType;
+	fx_filter: any;
 	grid: boolean = false;
 	grid_size: any[] = [];
 
@@ -64,11 +66,11 @@ class Effects_blueprint_class {
 		//denoise
 		let texture = this.fx_filter.texture(canvas);
 		this.fx_filter.draw(texture).denoise(20).update();	//effect
-		canvas = this.fx_filter;
+		canvas = this.fx_filter as any;
 		
 		//Brightness
-		let img = ctx.getImageData(0, 0, width, height);
-		let img = this.ImageFilters.BrightnessContrastPhotoshop(img, 80, 0);
+		img = ctx.getImageData(0, 0, width, height);
+		img = this.ImageFilters.BrightnessContrastPhotoshop(img, 80, 0);
 		ctx.putImageData(img, 0, 0);
 
 		//merge
@@ -90,7 +92,7 @@ class Effects_blueprint_class {
 	 * @param {CanvasContext} ctx
 	 * @param {Int} size
 	 */
-	draw_grid(ctx: CanvasRenderingContext2D, size: string | number | undefined) {
+	draw_grid(ctx: CanvasRenderingContext2D, size: number) {
 		if (this.grid == false)
 			return;
 
@@ -106,8 +108,6 @@ class Effects_blueprint_class {
 			size = this.grid_size[0];
 			size = this.grid_size[1];
 		}
-		size = parseInt(size);
-		size = parseInt(size);
 		ctx.lineWidth = 1;
 		ctx.beginPath();
 		if (size < 2)
@@ -148,9 +148,9 @@ class Effects_blueprint_class {
 		}
 	}
 
-	demo(canvas_id: string, canvas_thumb: { width: number; height: number; }){
-		let canvas = document.getElementById(canvas_id);
-		let ctx = canvas.getContext("2d");
+	demo(canvas_id: string, canvas_thumb: HTMLCanvasElement){
+		let canvas = document.getElementById(canvas_id) as HTMLCanvasElement;
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		ctx.drawImage(canvas_thumb, 0, 0);
 
 		//now update

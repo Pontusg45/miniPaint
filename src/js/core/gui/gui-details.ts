@@ -1,15 +1,16 @@
+// @ts-nocheck
 /*
  * miniPaint - https://github.com/viliusle/miniPaint
  * author: Vilius L.
  */
 
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Text_class from "../../tools/text.js";
-import Base_layers_class from "../base-layers.js";
-import Tools_settings_class from "../../modules/tools/settings.js";
-import Helper_class from "../../libs/helpers.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Text_class from "../../tools/text";
+import Base_layers_class from "../base-layers";
+import Tools_settings_class from "../../modules/tools/settings";
+import Helper_class from "../../libs/helpers";
 
 const template = `
 	<div class="row">

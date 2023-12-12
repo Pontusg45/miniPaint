@@ -1,4 +1,4 @@
-import GUI_preview_class from "../../core/gui/gui-preview.js";
+import GUI_preview_class from "../../core/gui/gui-preview";
 
 class View_zoom_class {
 	GUI_preview: GUI_preview_class;

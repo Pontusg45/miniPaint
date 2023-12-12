@@ -1,8 +1,9 @@
-import { DialogConfig } from "../../../../types/types.js";
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
+// @ts-nocheck
+import { DialogConfig } from "../../../../types/types";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
 
 class Layer_rename_class {
 	Base_layers: Base_layers_class;

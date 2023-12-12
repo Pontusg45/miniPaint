@@ -1,16 +1,17 @@
+// @ts-nocheck
 /*
  * miniPaint - https://github.com/viliusle/miniPaint
  * author: Vilius L.
  */
 
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../base-layers.js";
-import Helper_class from "../../libs/helpers.js";
-import Layer_rename_class from "../../modules/layer/rename.js";
-import Effects_browser_class from "../../modules/effects/browser.js";
-import Layer_duplicate_class from "../../modules/layer/duplicate.js";
-import Layer_raster_class from "../../modules/layer/raster.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../base-layers";
+import Helper_class from "../../libs/helpers";
+import Layer_rename_class from "../../modules/layer/rename";
+import Effects_browser_class from "../../modules/effects/browser";
+import Layer_duplicate_class from "../../modules/layer/duplicate";
+import Layer_raster_class from "../../modules/layer/raster";
 
 const template = `
 	<button type="button" class="layer_add" id="insert_layer" title="Insert new layer">+</button>

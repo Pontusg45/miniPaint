@@ -1,11 +1,16 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
-import Helper_class from "../../libs/helpers.js";
-import ImageFilters_class from "../../libs/imagefilters.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
+import Helper_class from "../../libs/helpers";
+import ImageFilters_class from "../../libs/imagefilters";
+import { ImageFiltersType } from "../../../../types/types";
 
 class Image_decreaseColors_class {
+	POP: Dialog_class;
+	Base_layers: Base_layers_class;
+	Helper: Helper_class;
+	ImageFilters: ImageFiltersType;
 
 	constructor() {
 		this.POP = new Dialog_class();
@@ -38,18 +43,18 @@ class Image_decreaseColors_class {
 				_this.execute(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	execute(params: { colors: any; greyscale: any; }) {
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-		let ctx = canvas.getContext("2d");
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data
 		let img = ctx.getImageData(0, 0, canvas.width, canvas.height);
 		let data = this.get_decreased_data(img, params.colors, params.greyscale);
-		ctx.putImageData(data, 0, 0);
+		ctx.putImageData(data as any, 0, 0);
 
 		//save
 		return app.State?.do_action(
@@ -67,12 +72,12 @@ class Image_decreaseColors_class {
 
 		//create tmp canvas
 		let canvas = document.createElement("canvas");
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		canvas.width = W;
 		canvas.height = H;
 
 		//collect top colors
-		ctx.drawImage(config.layer.link, 0, 0, Math.ceil(W / block_size), Math.ceil(H / block_size));
+		ctx.drawImage(config.layer.link as any, 0, 0, Math.ceil(W / block_size), Math.ceil(H / block_size));
 		let img_p = ctx.getImageData(0, 0, Math.ceil(W / block_size), Math.ceil(H / block_size));
 		let imgData_p = img_p.data;
 		ctx.clearRect(0, 0, W, H);
@@ -91,6 +96,9 @@ class Image_decreaseColors_class {
 			grey_palette[i] = 0;
 		for (let i = 0; i < palette.length; i++)
 			grey_palette[palette[i][3]]++;
+
+		if (colors == null)
+			throw new Error("colors is null");
 
 		//remove similar colors
 		for (let max = 10 * 3; max < 100 * 3; max = max + 10 * 3) {

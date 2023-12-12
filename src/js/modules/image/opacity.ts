@@ -1,6 +1,6 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
 
 class Image_opacity_class {
 	POP: Dialog_class;
@@ -30,7 +30,7 @@ class Image_opacity_class {
 				config.need_render = true;
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	opacity_handler(data: { opacity: string; }, is_final = true) {
@@ -44,7 +44,7 @@ class Image_opacity_class {
 				new app.Actions.Bundle_action("change_opacity", "Change Opacity", [
 					new app.Actions.Update_layer_action(config.layer.id, {
 						opacity: value
-					})
+					} as any)
 				])
 			);
 		} else {

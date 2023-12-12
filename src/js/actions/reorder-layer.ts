@@ -1,14 +1,15 @@
-import app from "../app.js";
-import { Base_action } from "./base.js";
+import app from "../app";
+import { Base_action } from "./base";
 import Base_layers_class from "../core/base-layers";
+import { Layer } from "../../../types/types";
 
 export class Reorder_layer_action extends Base_action {
   private readonly layer_id: number;
   private readonly direction: number;
-  private reference_layer: Base_layers_class | null | undefined;
-  private reference_target: Base_layers_class | null | undefined;
-  private old_layer_order: number | undefined;
-  private old_target_order: number | undefined;
+  private reference_layer: Layer | null | undefined;
+  private reference_target: Layer | null | undefined;
+  private old_layer_order = 0;
+  private old_target_order = 0;
 	/**
 	 * Reorder layer up or down in the layer stack
 	 *

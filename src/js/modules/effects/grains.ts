@@ -1,10 +1,13 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Helper_class from "../../libs/helpers.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+import Helper_class from "../../libs/helpers";
 
 class Effects_grains_class {
+	POP: Dialog_class;
+	Base_layers: Base_layers_class;
+	Helper: Helper_class;
 
 	constructor() {
 		this.POP = new Dialog_class();
@@ -27,22 +30,22 @@ class Effects_grains_class {
 			params: [
 				{name: "level", title: "Level:", value: "30", range: [0, 50]},
 			],
-			on_change: function (params, canvas_preview, w, h) {
+			on_change: function (params: any, canvas_preview: CanvasRenderingContext2D, w: any, h: any) {
 				let img = canvas_preview.getImageData(0, 0, w, h);
 				let data = _this.change(img, params);
 				canvas_preview.putImageData(data, 0, 0);
 			},
-			on_finish: function (params) {
+			on_finish: function (params: any) {
 				_this.save(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
-	save(params) {
+	save(params: any) {
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-		let ctx = canvas.getContext("2d");
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data
 		let img = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -55,7 +58,7 @@ class Effects_grains_class {
 		);
 	}
 
-	change(data, params) {
+	change(data: ImageData, params: { level: any; }) {
 		if (params.level == 0)
 			return data;
 		let imgData = data.data;
@@ -91,9 +94,9 @@ class Effects_grains_class {
 		return data;
 	}
 
-	demo(canvas_id, canvas_thumb){
-		let canvas = document.getElementById(canvas_id);
-		let ctx = canvas.getContext("2d");
+	demo(canvas_id: string, canvas_thumb: HTMLCanvasElement){
+		let canvas = document.getElementById(canvas_id) as HTMLCanvasElement;
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		ctx.drawImage(canvas_thumb, 0, 0);
 
 		//now update

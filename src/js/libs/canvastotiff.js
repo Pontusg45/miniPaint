@@ -13,7 +13,7 @@
  * @type {{toArrayBuffer: Function, toBlob: Function, toDataURL: Function}}
  * @namespace
  */
-let CanvasToTIFF = {
+var CanvasToTIFF = {
 
 	/**
 	 * @private
@@ -29,8 +29,8 @@ let CanvasToTIFF = {
 	 * Add error handler (function) in case of any error
 	 * @param fn
 	 */
-	setErrorHandler: function(fn: null) {
-		this._error = fn;
+	setErrorHandler: function(fn) {
+		this._error = fn
 	},
 
 	/**
@@ -49,14 +49,14 @@ let CanvasToTIFF = {
 	 * @param {number} [options.dpiY=96] - DPI for Y directions (overrides options.dpi).
 	 * @static
 	 */
-	toArrayBuffer: function(canvas: { width: number; height: number; getContext: (arg0: string) => { (): any; new(): any; getImageData: { (arg0: number, arg1: number, arg2: any, arg3: any): any; new(): any; }; }; }, callback: (arg0: ArrayBuffer) => void, options: { littleEndian?: any; dpiX?: any; dpi?: any; dpiY?: any; }) {
+	toArrayBuffer: function(canvas, callback, options) {
 
 		options = options || {};
 
-		let me = this;
+		var me = this;
 
 		try {
-			let w          = canvas.width,
+			var w          = canvas.width,
 				h          = canvas.height,
 				offset     = 0,
 				iOffset    = 258, // todo calc based on offset field length, add to final offset when compiled
@@ -126,48 +126,48 @@ let CanvasToTIFF = {
 			setStr(sid);
 
 			// date
-			dateStr = `${date.getFullYear()  }:${  pad2(date.getMonth() + 1)  }:${  pad2(date.getDate())  } `;
-			dateStr += `${pad2(date.getHours())  }:${  pad2(date.getMinutes())  }:${  pad2(date.getSeconds())}`;
+			dateStr = date.getFullYear() + ":" + pad2(date.getMonth() + 1) + ":" + pad2(date.getDate()) + " ";
+			dateStr += pad2(date.getHours()) + ":" + pad2(date.getMinutes()) + ":" + pad2(date.getSeconds());
 			setStr(dateStr);
 
 			// Image data here (todo if very large, split into block based copy)
 			file8.set(idata.data, iOffset);
 
 			// make actual async
-			setTimeout(function() { callback(file); }, me._dly);
+			setTimeout(function() { callback(file) }, me._dly);
 		}
 		catch(err) {
-			if (me._error) me._error(err.toString());
+			if (me._error) me._error(err.toString())
 		}
 
-		function pad2(str: string | number | any[]) {
+		function pad2(str) {
 			str += "";
-			return str.length === 1 ? `0${  str}` : str;
+			return str.length === 1 ? "0" + str : str
 		}
 
 		// helper method to move current buffer position
-		function set16(data: number) {
+		function set16(data) {
 			view.setUint16(pos, data, lsb);
-			pos += 2;
+			pos += 2
 		}
 
-		function set32(data: number) {
+		function set32(data) {
 			view.setUint32(pos, data, lsb);
-			pos += 4;
+			pos += 4
 		}
 
-		function setStr(str: string) {
-			let i = 0;
+		function setStr(str) {
+			var i = 0;
 			while(i < str.length) view.setUint8(pos++, str.charCodeAt(i++) & 0xff, lsb);
-			if (pos & 1) pos++;
+			if (pos & 1) pos++
 		}
 
-		function getStrLen(str: string | any[]) {
-			let l = str.length;
-			return l & 1 ? l + 1 : l;
+		function getStrLen(str) {
+			var l = str.length;
+			return l & 1 ? l + 1 : l
 		}
 
-		function addEntry(tag: number, type: number, count: number, value: number, dltOffset: number | undefined) {
+		function addEntry(tag, type, count, value, dltOffset) {
 			set16(tag);
 			set16(type);
 			set32(count);
@@ -187,10 +187,10 @@ let CanvasToTIFF = {
 				set32(value);
 			}
 
-			entries++;
+			entries++
 		}
 
-		function addIDF(offset: undefined) {
+		function addIDF(offset) {
 			idfOffset = offset || pos;
 			pos += 2;
 		}
@@ -199,10 +199,10 @@ let CanvasToTIFF = {
 			view.setUint16(idfOffset, entries, lsb);
 			set32(0);
 
-			let delta = 14 + entries * 12; // 14 = offset to IDF (8) + IDF count (2) + end pointer (4)
+			var delta = 14 + entries * 12; // 14 = offset to IDF (8) + IDF count (2) + end pointer (4)
 
 			// compile offsets
-			for(let i = 0, p, o; i < offsetList.length; i++) {
+			for(var i = 0, p, o; i < offsetList.length; i++) {
 				p = offsetList[i];
 				o = view.getUint32(p, lsb);
 				view.setUint32(p, o + delta, lsb);
@@ -224,8 +224,8 @@ let CanvasToTIFF = {
 	 * @param {object} [options] - an option object - see toArrayBuffer for details
 	 * @static
 	 */
-	toBlob: function(canvas: any, callback: (arg0: Blob) => void, options: any) {
-		this.toArrayBuffer(canvas, function(file: BlobPart) {
+	toBlob: function(canvas, callback, options) {
+		this.toArrayBuffer(canvas, function(file) {
 			callback(new Blob([file], {type: "image/tiff"}));
 		}, options || {});
 	},
@@ -238,7 +238,7 @@ let CanvasToTIFF = {
 	 * **Important**: To avoid memory-leakage you must revoke the returned
 	 * ObjectURL when no longer needed:
 	 *
-	 *     let _URL = self.URL || self.webkitURL || self;
+	 *     var _URL = self.URL || self.webkitURL || self;
 	 *     _URL.revokeObjectURL(url);
 	 *
 	 * Note that CORS requirement must be fulfilled.
@@ -248,10 +248,10 @@ let CanvasToTIFF = {
 	 * @param {object} [options] - an option object - see toArrayBuffer for details
 	 * @static
 	 */
-	toObjectURL: function(canvas: any, callback: (arg0: string) => void, options: any) {
-		this.toBlob(canvas, function(blob: MediaSource | Blob) {
-			let url = self.URL || self.webkitURL || self;
-			callback(url.createObjectURL(blob));
+	toObjectURL: function(canvas, callback, options) {
+		this.toBlob(canvas, function(blob) {
+			var url = self.URL || self.webkitURL || self;
+			callback(url.createObjectURL(blob))
 		}, options || {});
 	},
 
@@ -266,12 +266,12 @@ let CanvasToTIFF = {
 	 * @param {object} [options] - an option object - see toArrayBuffer for details
 	 * @static
 	 */
-	toDataURL: function(canvas: any, callback: (arg0: string) => any, options: any) {
+	toDataURL: function(canvas, callback, options) {
 
-		let me = this;
+		var me = this;
 
-		me.toArrayBuffer(canvas, function(file: Iterable<number>) {
-			let buffer = new Uint8Array(file),
+		me.toArrayBuffer(canvas, function(file) {
+			var buffer = new Uint8Array(file),
 				blockSize = 1<<20,
 				block = blockSize,
 				bs = "", base64 = "", i = 0, l = buffer.length;
@@ -298,7 +298,7 @@ let CanvasToTIFF = {
 						i += block;
 						(i < l)
 							? setTimeout(toBase64, me._dly)
-							: callback(`data:image/tiff;base64,${  base64}`);
+							: callback("data:image/tiff;base64," + base64);
 					})();
 				}
 			})();

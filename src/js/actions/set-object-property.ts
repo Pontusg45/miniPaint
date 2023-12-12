@@ -1,6 +1,6 @@
-import app from "../app.js";
-import config from "../config.js";
-import { Base_action } from "./base.js";
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
 
 export class Set_object_property_action extends Base_action {
 	object: any;

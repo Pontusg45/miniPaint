@@ -1,13 +1,15 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Base_gui_class from "../../core/base-gui.js";
-import Dialog_class from "../../libs/popup.js";
-import Helper_class from "../../libs/helpers.js";
-import Clipboard_class from "../../libs/clipboard.js";
-import alertify from "alertifyjs/build/alertify.min.js";
+// @ts-nocheck
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Base_gui_class from "../../core/base-gui";
+import Dialog_class from "../../libs/popup";
+import Helper_class from "../../libs/helpers";
+import Clipboard_class from "../../libs/clipboard";
 import EXIF from "exif-js";
-import GUI_tools_class from "../../core/gui/gui-tools.js";
+import GUI_tools_class from "../../core/gui/gui-tools";
+
+// @ts-ignore
 import semver_compare from "semver-compare";
 
 let instance: File_open_class | null = null;
@@ -18,12 +20,12 @@ let instance: File_open_class | null = null;
  * @author ViliusL
  */
 class File_open_class {
-	POP: Dialog_class;
-	Base_layers: Base_layers_class;
-	Base_gui: Base_gui_class;
-	Helper: Helper_class;
-	GUI_tools: GUI_tools_class;
-	Clipboard_class: Clipboard_class;
+	POP = new Dialog_class;
+	Base_layers = new Base_layers_class;
+	Base_gui = new Base_gui_class;
+	Helper = new Helper_class;
+	GUI_tools = new GUI_tools_class;
+	Clipboard_class: Clipboard_class | undefined;
 	SAVE_NAME: any;
 
 	constructor() {
@@ -81,27 +83,27 @@ class File_open_class {
 			data: data,
 		};
 		app.State?.do_action(
-			new app.Actions.Insert_layer_action(new_layer)
+			new app.Actions.Insert_layer_action(new_layer as any)
 		);
 	}
 
 	open_file() {
 		let _this = this;
 
-		alertify.success("You can also drag and drop items into browser.");
+		alert("You can also drag and drop items into browser.");
 
-		document.getElementById("tmp").innerHTML = "";
-		let a = document.createElement("input");
+		document.getElementById("tmp")!.innerHTML = "";
+		let a = document.createElement("input")!;
 		a.setAttribute("id", "file_open");
 		a.type = "file";
 		a.multiple = "multiple";
-		document.getElementById("tmp").appendChild(a);
-		document.getElementById("file_open").addEventListener("change", function (e) {
+		document.getElementById("tmp")!.appendChild(a);
+		document.getElementById("file_open")!.addEventListener("change", function (e) {
 			_this.open_handler(e);
 		}, false);
 
 		//force click
-		document.querySelector("#file_open").click();
+		document.querySelector("#file_open")!.click();
 	}
 	
 	open_webcam(){
@@ -126,7 +128,7 @@ class File_open_class {
 				{title: "Stream:", html: "<div id=\"webcam_container\"></div>"},
 			],
 			on_load: function(params: any){
-				document.getElementById("webcam_container").appendChild(video);
+				document.getElementById("webcam_container")!.appendChild(video);
 			},
 			on_finish: function(params: any){
 				//capture data
@@ -134,7 +136,7 @@ class File_open_class {
 				let height = video.videoHeight;
 				
 				let tmpCanvas = document.createElement("canvas");
-				let tmpCanvasCtx = tmpCanvas.getContext("2d");
+				let tmpCanvasCtx = tmpCanvas.getContext("2d") as CanvasRenderingContext2D;
 				tmpCanvas.width = width;
 				tmpCanvas.height = height;
 				tmpCanvasCtx.drawImage(video, 0, 0);
@@ -151,8 +153,8 @@ class File_open_class {
 				};
 				app.State?.do_action(
 					new app.Actions.Bundle_action("open_file_webcam", "Open File Webcam", [
-						new app.Actions.Insert_layer_action(new_layer),
-						new app.Actions.Autoresize_canvas_action(width, height, null, true, true)
+						new app.Actions.Insert_layer_action(new_layer as any),
+						new app.Actions.Autoresize_canvas_action(width, height, undefined, true, true)
 					])
 				);
 				
@@ -173,7 +175,7 @@ class File_open_class {
 				video.load();
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 		
 		navigator.mediaDevices.getUserMedia({audio: false, video: true})
 			.then(handleSuccess)
@@ -183,13 +185,13 @@ class File_open_class {
 	open_dir() {
 		let _this = this;
 
-		document.getElementById("tmp").innerHTML = "";
+		document.getElementById("tmp")!.innerHTML = "";
 		let a = document.createElement("input");
 		a.setAttribute("id", "file_open_dir");
 		a.type = "file";
 		a.webkitdirectory = "webkitdirectory";
-		document.getElementById("tmp").appendChild(a);
-		document.getElementById("file_open_dir").addEventListener("change", function (e) {
+		document.getElementById("tmp")!.appendChild(a);
+		document.getElementById("file_open_dir")!.addEventListener("change", function (e) {
 			_this.open_handler(e);
 		}, false);
 
@@ -214,7 +216,7 @@ class File_open_class {
 				_this.file_open_data_url_handler(params.data);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	file_open_data_url_handler(data: string) {
@@ -262,7 +264,7 @@ class File_open_class {
 				_this.file_open_url_handler(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	async open_handler(e: Event) {
@@ -301,7 +303,7 @@ class File_open_class {
 
 		for (let i = 0, f; i < files.length; i++) {
 			f = files[i];
-			if (!f.type.match("image.*") && !f.name.match(".json")) {
+			if (!f.type.match("image.*") && !f.name.match("on")) {
 				if(dir_opened == false) {
 					alert("Wrong file type, must be image or json.");
 				}
@@ -341,7 +343,7 @@ class File_open_class {
 			};
 			if (f.type == "text/plain")
 				FR.readAsText(f);
-			else if (f.name.match(".json"))
+			else if (f.name.match("on"))
 				FR.readAsText(f);
 			else
 				FR.readAsDataURL(f);
@@ -414,8 +416,8 @@ class File_open_class {
 
 		this.Base_layers.debug_rendering = true;
 		
-		window.fetch("images/test-collection.json").then(function(response) {
-			return response.json();
+		window.fetch("images/test-collectionon").then(function(response) {
+			return responseon();
 		}).then(function(json) {
 			_this.load_json(json, false);
 		}).catch(function(ex) {
@@ -443,10 +445,10 @@ class File_open_class {
 	open_resource(resource_url: RequestInfo | URL) {
 		let _this = this;
 
-		if(resource_url.toLowerCase().indexOf(".json") == resource_url.length - 5){
+		if(resource_url.toLowerCase().indexOf("on") == resource_url.length - 5){
 			//load json
 			window.fetch(resource_url).then(function(response) {
-				return response.json();
+				return responseon();
 			}).then(function(json) {
 				_this.load_json(json, false);
 			}).catch(function(ex) {
@@ -618,7 +620,7 @@ class File_open_class {
 		const actions = [];
 
 		//reset zoom
-		await this.Base_gui.GUI_preview.zoom(100); //reset zoom
+		await this.Base_gui.GUI_preview?.zoom(100); //reset zoom
 
 		//set attributes
 		actions.push(
@@ -681,9 +683,19 @@ class File_open_class {
 	/**
 	 * Returns an action that saves the exif data of the provided object to the current layer
 	 */
-	extract_exif(object: string) {
+	extract_exif(object: {
+		name?: string;
+		size?: number;
+		type?: string;
+		lastModified?: number;
+	}) {
 		let exif_data = {
-			general: [],
+			general: {
+				Name: "",
+				Size: "",
+				Type: "",
+				"Last modified": "",
+			},
 			exif: [],
 		};
 

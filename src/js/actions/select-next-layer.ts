@@ -1,8 +1,8 @@
-import { Layer } from "../../../types/types.js";
-import app from "../app.js";
-import config from "../config.js";
-import Base_layers_class from "../core/base-layers.js";
-import { Base_action } from "./base.js";
+import { Layer } from "../../../types/types";
+import app from "../app";
+import config from "../config";
+import Base_layers_class from "../core/base-layers";
+import { Base_action } from "./base";
 
 export class Select_next_layer_action extends Base_action {
 	reference_layer_id: number;

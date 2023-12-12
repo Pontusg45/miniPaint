@@ -3,9 +3,9 @@
  * author: Vilius L.
  */
 
-import config from "../../config.js";
-import Base_gui_class from "../base-gui.js";
-import Base_layers_class from "../base-layers.js";
+import config from "../../config";
+import Base_gui_class from "../base-gui";
+import Base_layers_class from "../base-layers";
 
 let instance: GUI_preview_class | null = null;
 
@@ -47,7 +47,7 @@ class GUI_preview_class {
 	PREVIEW_SIZE: { w: number; h: number; } | undefined;
 	canvas_offset: { x: number; y: number; } = { x: 0, y: 0 };
 	private mouse_pressed: boolean | undefined;
-	private canvas_preview: CanvasRenderingContext2D | undefined;
+	private canvas_preview: CanvasRenderingContext2D | null | undefined;
 	private readonly GUI: Base_gui_class | undefined;
 	private Base_layers: Base_layers_class | undefined;
 
@@ -181,7 +181,7 @@ class GUI_preview_class {
 
 	render_preview_active_zone() {
 		if (this.canvas_preview == undefined) {
-			this.canvas_preview = (document.getElementById("canvas_preview") as HTMLCanvasElement).getContext("2d");
+			this.canvas_preview = (document.getElementById("canvas_preview") as HTMLCanvasElement).getContext("2d") as CanvasRenderingContext2D;
 		}
 		if (!this.PREVIEW_SIZE || !this.canvas_preview) {
 			throw new Error("PREVIEW_SIZE is undefined");
@@ -302,7 +302,7 @@ class GUI_preview_class {
 		return true;
 	}
 
-	zoom_auto(only_increase = undefined) {
+	zoom_auto(only_increase?: boolean) {
 		const container = document.getElementById("main_wrapper") as HTMLDivElement;
 		const page_w = container.clientWidth;
 		const page_h = container.clientHeight;
@@ -359,7 +359,7 @@ class GUI_preview_class {
 	 * @param {int} x global offset
 	 * @param {int} y global offset
 	 */
-	zoom_to_position(x: string, y: string) {
+	zoom_to_position(x: number, y: number) {
 		const zoom_data = this.zoom_data;
 		zoom_data.move_pos = {
 			x: x,

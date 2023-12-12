@@ -1,6 +1,6 @@
-import Effects_common_class from "../abstract/css.js";
-import Base_layers_class from "../../../core/base-layers.js";
-import config from "../../../config.js";
+import Effects_common_class from "../abstract/css";
+import Base_layers_class from "../../../core/base-layers";
+import config from "../../../config";
 
 class Effects_brightness_class extends Effects_common_class {
 	Base_layers: Base_layers_class;
@@ -35,7 +35,7 @@ class Effects_brightness_class extends Effects_common_class {
 			system_value = 1;
 		}
 
-		return system_value;
+		return system_value.toString();
 	}
 
 	demo(canvas_id: string, canvas_thumb: any){

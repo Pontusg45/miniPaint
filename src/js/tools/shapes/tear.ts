@@ -1,6 +1,6 @@
-import Base_tools_class from "../../core/base-tools.js";
-import Base_layers_class from "../../core/base-layers.js";
-import { Layer } from "../../../../types/types.js";
+import Base_tools_class from "../../core/base-tools";
+import Base_layers_class from "../../core/base-layers";
+import { Layer } from "../../../../types/types";
 
 class Tear_class extends Base_tools_class {
 	ctx: CanvasRenderingContext2D;

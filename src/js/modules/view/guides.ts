@@ -1,10 +1,10 @@
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Helper_class from "../../libs/helpers.js";
-import Base_layers_class from "../../core/base-layers.js";
-import alertify from "alertifyjs/build/alertify.min.js";
-import Tools_settings_class from "../tools/settings.js";
-import app from "../../app.js";
+// @ts-nocheck
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Helper_class from "../../libs/helpers";
+import Base_layers_class from "../../core/base-layers";
+import Tools_settings_class from "../tools/settings";
+import app from "../../app";
 
 class View_guides_class {
 	POP: Dialog_class;
@@ -22,12 +22,12 @@ class View_guides_class {
 
 	insert() {
 		let _this = this;
-		let units = this.Tools_settings.get_setting("default_units");
-		let resolution = this.Tools_settings.get_setting("resolution");
+		let units = this.Tools_settings.get_setting("default_units") as string;
+		let resolution = this.Tools_settings.get_setting("resolution") as number;
 
 		//convert units
 		let position = 20;
-		let position = this.Helper.get_user_unit(position, units, resolution);
+		position = this.Helper.get_user_unit(position, units, resolution);
 
 		let settings = {
 			title: "Insert guides",
@@ -39,14 +39,14 @@ class View_guides_class {
 				_this.insert_handler(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	insert_handler(data: { type: any; position: string; }){
 		let type = data.type;
 		let position = parseFloat(data.position);
-		let units = this.Tools_settings.get_setting("default_units");
-		let resolution = this.Tools_settings.get_setting("resolution");
+		let units = this.Tools_settings.get_setting("default_units") as string;
+		let resolution = this.Tools_settings.get_setting("resolution") as number;
 
 		//convert units
 		position = this.Helper.get_internal_unit(position, units, resolution);
@@ -107,7 +107,7 @@ class View_guides_class {
 				_this.update_handler(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	update_handler(data: { [x: string]: string; }){

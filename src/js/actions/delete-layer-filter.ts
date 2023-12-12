@@ -1,7 +1,7 @@
-import { Layer } from "../../../types/types.js";
-import app from "../app.js";
-import config from "../config.js";
-import { Base_action } from "./base.js";
+import { Layer } from "../../../types/types";
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
 
 export class Delete_layer_filter_action extends Base_action {
 	layer_id: number;

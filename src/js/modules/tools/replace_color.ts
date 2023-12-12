@@ -1,9 +1,9 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
-import Helper_class from "../../libs/helpers.js";
-import { DialogConfig } from "../../../../types/types.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
+import Helper_class from "../../libs/helpers";
+import { DialogConfig } from "../../../../types/types";
 
 class Tools_replaceColor_class {
 	POP: Dialog_class;

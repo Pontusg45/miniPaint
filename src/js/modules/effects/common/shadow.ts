@@ -1,8 +1,8 @@
-import config from "../../../config.js";
-import Effects_common_class from "../abstract/css.js";
-import Dialog_class from "../../../libs/popup.js";
-import Effects_browser_class from "../browser.js";
-import Base_layers_class from "../../../core/base-layers.js";
+import config from "../../../config";
+import Effects_common_class from "../abstract/css";
+import Dialog_class from "../../../libs/popup";
+import Effects_browser_class from "../browser";
+import Base_layers_class from "../../../core/base-layers";
 
 class Effects_brightness_class extends Effects_common_class {
 	POP: Dialog_class;
@@ -64,7 +64,7 @@ class Effects_brightness_class extends Effects_common_class {
 	}
 
 	render_pre(ctx: CanvasRenderingContext2D, data: { params: { value: any; }; }) {
-		let value = this.convert_value(data.params.value, data.params, "save");
+		let value = this.convert_value(data.params.value, data.params as any, "save");
 		let filter = `drop-shadow(${  value  })`;
 
 		if(ctx.filter == "none")

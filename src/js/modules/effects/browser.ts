@@ -1,4 +1,4 @@
-import config from "../../config.js";
+import config from "../../config";
 import Base_tools_class from "../../core/base-tools";
 import Dialog_class from "../../libs/popup";
 
@@ -53,11 +53,12 @@ class Effects_browser_class extends Base_tools_class {
 				for (let i = 0; i < targets.length; i++) {
 					targets[i].addEventListener("click", function (event: any) {
 						//we have click
+						// @ts-ignore
 						let key = this.dataset.key;
 						for (let i in data) {
 							if(data[i].key == key){
 								let function_name = _this.get_function_from_path(key);
-								_this.POP.hide();
+								_this.POP.hide(false);
 								data[i].object[function_name]();
 							}
 						}
@@ -65,7 +66,7 @@ class Effects_browser_class extends Base_tools_class {
 				}
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 
 		//sleep, lets wait till DOM is finished
 		await new Promise(r => setTimeout(r, 10));

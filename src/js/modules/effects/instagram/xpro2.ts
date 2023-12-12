@@ -1,9 +1,11 @@
-import app from "../../../app.js";
-import config from "../../../config.js";
-import Dialog_class from "../../../libs/popup.js";
-import Base_layers_class from "../../../core/base-layers.js";
+import app from "../../../app";
+import config from "../../../config";
+import Dialog_class from "../../../libs/popup";
+import Base_layers_class from "../../../core/base-layers";
 
 class Effects_xpro2_class {
+	POP: Dialog_class;
+	Base_layers: Base_layers_class;
 
 	constructor() {
 		this.POP = new Dialog_class();
@@ -17,8 +19,8 @@ class Effects_xpro2_class {
 		}
 
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-		let ctx = canvas.getContext("2d");
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data
 		let data = this.change(canvas, canvas.width, canvas.height);
@@ -31,11 +33,11 @@ class Effects_xpro2_class {
 		);
 	}
 
-	change(canvas, width, height) {
+	change(canvas: CanvasImageSource, width: number, height: number) {
 
 		//create temp canvas
 		let canvas2 = document.createElement("canvas");
-		let ctx2 = canvas2.getContext("2d");
+		let ctx2 = canvas2.getContext("2d") as CanvasRenderingContext2D;
 		canvas2.width = width;
 		canvas2.height = height;
 		ctx2.drawImage(canvas, 0, 0);
@@ -58,9 +60,9 @@ class Effects_xpro2_class {
 		return canvas2;
 	}
 
-	demo(canvas_id, canvas_thumb){
-		let canvas = document.getElementById(canvas_id);
-		let ctx = canvas.getContext("2d");
+	demo(canvas_id: string, canvas_thumb: HTMLCanvasElement){
+		let canvas = document.getElementById(canvas_id) as HTMLCanvasElement;
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//modify
 		let data = this.change(canvas_thumb, canvas_thumb.width, canvas_thumb.height);

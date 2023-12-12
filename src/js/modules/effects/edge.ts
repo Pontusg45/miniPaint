@@ -1,8 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import ImageFilters from "../../libs/imagefilters.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+import ImageFilters from "../../libs/imagefilters";
 
 class Effects_edge_class {
 	POP: Dialog_class;

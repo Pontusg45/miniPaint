@@ -1,17 +1,17 @@
-import app from "../app.js";
-import config from "../config.js";
-import { Base_action } from "./base.js";
-import Tools_settings_class from "../modules/tools/settings.js";
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
+import Tools_settings_class from "../modules/tools/settings";
 
 export class Autoresize_canvas_action extends Base_action {
-  private Tools_settings: Tools_settings_class;
-  private width = 0;
-  private height = 0;
-  private layer_id = 0;
-  private can_automate: boolean;
-  private ignore_same_size: boolean;
-  private old_config_width = 0;
-  private old_config_height = 0;
+	private Tools_settings: Tools_settings_class;
+	private width = 0;
+	private height = 0;
+	private layer_id = 0;
+	private can_automate: boolean;
+	private ignore_same_size: boolean;
+	private old_config_width = 0;
+	private old_config_height = 0;
 	/**
 	 * autoresize canvas to layer size, based on dimensions, up - always, if 1 layer - down.
 	 *
@@ -20,7 +20,7 @@ export class Autoresize_canvas_action extends Base_action {
 	 * @param {int} layer_id
 	 * @param {boolean} can_automate
 	 */
-	constructor(width = 0, height= 0, layer_id = 0, can_automate: boolean = true, ignore_same_size = false) {
+	constructor(width = 0, height = 0, layer_id = 0, can_automate: boolean = true, ignore_same_size = false) {
 		super("autoresize_canvas", "Auto-resize Canvas");
 		this.Tools_settings = new Tools_settings_class();
 		this.width = width;
@@ -42,7 +42,7 @@ export class Autoresize_canvas_action extends Base_action {
 		let new_config_height = config.HEIGHT;
 		const enable_autoresize = this.Tools_settings.get_setting("enable_autoresize");
 
-		if(enable_autoresize == null){
+		if (enable_autoresize == null) {
 			return;
 		}
 
@@ -82,7 +82,7 @@ export class Autoresize_canvas_action extends Base_action {
 		// Fit zoom when after short pause
 		// @todo - remove setTimeout
 		if (need_fit) {
-			await new Promise((resolve) => {
+			await new Promise<void>((resolve) => {
 				window.setTimeout(() => {
 					app.GUI?.GUI_preview?.zoom_auto();
 					resolve();

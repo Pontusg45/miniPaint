@@ -1,5 +1,5 @@
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
 
 class Help_about_class {
 
@@ -26,7 +26,7 @@ class Help_about_class {
 				{ title: "Website:", html: "<a href=\"https://viliusle.github.io/miniPaint/\">https://viliusle.github.io/miniPaint/</a>" },
 			],
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 }
 

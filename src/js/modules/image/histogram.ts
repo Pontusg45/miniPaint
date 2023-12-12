@@ -1,7 +1,8 @@
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
-import Helper_class from "../../libs/helpers.js";
+// @ts-nocheck
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
+import Helper_class from "../../libs/helpers";
 
 class Image_histogram_class {
 	POP: Dialog_class;
@@ -32,7 +33,7 @@ class Image_histogram_class {
 				{title: "Average:", value: ""},
 			],
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 
 		this.histogram_onload({});
 	}

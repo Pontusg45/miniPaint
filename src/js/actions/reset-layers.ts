@@ -1,7 +1,7 @@
-import { Layer } from "../../../types/types.js";
-import app from "../app.js";
-import config from "../config.js";
-import { Base_action } from "./base.js";
+import { Layer } from "../../../types/types";
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
 
 export class Reset_layers_action extends Base_action {
 	/*
@@ -11,7 +11,7 @@ export class Reset_layers_action extends Base_action {
   private previous_auto_increment: number;
   private delete_actions: Base_action[] | null;
   private insert_action: Base_action | null;
-	constructor(auto_insert: any) {
+	constructor(auto_insert?: any) {
 		super("reset_layers", "Reset Layers");
 		this.auto_insert = auto_insert;
 		this.previous_auto_increment = 0;

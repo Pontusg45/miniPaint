@@ -1,13 +1,13 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Helper_class from "../../libs/helpers.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+import Helper_class from "../../libs/helpers";
 
 class Effects_backAndWhite_class {
-  private POP: Dialog_class;
-  private Base_layers: Base_layers_class;
-  private Helper: Helper_class;
+	private POP: Dialog_class;
+	private Base_layers: Base_layers_class;
+	private Helper: Helper_class;
 
 	constructor() {
 		this.POP = new Dialog_class();
@@ -16,35 +16,39 @@ class Effects_backAndWhite_class {
 	}
 
 	black_and_white() {
-    const _this = this;
+		const _this = this;
 
-    if (config.layer.type != "image") {
+		if (config.layer.type != "image") {
 			alert("This layer must contain an image. Please convert it to raster to apply this tool.");
 			return;
 		}
 
 		//create tmp canvas
-		const canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-    const ctx = canvas.getContext("2d");
+		const canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//calc default level
-    const default_level = this.thresholding(ctx, canvas.width, canvas.height, true);
+		const default_level = this.thresholding(ctx, canvas.width, canvas.height, true);
 
-    const settings = {
+		const settings = {
 			title: "Black and White",
 			preview: true,
 			effects: true,
 			params: [
-				{name: "level", title: "Level:", value: default_level, range: [0, 255]},
-				{name: "dithering", title: "Dithering:", value: false},
+				{ name: "level", title: "Level:", value: default_level, range: [0, 255] },
+				{ name: "dithering", title: "Dithering:", value: false },
 			],
 			on_change: function (params: { dithering: boolean; }, canvas_preview: { getImageData: (arg0: number, arg1: number, arg2: any, arg3: any) => any; putImageData: (arg0: any, arg1: number, arg2: number) => void; }, w: any, h: any) {
 				//check params
 				let level = document.getElementById("pop_data_level");
-				if (params.dithering == false)
+				if (params.dithering == false) {
+					// @ts-ignore
 					level.disabled = false;
-				else
+				}
+				else {
+					// @ts-ignore
 					level.disabled = true;
+				}
 
 				let img = canvas_preview.getImageData(0, 0, w, h);
 				let data = _this.change(img, params);
@@ -54,13 +58,13 @@ class Effects_backAndWhite_class {
 				_this.save(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	save(params: any) {
 		//get canvas from layer
-		const canvas = this.Base_layers.convert_layer_to_canvas(null, true);
-    const ctx = canvas.getContext("2d");
+		const canvas = this.Base_layers.convert_layer_to_canvas(undefined, true);
+		const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data
 		let img = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -69,7 +73,7 @@ class Effects_backAndWhite_class {
 
 		//save
 		return app.State?.do_action(
-			new app.Actions?.Update_layer_image_action(canvas)
+			new app.Actions.Update_layer_image_action(canvas)
 		);
 	}
 
@@ -101,7 +105,7 @@ class Effects_backAndWhite_class {
 		}
 		else {
 			//Floyd–Steinberg dithering
-			let img2 = canvas.getContext("2d").getImageData(0, 0, W, H);
+			let img2 = (canvas.getContext("2d") as CanvasRenderingContext2D).getImageData(0, 0, W, H);
 			let imgData2 = img2.data;
 			for (let j = 0; j < H; j++) {
 				for (let i = 0; i < W; i++) {
@@ -200,9 +204,9 @@ class Effects_backAndWhite_class {
 		return threshold;
 	}
 
-	demo(canvas_id: string, canvas_thumb: { width: number; height: number; }){
-		let canvas = document.getElementById(canvas_id);
-		let ctx = canvas.getContext("2d");
+	demo(canvas_id: string, canvas_thumb: HTMLCanvasElement) {
+		let canvas = document.getElementById(canvas_id) as HTMLCanvasElement;
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		ctx.drawImage(canvas_thumb, 0, 0);
 
 		//now update

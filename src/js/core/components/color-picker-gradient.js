@@ -1,4 +1,4 @@
-import Helper_class from "../../libs/helpers.js";
+import Helper_class from "../../libs/helpers";
 
 const Helper = new Helper_class();
 
@@ -124,14 +124,17 @@ const Helper = new Helper_class();
         hsv.s = Math.max(0, Math.min(1, hsv.s));
         hsv.v = Math.max(0, Math.min(1, hsv.v));
         $el.data("hsv", hsv);
+        // @ts-ignore
         $(primaryRange).uiRange("set_value", (1 - hsv.h) * 360);
         secondaryPick.style.background = Helper.hsvToHex(hsv.h, 1, 1);
         secondaryPickHandle.style.left = `${(hsv.s) * 100  }%`;
         secondaryPickHandle.style.top = `${(1 - hsv.v) * 100  }%`;
     };
 
+    // @ts-ignore
     $.fn.uiColorPickerGradient = function(behavior, ...args) {
         const returnValues = [];
+        // @ts-ignore
         for (let i = 0; i < this.length; i++) {
             let el = this[i];
 
@@ -158,13 +161,16 @@ const Helper = new Helper_class();
 
                 const $el = $(el);
 
+                // @ts-ignore
                 const $primaryRange = $($el.find(".primary_pick input").get(0));
                 $primaryRange
+                // @ts-ignore
                     .uiRange({ vertical: true })
                     .uiRange("set_background", "linear-gradient(to bottom, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)")
                     .on("input", () => {
                         const { hsv } = $el.data();
                         set_hsv($el, {
+                            // @ts-ignore
                             h: 1 - ($primaryRange.uiRange("get_value") / 360),
                             s: hsv.s,
                             v: hsv.v
@@ -172,6 +178,7 @@ const Helper = new Helper_class();
                         $el.trigger("input");
                     });
 
+                    // @ts-ignore
                 $el.find("> input").uiRange();
 
                 const secondaryPick = $el.find(".secondary_pick")[0];

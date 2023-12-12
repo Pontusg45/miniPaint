@@ -1,7 +1,7 @@
-import config from "../../../config.js";
-import Effects_common_class from "../abstract/css.js";
-import Dialog_class from "../../../libs/popup.js";
-import Base_layers_class from "../../../core/base-layers.js";
+import config from "../../../config";
+import Effects_common_class from "../abstract/css";
+import Dialog_class from "../../../libs/popup";
+import Base_layers_class from "../../../core/base-layers";
 
 class Effects_blur_class extends Effects_common_class {
 	POP: Dialog_class;
@@ -27,7 +27,7 @@ class Effects_blur_class extends Effects_common_class {
 		this.show_dialog("blur", params, filter_id);
 	}
 
-	convert_value(value: number, params: { value: any; x?: number; y?: number; color?: string; } | null | undefined, mode: string) : string | number {
+	convert_value(value: number, params: { value: any; x?: number; y?: number; color?: string; } | null | undefined, mode: string) : string {
 
 		//adapt size to real canvas dimensions
 		if (mode == "preview") {

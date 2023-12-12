@@ -1,7 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import alertify from "alertifyjs/build/alertify.min.js";
-import Base_layers_class from "../../core/base-layers.js";
+import { Layer } from "../../../../types/types";
+import app from "../../app";
+import config from "../../config";
+
+import Base_layers_class from "../../core/base-layers";
 
 class Layer_merge_class {
 	Base_layers: Base_layers_class;
@@ -26,25 +27,26 @@ class Layer_merge_class {
 		let previous_layer = this.Base_layers.find_previous(config.layer.id) as Layer;
 		let previous_id = previous_layer.id;
 		ctx.globalAlpha = previous_layer.opacity / 100;
-		ctx.globalCompositeOperation = previous_layer.composition;
+		ctx.globalCompositeOperation = previous_layer.composition as GlobalCompositeOperation;
 		this.Base_layers.render_object(ctx, previous_layer);
 
 		//second layer
 		let current_id = config.layer.id;
 		let current_order = config.layer.order;
 		ctx.globalAlpha = config.layer.opacity / 100;
-		ctx.globalCompositeOperation = config.layer.composition;
+		ctx.globalCompositeOperation = config.layer.composition as GlobalCompositeOperation;
 		this.Base_layers.render_object(ctx, config.layer);
 
 		//create requested layer
-		let params = [];
-		params.type = "image";
-		params.name = `${config.layer.name  } + merged`;
-		params.order = current_order;
-		params.data = canvas.toDataURL("image/png");
+		let params = {
+			order: current_order,
+			name: `${config.layer.name  } + merged`,
+			type: "image",
+			data: canvas.toDataURL("image/png"),
+		};
 		app.State?.do_action(
 			new app.Actions.Bundle_action("merge_layers", "Merge Layers", [
-				new app.Actions.Insert_layer_action(params),
+				new app.Actions.Insert_layer_action(params as any),
 				new app.Actions.Delete_layer_action(current_id),
 				new app.Actions.Delete_layer_action(previous_id)
 			])

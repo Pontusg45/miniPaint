@@ -1,13 +1,16 @@
-import app from "../app.js";
-import config from "../config.js";
-import zoomView from "../libs/zoomView.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_selection_class from "../core/base-selection.js";
-import Base_layers_class from "../core/base-layers.js";
-import GUI_tools_class from "../core/gui/gui-tools.js";
-import Helper_class from "../libs/helpers.js";
-import Dialog_class from "../libs/popup.js";
+// @ts-nocheck
+
+import app from "../app";
+import config from "../config";
+import zoomView from "../libs/zoomView";
+import Base_tools_class from "../core/base-tools";
+import Base_selection_class from "../core/base-selection";
+import Base_layers_class from "../core/base-layers";
+import GUI_tools_class from "../core/gui/gui-tools";
+import Helper_class from "../libs/helpers";
+import Dialog_class from "../libs/popup";
 import WebFont from "webfontloader";
+import { Layer } from "../../../types/types";
 
 /**
  * TODO
@@ -97,9 +100,9 @@ class Font_metrics_class {
 	width: number;
 	height: number;
 	baseline: number;
-	constructor(family: string, size: string | number) {
+	constructor(family: string, size: number) {
 		this.family = family || (family = "Arial");
-		this.size = parseInt(size) || (size = 12);
+		this.size = size || (size = 12);
 		this.kerningMap = new Map();
 
 		// Preparing container
@@ -140,18 +143,22 @@ class Font_metrics_class {
 		baseline = baseline || "alphabetic";
 		kerningTestCanvas.width = this.width;
 		kerningTestCanvas.height = this.height;
+		if (!kerningTestCtx) {
+			throw new Error("Could not get canvas context");
+		}
 		kerningTestCtx.clearRect(0, 0, this.width, this.height);
 		kerningTestCtx.font =
 		` ${  this.size  }px` +
 		` ${  this.family}`;
 		kerningTestCtx.textAlign = "left";
-		kerningTestCtx.textBaseline = baseline;
+		kerningTestCtx.textBaseline = baseline as CanvasTextBaseline; // Cast 'baseline' to 'CanvasTextBaseline'
 		kerningTestCtx.fillStyle = "#000000";
 		kerningTestCtx.fillText(letter, 0, baseline === "alphabetic" ? this.baseline : 0);
 		const pixels = kerningTestCtx.getImageData(0, 0, this.width, this.height).data;
 		const pixelLength = pixels.length;
 		let start = 0;
 		let end = this.height;
+		
 		for (let i = 0; i < pixelLength; i += 4) {
 			if (pixels[i + 3] !== 0) {
 				start = Math.floor(i / 4 / this.width);
@@ -1242,7 +1249,7 @@ class Text_editor_class {
 		// The layer associated with this editor (so data can be updated)
 		this.layer = null;
 		this.document.on_change = () => {
-			this.layer?.data = this.document.lines;
+			this.layer!.data = this.document.lines;
 		};
 	}
 
@@ -1430,6 +1437,7 @@ class Text_editor_class {
 			wrapSizes: {
 			lines: []
 		} as {
+			push(arg0: { size: number; offset: number; baseline: number; }): unknown;
 			lines: any[];
 		},
 			lines: []
@@ -2055,7 +2063,8 @@ class Text_class extends Base_tools_class {
 		boundary: string;
 	};
 	is_fonts_loaded: boolean;
-	selection: { 
+	selection: {
+		rotate: any; 
 		x: number;
 		y: number;
 		width: number;
@@ -2156,7 +2165,7 @@ class Text_class extends Base_tools_class {
 				}
 			}, true);
 
-			this.textarea.addEventListener("keydown", (e: { key: number; shiftKey: number; ctrlKey: number; preventDefault: () => void; }) => {
+			this.textarea.addEventListener("keydown", (e: KeyboardEvent) => {
 				if (config.layer) {
 					let handled = true;
 					const editor = this.get_editor(config.layer);
@@ -2510,7 +2519,7 @@ class Text_class extends Base_tools_class {
 		}
 	}
 
-	on_params_update(param: { value: any; key: number; }) {
+	on_params_update(param: { value: any; key: string; }) {
 		const editor = this.get_editor(config.layer);
 		const value = param.value;
 		const meta = {
@@ -2634,7 +2643,7 @@ class Text_class extends Base_tools_class {
 		}
 	}
 
-	extend_fixed_bounds(layer: { params: { boundary: string; textDirection: string; }; width: number; height: number; }, editor: { textBoundaryWidth: number; textBoundaryHeight: number; }) {
+	extend_fixed_bounds(layer: Layer, editor: { textBoundaryWidth: number; textBoundaryHeight: number; }) {
 		if (layer && layer.params && layer.params.boundary !== "dynamic") {
 			const isHorizontalTextDirection = ["ltr", "rtl"].includes(layer.params.textDirection);
 			let new_width = layer.width;
@@ -2676,7 +2685,7 @@ class Text_class extends Base_tools_class {
 		}
 	}
 
-	get_editor(layer: Base_layers_class) {
+	get_editor(layer: Layer) {
 		let editor = layerEditors.get(layer);
 		if (!editor) {
 			editor = new Text_editor_class();

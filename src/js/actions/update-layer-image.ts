@@ -1,17 +1,18 @@
-import app from "../app.js";
-import config from "../config.js";
-import Helper_class from "../libs/helpers.js";
-import image_store from "./store/image-store.js";
-import { Base_action } from "./base.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Helper_class from "../libs/helpers";
+import image_store from "./store/image-store";
+import { Base_action } from "./base";
 import Base_layers_class from "../core/base-layers";
-import { Layer } from "../../../types/types.js";
+import { Layer } from "../../../types/types";
 
 const Helper = new Helper_class();
 
 export class Update_layer_image_action extends Base_action {
   private canvas: HTMLCanvasElement;
   private layer_id: number | undefined;
-  private old_image_id: string | null | undefined;
+  private old_image_id: string | null;
   private reference_layer: Layer | null | undefined;
   private new_image_id: string | null | undefined;
   private old_link_database_id: null;
@@ -56,7 +57,7 @@ export class Update_layer_image_action extends Base_action {
 			if (!Helper.is_edge_or_ie() && typeof(FileReader) !== "undefined") {
 				// Update image using blob and FileReader (async)
 				await new Promise<void>((resolve) => {
-					
+					// @ts-ignore
 					this.canvas.toBlob((blob: Blob) =>  {
 						
 						let reader = new FileReader();
@@ -89,7 +90,7 @@ export class Update_layer_image_action extends Base_action {
 		} catch (error) {
 			console.log(error);
 			requestAnimationFrame(() => {
-				app.State.free(0, this.database_estimate || 1);
+				app.State?.free(0, this.database_estimate || 1);
 			});
 		}
 

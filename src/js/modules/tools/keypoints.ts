@@ -1,9 +1,10 @@
-import { Layer, Params } from "../../../../types/types.js";
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Helper_class from "../../libs/helpers.js";
-import ImageFilters_class from "../../libs/imagefilters.js";
+// @ts-nocheck
+import { Layer, Params } from "../../../../types/types";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Helper_class from "../../libs/helpers";
+import ImageFilters_class from "../../libs/imagefilters";
 
 /**
  * SIFT: scale-invariant-feature-transform, keypoints

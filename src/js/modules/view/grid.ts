@@ -1,6 +1,6 @@
-import config from "../../config.js";
-import Helper_class from "../../libs/helpers.js";
-import Base_gui_class from "../../core/base-gui.js";
+import config from "../../config";
+import Helper_class from "../../libs/helpers";
+import Base_gui_class from "../../core/base-gui";
 
 let instance: View_grid_class | null = null;
 
@@ -21,7 +21,7 @@ class View_grid_class {
 	set_events() {
 		document.addEventListener("keydown", (event) => {
 			let code = event.keyCode;
-			if (this.Helper.is_input(event.target))
+			if (this.Helper.is_input(event.target as HTMLInputElement))
 				return;
 
 			if (code == 71 && event.ctrlKey != true && event.metaKey != true) {

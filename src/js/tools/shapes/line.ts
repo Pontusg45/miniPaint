@@ -1,8 +1,8 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_tools_class from "../../core/base-tools.js";
-import Base_layers_class from "../../core/base-layers.js";
-import { Layer, Params } from "../../../../types/types.js";
+import app from "../../app";
+import config from "../../config";
+import Base_tools_class from "../../core/base-tools";
+import Base_layers_class from "../../core/base-layers";
+import { Layer, Params } from "../../../../types/types";
 
 class Line_class extends Base_tools_class {
 	ctx: CanvasRenderingContext2D;
@@ -56,7 +56,7 @@ class Line_class extends Base_tools_class {
 			rotate: 0,
 			is_vector: true,
 			color: config.COLOR
-		};
+		} as unknown as Layer;
 		app.State?.do_action(
 			new app.Actions.Bundle_action("new_line_layer", "New Line Layer", [
 				new app.Actions.Insert_layer_action(this.layer)

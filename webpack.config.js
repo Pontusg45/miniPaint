@@ -3,7 +3,7 @@ var path = require("path");
 
 module.exports = {
 	entry: [
-		"./src/js/main.js",
+		"./src/js/main.ts",
 	],
 	output: {
 		path: path.resolve(__dirname, "dist"),
@@ -11,7 +11,7 @@ module.exports = {
 		publicPath: "/dist/"
 	},
 	resolve: {
-		extensions: [".js", ".css"],
+		extensions: [".js", ".css", ".ts"],
 		alias: {
 			Utilities: path.resolve(__dirname, "./../node_modules/")
 		}
@@ -32,6 +32,11 @@ module.exports = {
 				test: /\.js$/,
 				exclude: /(node_modules|bower_components)/,
 				use: ["babel-loader"]
+			},
+			{
+				test: /\.tsx?$/,
+				use: 'ts-loader',
+				exclude: /(node_modules|\.js$)/,
 			},
 		]
 	},

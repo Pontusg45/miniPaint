@@ -1,13 +1,15 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Dialog_class from "../../libs/popup.js";
-import Base_layers_class from "../../core/base-layers.js";
-import glfx from "../../libs/glfx.js";
+import app from "../../app";
+import config from "../../config";
+import Dialog_class from "../../libs/popup";
+import Base_layers_class from "../../core/base-layers";
+
+// @ts-ignore
+import glfx from "../../libs/glfx";
 
 class Effects_vibrance_class {
 	POP: Dialog_class;
 	Base_layers: Base_layers_class;
-	fx_filter: HTMLCanvasElement | null;
+	fx_filter: any;
 
 	constructor() {
 		this.POP = new Dialog_class();
@@ -30,7 +32,7 @@ class Effects_vibrance_class {
 			params: [
 				{name: "level", title: "Level:", value: "0.5", range: [-1, 1], step: 0.01},
 			],
-			on_change: function (params: any, canvas_preview: { clearRect: (arg0: number, arg1: number, arg2: any, arg3: any) => void; drawImage: (arg0: boolean, arg1: number, arg2: number) => void; }, w: any, h: any, canvas_: { width: number; height: number; }) {
+			on_change: function (params: any, canvas_preview: CanvasRenderingContext2D, w: any, h: any, canvas_: HTMLCanvasElement) {
 				let data = _this.change(canvas_, params);
 				canvas_preview.clearRect(0, 0, canvas_.width, canvas_.height);
 				canvas_preview.drawImage(data, 0, 0);
@@ -39,12 +41,12 @@ class Effects_vibrance_class {
 				_this.save(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	save(params: any) {
 		//get canvas from layer
-		let canvas = this.Base_layers.convert_layer_to_canvas(null, true) as HTMLCanvasElement;
+		let canvas = this.Base_layers.convert_layer_to_canvas(undefined, true) as HTMLCanvasElement;
 		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//change data

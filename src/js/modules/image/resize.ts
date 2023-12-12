@@ -1,27 +1,31 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Base_gui_class from "../../core/base-gui.js";
-import Dialog_class from "../../libs/popup.js";
-import ImageFilters_class from "../../libs/imagefilters.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Base_gui_class from "../../core/base-gui";
+import Dialog_class from "../../libs/popup";
+import ImageFilters_class from "../../libs/imagefilters";
+
+// @ts-ignore
 import Hermite_class from "hermite-resize";
-import alertify from "alertifyjs/build/alertify.min.js";
+
+// @ts-ignore
 import Pica from "pica";
-import Helper_class from "../../libs/helpers.js";
-import Tools_settings_class from "../tools/settings.js";
-import { metaDefaults as textMetaDefaults } from "../../tools/text.js";
+import Helper_class from "../../libs/helpers";
+import Tools_settings_class from "../tools/settings";
+import { metaDefaults as textMetaDefaults } from "../../tools/text";
+import { ImageFiltersType } from "../../../../types/types";
 
 let instance: Image_resize_class | null = null;
 
 class Image_resize_class {
-	Base_layers: Base_layers_class;
-	Base_gui: Base_gui_class;
-	POP: Dialog_class;
-	ImageFilters: {};
+	Base_layers = new Base_layers_class;
+	Base_gui = new Base_gui_class;
+	POP: Dialog_class = new Dialog_class;
+	ImageFilters = {} as ImageFiltersType;
 	Hermite: any;
-	Tools_settings: Tools_settings_class;
+	Tools_settings = new Tools_settings_class;
 	pica: any;
-	Helper: Helper_class;
+	Helper = new Helper_class;
 
 	constructor() {
 		//singleton
@@ -45,7 +49,7 @@ class Image_resize_class {
 	set_events() {
 		document.addEventListener("keydown", (event) => {
 			let code = event.keyCode;
-			if (this.Helper.is_input(event.target))
+			if (this.Helper.is_input(event.target as HTMLInputElement))
 				return;
 
 			if (code == 82 && event.ctrlKey != true && event.metaKey != true) {
@@ -58,8 +62,8 @@ class Image_resize_class {
 
 	resize() {
 		let _this = this;
-		let units = this.Tools_settings.get_setting("default_units");
-		let resolution = this.Tools_settings.get_setting("resolution");
+		let units = this.Tools_settings.get_setting("default_units") as string;
+		let resolution = this.Tools_settings.get_setting("resolution") as number;
 
 		//convert units
 		let width = this.Helper.get_user_unit(config.WIDTH, units, resolution);
@@ -81,7 +85,7 @@ class Image_resize_class {
 				_this.do_resize(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	async do_resize(params: { width: number; height: number; width_percent: number; height_percent: number; layers: string; }) {
@@ -99,7 +103,7 @@ class Image_resize_class {
 			let skips = 0;
 			for (let i in config.layers) {
 				try {
-					actions = actions.concat(await this.resize_layer(config.layers[i], params));
+					actions = actions.concat(await this.resize_layer(config.layers[i] as any, params as any));
 				} catch (error) {
 					skips++;
 				}
@@ -107,11 +111,11 @@ class Image_resize_class {
 			if (skips > 0) {
 				alert(`${skips  } layer(s) were skipped.`);
 			}
-			actions = actions.concat(this.resize_gui(params));
+			actions = actions.concat(this.resize_gui(params as any));
 		}
 		else {
 			//only active
-			actions = actions.concat(await this.resize_layer(config.layer, params));
+			actions = actions.concat(await this.resize_layer(config.layer as any, params as any));
 		}
 		return app.State?.do_action(
 			new app.Actions.Bundle_action("resize_layers", "Resize Layers", actions)
@@ -126,8 +130,8 @@ class Image_resize_class {
 	 * @returns {Promise<object>} Returns array of actions to perform
 	 */
 	async resize_layer(layer: Base_layers_class, params: { mode: any; width: string; height: string; width_percent: string; height_percent: string; sharpen: any; layers: string; }) {
-		let units = this.Tools_settings.get_setting("default_units");
-		let resolution = this.Tools_settings.get_setting("resolution");
+		let units = this.Tools_settings.get_setting("default_units") as string;
+		let resolution = this.Tools_settings.get_setting("resolution") as number;
 		let mode = params.mode;
 		let width = parseFloat(params.width);
 		let height = parseFloat(params.height);
@@ -194,7 +198,7 @@ class Image_resize_class {
 					data,
 					width: layer.width * xratio,
 					height: layer.height * yratio
-				})
+				} as any)
 			];
 		}
 		
@@ -207,7 +211,7 @@ class Image_resize_class {
 					y: new_y,
 					width: layer.width * xratio,
 					height: layer.height * yratio
-				})
+				} as any)
 			];
 		}
 		
@@ -220,11 +224,11 @@ class Image_resize_class {
 		
 		//get canvas from layer
 		let canvas = this.Base_layers.convert_layer_to_canvas(layer.id, true, false);
-		let ctx = canvas.getContext("2d");
+		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		//validate
 		if (mode == "Hermite" && (width > canvas.width || height > canvas.height)) {
-			alertify.warning("Scaling up is not supported in Hermite, using Lanczos.");
+			alert("Scaling up is not supported in Hermite, using Lanczos.");
 			mode = "Lanczos";
 		}
 		
@@ -255,7 +259,7 @@ class Image_resize_class {
 			let tmp_data = document.createElement("canvas");
 			tmp_data.width = canvas.width;
 			tmp_data.height = canvas.height;
-			tmp_data.getContext("2d").drawImage(canvas, 0, 0);
+			tmp_data.getContext("2d")?.drawImage(canvas, 0, 0);
 			
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			canvas.width = width;
@@ -280,13 +284,13 @@ class Image_resize_class {
 				height: canvas.height,
 				width_original: canvas.width,
 				height_original: canvas.height
-			})
+			} as any)
 		];
 	}
 	
 	resize_gui(params: { width: string; height: string; width_percent: string; height_percent: string; }) {
-		let units = this.Tools_settings.get_setting("default_units");
-		let resolution = this.Tools_settings.get_setting("resolution");
+		let units = this.Tools_settings.get_setting("default_units") as string;
+		let resolution = this.Tools_settings.get_setting("resolution") as number;
 
 		let width = parseFloat(params.width);
 		let height = parseFloat(params.height);

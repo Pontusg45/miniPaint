@@ -3,8 +3,8 @@
  * author: Vilius L.
  */
 
-import { Layer } from "../../../types/types.js";
-import config from "../config.js";
+import { Layer } from "../../../types/types";
+import config from "../config";
 
 let instance: Base_selection_class | null = null;
 const settings_all: {
@@ -70,6 +70,7 @@ class Base_selection_class {
 	 */
 	constructor(ctx: CanvasRenderingContext2D, settings?: Layer | undefined, key?: string) {
 		if (key != null) {
+			// @ts-ignore
 			settings_all[key] = settings;
 		}
 
@@ -328,10 +329,11 @@ class Base_selection_class {
 			this.ctx.stroke(circle);
 
 			//register position
+			// @ts-ignore
 			this.selected_obj_positions ? [drag_type] = {
 				cursor: cursor,
 				path: circle,
-			}
+			} : null;
 		}
 
 		//draw rotation
@@ -473,6 +475,7 @@ class Base_selection_class {
 			else if (is_drag_type_bottom) mainWrapper.style.cursor = "ns-resize";
 			else if (is_drag_type_left) mainWrapper.style.cursor = "ew-resize";
 
+			// @ts-ignore
 			if (drag_type == "rotate") {
 				//rotate
 				let dx = x + this.calcRotateDistanceFromX(w) - (x + w / 2);
@@ -551,6 +554,7 @@ class Base_selection_class {
 		}
 		if (event_type == "mouseup" && this.mouse_lock == "selected_object_actions") {
 			//reset
+			// @ts-ignore
 			this.mouse_lock = null;
 		}
 
@@ -583,6 +587,7 @@ class Base_selection_class {
 				if (event_type == "mousedown") {
 					if (e.buttons == 1 || typeof e.buttons == "undefined") {
 						this.mouse_lock = "selected_object_actions";
+						// @ts-ignore
 						this.selected_object_drag_type = "rotate";
 					}
 				}

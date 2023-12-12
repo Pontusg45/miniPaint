@@ -1,15 +1,17 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Dialog_class from "../../libs/popup.js";
-import Helper_class from "../../libs/helpers.js";
-import ImageFilters_class from "../../libs/imagefilters.js";
+import app from "../../app";
+import config from "../../config";
+import Base_layers_class from "../../core/base-layers";
+import Dialog_class from "../../libs/popup";
+import Helper_class from "../../libs/helpers";
+import ImageFilters_class from "../../libs/imagefilters";
+import { ImageFiltersType } from "../../../../types/types";
 
 class Image_colorCorrections_class {
 	POP: Dialog_class;
 	Base_layers: Base_layers_class;
 	Helper: Helper_class;
-	ImageFilters: {};
+	ImageFilters = {} as ImageFiltersType;
+	layer_active_small_ctx: CanvasRenderingContext2D | null = null;
 
 	constructor() {
 		this.POP = new Dialog_class();
@@ -31,8 +33,9 @@ class Image_colorCorrections_class {
 			preview: true,
 			on_change: function (params: { param_b: number; param_c: number; param_s: number; param_h: any; }, canvas_preview: { putImageData: (arg0: any, arg1: number, arg2: number) => void; filter: string; drawImage: (arg0: any, arg1: number, arg2: number) => void; }, w: any, h: any, canvas: any) {
 				//destructive effects
+				// @ts-ignore
 				let img = this.layer_active_small_ctx.getImageData(0, 0, w, h);
-				let data = _this.do_corrections(img, params, false);
+				let data = _this.do_corrections(img, params);
 				canvas_preview.putImageData(data, 0, 0);
 
 				//non-destructive
@@ -59,7 +62,7 @@ class Image_colorCorrections_class {
 				_this.save_changes(params);
 			},
 		};
-		this.POP.show(settings);
+		this.POP.show(settings as any);
 	}
 
 	save_changes(params: { param_b: number; param_c: number; param_s: number; param_h: number; }) {
@@ -82,30 +85,30 @@ class Image_colorCorrections_class {
 		//multiple do_action() + do_corrections() does not work together yet.
 		if(params.param_b != 0) {
 			let parameters = {value: params.param_b};
-			let filter_id = null;
+			let filter_id = undefined;
 			app.State?.do_action(
-				new app.Actions.Add_layer_filter_action(null, "brightness", parameters, filter_id)
+				new app.Actions.Add_layer_filter_action(undefined, "brightness", parameters as any, filter_id)
 			);
 		}
 		if(params.param_c != 0) {
 			let parameters = {value: params.param_c};
-			let filter_id = null;
+			let filter_id = undefined;
 			app.State?.do_action(
-				new app.Actions.Add_layer_filter_action(null, "contrast", parameters, filter_id)
+				new app.Actions.Add_layer_filter_action(undefined, "contrast", parameters as any, filter_id)
 			);
 		}
 		if(params.param_s != 0) {
 			let parameters = {value: params.param_s};
-			let filter_id = null;
+			let filter_id = undefined;
 			app.State?.do_action(
-				new app.Actions.Add_layer_filter_action(null, "saturate", parameters, filter_id)
+				new app.Actions.Add_layer_filter_action(undefined, "saturate", parameters as any, filter_id)
 			);
 		}
 		if(params.param_h != 0) {
 			let parameters = {value: params.param_h};
-			let filter_id = null;
+			let filter_id = undefined;
 			app.State?.do_action(
-				new app.Actions.Add_layer_filter_action(0, "hue-rotate", parameters, filter_id)
+				new app.Actions.Add_layer_filter_action(0, "hue-rotate", parameters as any, filter_id)
 			);
 		}
 	}
@@ -117,15 +120,16 @@ class Image_colorCorrections_class {
 	 * @param params
 	 * @returns {*}
 	 */
-	do_corrections(data: ImageData, params: { param_b?: number; param_c?: number; param_s?: number; param_h?: any; param_l?: any; param_red?: any; param_green?: any; param_blue?: any; }) {
+	do_corrections(oldData: ImageData, params: { param_b?: number; param_c?: number; param_s?: number; param_h?: any; param_l?: any; param_red?: any; param_green?: any; param_blue?: any; }) {
 		//luminance
+		let data = oldData;
 		if(params.param_l != 0) {
-			let data = this.ImageFilters.HSLAdjustment(data, 0, 0, params.param_l);
+			data = this.ImageFilters.HSLAdjustment(oldData, 0, 0, params.param_l);
 		}
 
 		//RGB corrections
 		if(params.param_red != 0 || params.param_green != 0 || params.param_blue != 0) {
-			let data = this.ImageFilters.ColorTransformFilter(data, 1, 1, 1, 1,
+			data = this.ImageFilters.ColorTransformFilter(oldData, 1, 1, 1, 1,
 				params.param_red, params.param_green, params.param_blue, 1);
 		}
 

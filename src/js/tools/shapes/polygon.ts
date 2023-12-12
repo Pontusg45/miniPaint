@@ -1,16 +1,18 @@
-import app from "../../app.js";
-import config from "../../config.js";
-import Base_tools_class from "../../core/base-tools.js";
-import Base_layers_class from "../../core/base-layers.js";
-import Helper_class from "../../libs/helpers.js";
-import { Layer } from "../../../../types/types.js";
+import app from "../../app";
+import config from "../../config";
+import Base_tools_class from "../../core/base-tools";
+import Base_layers_class from "../../core/base-layers";
+import Helper_class from "../../libs/helpers";
+import { Layer } from "../../../../types/types";
 
 class Polygon_class extends Base_tools_class {
 	ctx: CanvasRenderingContext2D;
 	layer: undefined | Layer;
 	best_ratio: number;
 	params_hash: string;
-	selected_obj_positions: {};
+	selected_obj_positions = {} as {
+		[key: string]: Path2D;
+	};
 	mouse_lock: null;
 	selected_object_drag_type: string;
 	old_data: null;
@@ -111,7 +113,7 @@ class Polygon_class extends Base_tools_class {
 				is_vector: true,
 				color: null,
 				status: "draft",
-			};
+			} as any;
 			app.State?.do_action(
 				new app.Actions.Bundle_action("new_polygon_layer", "New Polygon Layer", [
 					new app.Actions.Insert_layer_action(this.layer)
@@ -121,6 +123,7 @@ class Polygon_class extends Base_tools_class {
 		}
 		else {
 			//add more data
+			// @ts-ignore
 			config.layer.data?.push(
 				{x: mouse_x, y: mouse_y}
 			);
@@ -153,6 +156,7 @@ class Polygon_class extends Base_tools_class {
 		}
 
 		//add more data
+		//@ts-ignore
 		config.layer.data[config.layer.data.length - 1] = {x: mouse_x, y: mouse_y};
 
 		this.Base_layers.render();
@@ -177,9 +181,11 @@ class Polygon_class extends Base_tools_class {
 				mouse_y = snap_info.y;
 			}
 		}
-		this.snap_line_info ={x: 0, y: 0};
+		// @ts-ignore
+		this.snap_line_info = {x: 0, y: 0};
 
 		//add more data
+		// @ts-ignore
 		config.layer.data[config.layer.data.length - 1] = {x: mouse_x, y: mouse_y};
 
 		this.Base_layers.render();
@@ -195,8 +201,10 @@ class Polygon_class extends Base_tools_class {
 
 		//also draw control lines
 		if(config.layer.type == this.name){
-			let data = config.layer.data;
-			this.selected_obj_positions = {};
+			let data = config.layer.data as any;
+			this.selected_obj_positions = {} as {
+				[key: string]: Path2D;
+			};
 
 			//draw corners
 			for(let i in data) {
@@ -206,7 +214,7 @@ class Polygon_class extends Base_tools_class {
 					this.ctx,
 					config.layer.x + point.x,
 					config.layer.y + point.y
-				);
+				) as Path2D;
 			}
 		}
 	}
@@ -357,11 +365,13 @@ class Polygon_class extends Base_tools_class {
 
 		if (!this.mouse_lock) {
 			for (let current_drag_type in this.selected_obj_positions) {
+				// @ts-ignore
 				const position = this.selected_obj_positions[current_drag_type];
 				if (position && this.ctx.isPointInPath(position, mouse.x, mouse.y)) {
 					// match
 					if (event_type == "mousedown") {
 						if (e.buttons == 1 || typeof e.buttons == "undefined") {
+							// @ts-ignore
 							this.mouse_lock = "move_point";
 							this.selected_object_drag_type = current_drag_type;
 						}

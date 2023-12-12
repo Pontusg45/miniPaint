@@ -1,4 +1,4 @@
-import Helper_class from "../../libs/helpers.js";
+import Helper_class from "../../libs/helpers";
 
 const Helper = new Helper_class();
 

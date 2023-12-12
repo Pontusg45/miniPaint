@@ -1,6 +1,6 @@
-import app from "../app.js";
-import config from "../config.js";
-import { Base_action } from "./base.js";
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
 
 export class Toggle_layer_visibility_action extends Base_action {
 	layer_id: number;
@@ -10,9 +10,9 @@ export class Toggle_layer_visibility_action extends Base_action {
 	 *
 	 * @param {int} layer_id
 	 */
-	constructor(layer_id: number) {
+	constructor(layer_id?: number) {
 		super("toggle_layer_visibility", "Toggle Layer Visibility");
-		this.layer_id = layer_id;
+		this.layer_id = layer_id ?? 0;
 	}
 
 	async do() {

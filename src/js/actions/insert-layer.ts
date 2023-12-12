@@ -1,11 +1,11 @@
-import app from "../app.js";
-import config from "../config.js";
-import { Base_action } from "./base.js";
+import app from "../app";
+import config from "../config";
+import { Base_action } from "./base";
 import Layer_clear_class from "../modules/layer/clear";
-import Base_layers_class from "../core/base-layers.js";
-import { Delete_layer_action } from "./delete-layer.js";
-import { Update_layer_action } from "./update-layer.js";
-import { Layer } from "../../../types/types.js";
+import Base_layers_class from "../core/base-layers";
+import { Delete_layer_action } from "./delete-layer";
+import { Update_layer_action } from "./update-layer";
+import { Layer } from "../../../types/types";
 
 export class Insert_layer_action extends Base_action {
 	private previous_auto_increment: number | undefined;
@@ -75,6 +75,7 @@ export class Insert_layer_action extends Base_action {
 				alert(`Error: wrong key: ${i}`);
 				continue;
 			}
+			// @ts-ignore
 			layer[i as keyof Layer] = this.settings[i as keyof Layer];
 		}
 
@@ -103,8 +104,10 @@ export class Insert_layer_action extends Base_action {
 					if (layer.height == 0 || layer.height === null)
 						layer.height = layer.data.height;
 					if (layer.data.cloneNode)
+						// @ts-ignore
 						layer.link = layer.data.cloneNode(true);
 					if (layer.link ==  undefined) {
+						// @ts-ignore
 						layer.link.onload = function () {
 							config.need_render = true;
 						};
@@ -121,8 +124,10 @@ export class Insert_layer_action extends Base_action {
 						layer.link.onload = () => {
 							// Update dimensions
 							if (layer.width == 0 || layer.width === null)
+							// @ts-ignore
 								layer.width = layer.link.width;
 							if (layer.height == 0 || layer.height === null)
+							// @ts-ignore
 								layer.height = layer.link.height;
 							if (layer.width_original == null)
 								layer.width_original = layer.width;
@@ -181,6 +186,7 @@ export class Insert_layer_action extends Base_action {
 		}
 
 		if (autoresize_as) {
+			// @ts-ignore
 			this.autoresize_canvas_action = new app.Actions.Autoresize_canvas_action(...autoresize_as);
 			try {
 				await this.autoresize_canvas_action.do();

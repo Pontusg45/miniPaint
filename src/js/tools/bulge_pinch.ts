@@ -1,10 +1,10 @@
-import app from "../app.js";
-import config from "../config.js";
-import Base_tools_class from "../core/base-tools.js";
-import Base_layers_class from "../core/base-layers.js";
-import alertify from "alertifyjs/build/alertify.min.js";
-import glfx from "../libs/glfx.js";
-import Helper_class from "../libs/helpers.js";
+// @ts-nocheck
+import app from "../app";
+import config from "../config";
+import Base_tools_class from "../core/base-tools";
+import Base_layers_class from "../core/base-layers";
+import glfx from "../libs/glfx";
+import Helper_class from "../libs/helpers";
 
 class BulgePinch_class extends Base_tools_class {
 	fx_filter: boolean;
